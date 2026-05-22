@@ -114,6 +114,7 @@ namespace Core
             _borderLineRenderer.useWorldSpace = false;
             _borderLineRenderer.loop = true;
             _borderLineRenderer.positionCount = _arenaPoints.Length;
+            _borderLineRenderer.enabled = false; // Initially disabled, can be enabled for debugging or visual effect
 
             if (_borderMaterial != null)
             {

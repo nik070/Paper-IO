@@ -1,10 +1,11 @@
 using Gameplay;
 using Pooling;
 using UnityEngine;
+using System.Collections;
 
 namespace Core
 {
-    [LunaPlaygroundSection("Level Setup")]
+   [LunaPlaygroundSection("Level Setup")]
     public class LevelManager : MonoBehaviour
     {
         [SerializeField] private PaintParticlesPool _paintParticlesPool;
@@ -38,10 +39,24 @@ namespace Core
         [LunaPlaygroundField("Bot Skins", 2, "Characters")]
         [SerializeField] private int[] _botSkinIndices = { 1, 2, 3, 3 };
 
+        // NEW
+        private int _currentBotSpawnIndex = 0;
+
+        [SerializeField] private FollowTarget cameraFollow;
+
         public void Init()
         {
             InitializeLevel();
             _paintParticlesPool.Init();
+        }
+
+        private void Update()
+        {
+            // PRESS SPACE TO SPAWN ONE BOT
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnNextBot();
+            }
         }
 
         private void InitializeLevel()
@@ -53,7 +68,9 @@ namespace Core
             }
 
             SpawnPlayer();
-            SpawnBots();
+
+            // REMOVED AUTO BOT SPAWN
+            // SpawnBots();
         }
 
         private void SpawnPlayer()
@@ -78,34 +95,44 @@ namespace Core
             SpawnCharacter(config, skin);
         }
 
-        private void SpawnBots()
+        // NEW FUNCTION
+        public void SpawnNextBot()
         {
             if (_botSpawnPositions == null || _botSkinIndices == null)
+                return;
+
+            int count = Mathf.Min(_botCount,
+                Mathf.Min(_botSpawnPositions.Length, _botSkinIndices.Length));
+
+            // STOP IF ALL BOTS ARE SPAWNED
+            if (_currentBotSpawnIndex >= count)
             {
+                Debug.Log("All bots spawned.");
                 return;
             }
 
-            int count = Mathf.Min(_botCount, Mathf.Min(_botSpawnPositions.Length, _botSkinIndices.Length));
-            for (int i = 0; i < count; i++)
-            {
-                var config = new CharacterSpawnConfig
-                {
-                    IsPlayer = false,
-                    Id = $"bot{i + 1}",
-                    SpawnPosX = _botSpawnPositions[i].x,
-                    SpawnPosZ = _botSpawnPositions[i].y,
-                    Speed = _botSpeed,
-                    TurnSpeed = _botTurnSpeed,
-                    CharacterRadius = _botCharacterRadius,
-                    RiskTaker = _botRiskTaker,
-                    CanKillSelfWithTrail = false,
-                    CanBeKilledIfTrailCut = true,
-                    CanBeKilledByAreaCapture = true
-                };
+            int i = _currentBotSpawnIndex;
 
-                SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
-                SpawnCharacter(config, skin);
-            }
+            var config = new CharacterSpawnConfig
+            {
+                IsPlayer = false,
+                Id = $"bot{i + 1}",
+                SpawnPosX = _botSpawnPositions[i].x,
+                SpawnPosZ = _botSpawnPositions[i].y,
+                Speed = _botSpeed,
+                TurnSpeed = _botTurnSpeed,
+                CharacterRadius = _botCharacterRadius,
+                RiskTaker = _botRiskTaker,
+                CanKillSelfWithTrail = false,
+                CanBeKilledIfTrailCut = true,
+                CanBeKilledByAreaCapture = true
+            };
+
+            SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
+
+            SpawnCharacter(config, skin);
+
+            _currentBotSpawnIndex++;
         }
 
         private void SpawnCharacter(CharacterSpawnConfig config, SkinConfig skin)
@@ -113,6 +140,7 @@ namespace Core
             Character character = Instantiate(_baseCharacterPrefab);
             character.gameObject.name = config.IsPlayer ? "Player" : $"Bot_{config.Id}";
             character.Init(config, skin, _paintParticlesPool);
+            cameraFollow.FocusTemporary(character.transform);
         }
 
         private SkinConfig ResolveSkin(int index)

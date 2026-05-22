@@ -1,3 +1,5 @@
+                    
+using System.Collections;
 using System.Collections.Generic;
 using Core;
 using Mechanics;
@@ -66,6 +68,12 @@ namespace Gameplay
 
         public void Init(CharacterSpawnConfig config)
         {
+           StartCoroutine(WaitForInIt(config));
+        }
+
+           private IEnumerator WaitForInIt(CharacterSpawnConfig config)
+        {
+           yield return new WaitForSeconds(1f);
             _riskTaker = Mathf.Clamp01(config.RiskTaker);
 
             // Map the risk (0 to 1) to actual game values
@@ -78,6 +86,7 @@ namespace Gameplay
 
             _currentMoveDir = GetRandomDirection();
             _motor.SetLastMovement(_currentMoveDir);
+
         }
 
         private void Think()
