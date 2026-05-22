@@ -1,0 +1,44 @@
+script.
+    ( function() {
+        const DEFAULT_FILTERS = {
+            'parameter/filter/grayscale': 0,
+            'parameter/filter/sepia': 0,
+            'parameter/filter/hue-rotate': 0,
+            'parameter/filter/contrast': 100,
+            'parameter/filter/brightness': 100,
+            'parameter/filter/saturate': 100,
+        };
+
+        function getCssUnit( filter ) {
+            const units = {
+                'hue-rotate': 'deg',
+            };
+            return units[ filter ] || '%';
+        }
+
+        function getFilterValue( ) {
+            return Object.entries( window.playgroundFiltersOverrides )
+                .reduce( ( filterString, [ filterKey, [ _unit, value ] ] ) => {
+                    // Skip filters that match default values
+                    if ( value === DEFAULT_FILTERS[ filterKey ] ) return filterString;
+                    
+                    // Extract filter name and build filter function string
+                    const filterName = filterKey.replace( 'parameter/filter/', '' );
+                    const filterFunction = `${filterName}(${value}${getCssUnit( filterName )})`;
+                    
+                    // Accumulate filter functions with space separator
+                    return [ filterString, filterFunction ].filter( Boolean ).join( ' ' );
+                }, '' );
+        }
+
+        function updateFilters() {
+            if ( !window.playgroundFiltersOverrides ) return;
+
+            // update canvas element in case of unity build or html in case of third party build
+            const element = document.getElementById( 'application-canvas' );
+
+            element.style.filter = getFilterValue();
+        }
+
+        window.addEventListener( 'luna:filters:update', updateFilters );
+    })();

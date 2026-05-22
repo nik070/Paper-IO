@@ -1,0 +1,15 @@
+include overrides
+
+script.
+    window.$environment = {
+        baseUrl: !{ JSON.stringify( base_url ) },
+        resourceConfig: !{ JSON.stringify( config ) },
+        packageConfig: Object.assign( !{ JSON.stringify( package ) }, window.LUNA_PLAYGROUND_PACKAGE_CONFIG || {} ),
+        playerPrefs: !{ JSON.stringify( playerPrefs ) },
+        usingWebWorkers: !{ JSON.stringify( usingWebWorkers ) },
+        targetPlatform: !{ JSON.stringify( targetPlatform ) },
+        buildId: !{ JSON.stringify( buildId ) },
+        runtimeAnalysisModules: !{ JSON.stringify( runtimeAnalysisModules ) },
+    };
+
+script( id='LUNA_PLAYGROUND_BUNDLES' )

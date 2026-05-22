@@ -1,0 +1,57 @@
+{
+    "SupportedVersions": [
+        {
+            "PackageName": "com.unity.cinemachine",
+            "MaxSupportedUnityVersion": "2020.3",
+            "MinSupportedUnityVersion": "2020.3",
+            "MaxSupportedPackageVersion": "2.5.0",
+            "MinSupportedPackageVersion": "2.5.0"
+        },
+        {
+            "PackageName": "com.unity.cinemachine",
+            "MaxSupportedUnityVersion": "2021.3",
+            "MinSupportedUnityVersion": "2021.3",
+            "MaxSupportedPackageVersion": "2.10.1",
+            "MinSupportedPackageVersion": "2.8.6"
+        },
+        {
+            "PackageName": "com.unity.cinemachine",
+            "MaxSupportedUnityVersion": "2022.3",
+            "MinSupportedUnityVersion": "2022.3",
+            "MaxSupportedPackageVersion": "2.10.3",
+            "MinSupportedPackageVersion": "2.9.5"
+        },
+        {
+            "PackageName": "com.unity.textmeshpro",
+            "MaxSupportedUnityVersion": "2020.3",
+            "MinSupportedUnityVersion": "2020.3",
+            "MaxSupportedPackageVersion": "3.0.6",
+            "MinSupportedPackageVersion": "3.0.6"
+        },
+        {
+            "PackageName": "com.unity.textmeshpro",
+            "MaxSupportedUnityVersion": "2021.3",
+            "MinSupportedUnityVersion": "2021.3",
+            "MaxSupportedPackageVersion": "3.0.6",
+            "MinSupportedPackageVersion": "3.0.6"
+        },
+        {
+            "PackageName": "com.unity.textmeshpro",
+            "MaxSupportedUnityVersion": "2022.3",
+            "MinSupportedUnityVersion": "2022.3",
+            "MaxSupportedPackageVersion": "3.0.7",
+            "MinSupportedPackageVersion": "3.0.6"
+        },
+        {
+            "PackageReadableName": "DOTween",
+            "PackageName": "DG.Tweening.DOTween",
+            "MaxSupportedUnityVersion": "2022.3",
+            "MinSupportedUnityVersion": "2020.3",
+            "MaxSupportedPackageVersion": "1.2.705",
+            "MinSupportedPackageVersion": "0"
+        }
+    ],    
+    "NotSupportedPackages": [
+        "com.unity.timeline"
+    ]
+}

@@ -1,0 +1,1053 @@
+Popup_AutoFixFail_Ok,en-UK,ru-RU,zh-CN
+Popup_PermissionsFailed_Title,Permissions Failed,Ошибка в правах доступа,权限失败
+Popup_PermissionsFailed_Description,"Sorry you don’t seem to have the correct permission for this action, please visit your account settings or contact your company admin.","К сожалению у вас нет разрешения на это действие. Пожалуйста, посетите настройки учетной записи или обратитесь к администратору компании.",抱歉，您似乎没有此操作的恰当权限，请访问您的账户设置或联系您的公司管理员。
+Popup_PermissionsFailed_Ok,Account,Аккаунт,账户
+Popup_PermissionsFailed_Cancel,Cancel,Отмена,取消
+,,,
+Popup_MsbuildWarning_Title,MSBuild version,MSBuild версия,MSBuild 版本
+Popup_MsbuildWarning_Description,MSBuild 15 or higher is required. Please make sure you have a proper path to MSBuild binary configured in Unity Playworks Plugin UI.,"Требуется MSBuild версии 15 или выше. Пожалуйста, убедитесь, что у вас указан правильный путь к MSBuild.exe в окне Unity Playworks Plugin.",需要 MSBuild 15 或更高版本。请确保您在 Unity Playworks Plugin UI 中配置了正确的 MSBuild 二进制文件路径。
+Popup_MsbuildWarning_Ok,Open,Открыть,打开
+Popup_MsbuildWarning_Cancel,Cancel,Отмена,取消
+,,,
+Popup_MsbuildError_Title,MSBuild failed,Ошибка MSBuild,MSBuild 失败
+Popup_MsbuildError_Description,MSBuild failed to be invoked. Please make sure you have a proper path to MSBuild binary configured in Unity Playworks Plugin UI.,"Не удалось вызвать MSBuild. Пожалуйста, убедитесь, что у вас указан правильный путь к MSBuild.exe в окне Unity Playworks Plugin.",无法调用 MSBuild。请确保您有在 Unity Playworks Plugin UI 中配置的 MSBuild 二进制文件的恰当路径。
+Popup_MsbuildError_Ok,Open,Открыть,打开
+Popup_MsbuildError_Cancel,Cancel,Отмена,取消
+,,,
+Popup_LoginSSO_Title,Cannot sign in to Unity Playworks,Не получается войти в Unity Playworks,无法登录 Unity Playworks
+Popup_LoginSSO_Description,Please log in with your Unity Playworks login and password.,"Пожалуйста, войдите используя ваш Unity Playworks логин и пароль.",请使用您的 Unity Playworks 账户和密码登录。
+Popup_LoginSSO_DescriptionNetwork,Please ensure you have a network connection.,"Пожалуйста, убедитесь, что у вас есть подключение к сети.",请确保您有网络连接。
+Popup_LoginSSO_Ok,Open,Открыть,打开
+Popup_LoginSSO_Cancel,Cancel,Отмена,取消
+,,,
+Popup_PackageBundle_Title,Package bundling failed,Ошибка в сборке пакетов,包捆绑失败
+Popup_PackageBundle_Description,"Package failed to bundle. Please check the luna.log file, or review the documentation.","Пакет не удалось собрать. Пожалуйста, проверьте luna.log файл или ознакомьтесь с документацией.",包捆绑失败。请检查 luna.log 文件，或查看文档。
+Popup_PackageBundle_Ok,Show Log,Показать логи,显示日志
+Popup_PackageBundle_Cancel,Cancel,Отмена,取消
+Popup_PackageBundle_Alt,Documentation,Документация,文档
+,,,
+Popup_PackageUpload_Title,Upload failed,Загрузка не удалась,上传失败
+Popup_PackageUpload_Description,"Please try building Creative Library build manually and upload it via Web UI. If the issue persists, please contact support.","Пожалуйста, пересоберите проект под платформу Creative Library и загрузите его с помощью веб-интерфейса. Если проблема не будет устранена, пожалуйста, обратитесь в службу поддержки.",请尝试手动构建 Creative Library，并通过 Web UI 上传。如果问题仍然存在，请联系支持人员。
+Popup_PackageUpload_Ok,Open,Открыть,打开
+Popup_PackageUpload_Cancel,Cancel,Отмена,取消
+,,,
+Popup_UnknownError_Title,Unknown error,Неизвестная ошибка,未知错误
+Popup_UnknownError_Description,"Build process has exited with an Unknown Error. Please check Project Diagnostics, the luna.log file, or review the documentation.","Процесс сборки завершился с неизвестной ошибкой. Пожалуйста, проверьте вкладку Диагностики проекта, luna.log файл или ознакомьтесь с документацией.","构建过程已退出，出现未知错误。请检查项目诊断, luna.log 文件，或查看文档。"
+Popup_UnknownError_Ok,Show Log,Показать логи,显示日志
+Popup_UnknownError_Cancel,Cancel,Отмена,取消
+Popup_UnknownError_Alt,Documentation,Документация,文档
+,,,
+Popup_DevelopBuildFinished_Title,Build Finished,Сборка завершена,构建完成
+Popup_DevelopBuildFinished_Description,Would you like to open the playable in the browser?,Хотите открыть проект в браузере?,您想在浏览器中打开可试玩广告吗？
+Popup_DevelopBuildFinished_Ok,Open in browser,Открыть в браузере,在浏览器中打开
+Popup_DevelopBuildFinished_Cancel,Cancel,Отмена,取消
+Popup_DevelopBuildFinished_Alt,Open build folder,Открыть папку с билдом,打开构建文件夹
+,,,
+Popup_AssetsProcess_Title,Assets processing failed,Ошибка пост-обработки ассетов,资源处理失败
+Popup_AssetsProcess_Description,"Assets failed to be processed. Please check the luna.log file, or review the documentation.","Ассеты не удалось обработать. Пожалуйста, проверьте luna.log файл или ознакомьтесь с документацией.",资源处理失败请检查 luna.log 文件，或查看文档。
+Popup_AssetsProcess_Ok,Show Log,Показать логи,显示日志
+Popup_AssetsProcess_Cancel,Cancel,Отмена,取消
+Popup_AssetsProcess_Alt,Documentation,Документация,文档
+,,,
+Popup_EngineCompilation_Title,Engine compilation failed,Компиляция движка не удалась,引擎编译失败
+Popup_EngineCompilation_Description,Engine failed to compile. Please fix all errors and try to rebuild.,"Движок не удалось скомпилировать. Пожалуйста, исправьте все ошибки и попробуйте пересобрать билд.",引擎编译失败。请修复所有错误，然后尝试重建。
+Popup_EngineCompilation_Ok,Show Report,Показать отчет,显示报告
+Popup_EngineCompilation_Cancel,Cancel,Отмена,取消
+Popup_EngineCompilation_Alt,Documentation,Документация,文档
+,,,
+Popup_ScenePath_Title,Package failed to bundle,Пакет не удалось собрать,包捆绑失败
+Popup_ScenePath_Description,Startup scene is not set or is excluded from the build. Please check Startup scene option to fix this error.,"Стартовая сцена не установлена ​​или исключена из билда. Пожалуйста, проверьте стартовый вариант сцены, чтобы исправить эту ошибку.",启动场景未设置或被排除。请检查启动场景选项以修复此错误。
+Popup_ScenePath_Ok,Open,Открыть,打开
+Popup_ScenePath_Cancel,Cancel,Отмена,取消
+,,,
+Popup_UnityBinError_Title,Unity binary error,Ошибка исполняемого файла Unity,Unity 二进制错误
+Popup_UnityBinError_Description,Failed to build Playable with Unity binaries. Try setting 'Use MSBuild' under 'Advanced settings' and specifying a path to MSBuild binary,Не удалось собрать Playable. Попробуйте установить «Use MSBuild» в разделе «Дополнительные настройки» и указать путь к файлу MSBuild,未能用 Unity 二进制文件构建 Playable。尝试在“Advanced Settings (高级设置) ”下设置“Use MSBuild (使用 MSBuild)”，并指定 MSBuild 二进制路径
+Popup_UnityBinError_Ok,Open,Открыть,打开
+Popup_UnityBinError_Cancel,Cancel,Отмена,取消
+,,,
+Popup_AssetsBundle_Title,Assets bundling failed,Сборка ассетов не удалась,资源捆绑失败
+Popup_AssetsBundle_Description,"Assets failed to bundle. Please check the luna.log file, or review the documentation.","Ассеты не удалось собрать. Пожалуйста, проверьте luna.log файл или ознакомьтесь с документацией.",资源捆绑失败。请检查 luna.log 文件，或查看文档。
+Popup_AssetsBundle_Ok,Show Log,Показать логи,显示日志
+Popup_AssetsBundle_Cancel,Cancel,Отмена,取消
+Popup_AssetsBundle_Alt,Documentation,Документация,文档
+,,,
+Popup_AssetsExport_Title,Assets exporting failed,Экспорт ассетов не удался,资源导出失败
+Popup_AssetsExport_Description,Assets failed to be exported properly. Please check Expert console and fix errors.,"Ассеты не удалось экспортировать должным образом. Пожалуйста, проверьте Эксперт консоль и исправьте ошибки.",资源未能正确导出。请检查 Expert 控制台并修复错误。
+Popup_AssetsExport_Ok,Open,Открыть,打开
+Popup_AssetsExport_Cancel,Cancel,Отмена,取消
+,,,
+Popup_Authentication_Title,Authentication Failed,Ошибка аутентификации,身份验证失败
+Popup_Authentication_Description,"We were unable to authenticate you, please sign in again","Мы не смогли проверить вашу аутентификацию, пожалуйста, войдите в систему снова",我们无法验证您的身份，请重新登录
+Popup_Authentication_DescriptionNetwork,"We were unable to authenticate you, please ensure you have a network connection","Мы не смогли проверить вашу аутентификацию, пожалуйста, убедитесь, что у вас есть подключение к сети",我们无法验证您的身份，请确保您有网络连接
+Popup_Authentication_Ok,Okay,Окей,好的
+Popup_Authentication_Cancel,Close,Закрыть,关闭
+,,,
+Popup_Balance_Title,Plugin access denied,Доступ к плагину отклонен,插件禁止访问
+Popup_Balance_Description,"Sorry, your current plan does not provide access to the Unity Playworks Plugin. Please reach out to https://luna.is.com/tech-support if you have any questions","Ваш текущий план не предоставляет доступа к Unity Playworks Plugin. Пожалуйста, если есть вопросы, свяжитесь с поддержкой https://luna.is.com/tech-support",抱歉，您现在的计划并未启用 Unity Playworks Plugin 插件。如有疑问请联系 https://luna.is.com/tech-support 。
+Popup_Balance_Ok,Okay,Окей,好的
+Popup_Balance_Cancel,Close,Закрыть,关闭
+,,,
+Popup_CancelledExport_Title,Build Cancelled,Сборка отменена,取消构建
+Popup_CancelledExport_Description,The build was stopped early,Сборка была остановлена ​до окончания,建造已提前停止
+Popup_CancelledExport_Ok,Build Settings,Настройки сборки,构建设置
+Popup_CancelledExport_Cancel,Cancel,Отмена,取消
+,,,
+Popup_ShouldCancelBuild_Title,Cancel Build,Отменить сборку,取消构建
+Popup_ShouldCancelBuild_Description,Would you like to cancel the build?,Хотите отменить сборку?,您是否要取消构建？
+Popup_ShouldCancelBuild_Ok,Yes,Да,是
+Popup_ShouldCancelBuild_Cancel,No,Нет,否
+,,,
+Popup_CodeBundle_Title,Code compilation failed,Компиляция кода не удалась,代码编译失败
+Popup_CodeBundle_Description,Code failed to compile. Please fix all errors in Solution and try to rebuild.,Код не удалось скомпилировать. Исправьте все ошибки в решении и попробуйте пересобрать билд.,代码编译失败。请修复解决方案中的所有错误，然后尝试重建。
+Popup_CodeBundle_Ok,Open,Открыть,打开
+Popup_CodeBundle_Cancel,Cancel,Отмена,取消
+,,,
+Popup_FileAlreadyExists_Title,Such file already exists!,Такой файл уже существует!,该文件已存在!
+Popup_FileAlreadyExists_Description,File at: {0} already exists.Overwrite it?,Файл в {0} уже существует. Перезаписать его?,文件位置：{0} 已存在。是否覆盖？
+Popup_FileAlreadyExists_Yes,Yes,Да,是
+Popup_FileAlreadyExists_No,No,Нет,否
+,,,
+Popup_FileOutOfProject_Title,This file is outside of current project directory!,Этот файл находится вне проекта,此文件在当前项目目录外！
+Popup_FileOutOfProject_Description,"Files from not project directory will not be included in the project build and won't be loaded. Please, move it to: {0} directory","Файл не из папки проекта не может быть и включен и загружен. Пожалуйста, переместите его в {0} папку",非项目目录中的文件将不会包含在项目构建中，也不会加载。请将其移至：{0} 目录
+Popup_FileOutOfProject_Copy,Copy file to project,Скопировать файл в проект,将文件复制到项目
+Popup_FileOutOfProject_Cancel,Cancel,Отмена,取消
+,,,
+Popup_Login_Title,Cannot sign in to Unity Playworks,Не удается войти в Unity Playworks,无法登录 Unity Playworks
+Popup_Login_TitleLoginFailed,Sign in failed,Ошибка входа,登录失败
+Popup_Login_Description,Please check Unity Playworks email and password.,"Пожалуйста, проверьте электронную почту и пароль для входа в Unity Playworks.",请查看 Unity Playworks 电子邮件和密码。
+Popup_Login_DescriptionNetwork,Please ensure you have a network connection.,"Пожалуйста, убедитесь, что у вас есть подключение к сети.",请确保您有网络连接。
+Popup_Login_DescriptionLoginWithGoogle,Your company has disabled sign in with email and password. Please sign in with your Google account.,"Для вашей компании отключена возможность войти с использованием электронной почты и пароля. Пожалуйста, войдите используя свой аккаунт Google.",您的公司已禁止使用电子邮件和密码登录。请使用您的 Google 账户登录。
+Popup_Login_Ok,Okay,Окей,好的
+Popup_Login_Cancel,Cancel,Отмена,取消
+,,,
+Popup_NotAcceptable_Title,"Sorry, you've reached plan limitations","К сожалению, вы достигли лимита своего плана",抱歉，您已达到了计划上限
+Popup_NotAcceptable_Description,You've reached the maximum number of apps you can upload to Creative Library within your company’s plan. Please visit Creative Library for more information.,"Вы достигли максимального количества приложений, которые вы можете загрузить на Creative Library в рамках вашей компании. Пожалуйста, посетите Creative Library для получения дополнительной информации.",您已经达到公司计划中可以上传到 Creative Library 的应用程序的最大数量。请访问 Creative Library 了解更多信息。
+Popup_NotAcceptable_Ok,Open,Открыть,打开
+Popup_NotAcceptable_Cancel,Cancel,Отмена,取消
+,,,
+Popup_PackageUploaded_Title,Package uploaded,Пакет загружен,上传的包
+Popup_PackageUploaded_Description,Package has been uploaded to Creative Library,Пакет был загружен на Creative Library,包已上传到 Creative Library
+Popup_PackageUploaded_Ok,Go to Creative Library,Перейти в Creative Library,前往 Creative Library
+Popup_PackageUploaded_Cancel,Close,Закрыть,关闭
+,,,
+Popup_UnityBinPath_Title,Unity binary not found,Ошибка исполняемого файла Unity,找不到 Unity 二进制文件
+Popup_UnityBinPath_Description,Failed to find an expected unity binary. Try setting 'Use MSBuild' under 'Advanced settings' and specifying a path to MSBuild binary,Не удалось построить Unity Playworks Plugin. Попробуйте установить «Use MSBuild» в разделе «Дополнительные настройки» и указать путь к  двоичному файлу MSBuild,"未能找到预期的 Unity 二进制文件。尝试在 ""高级"" 下设置 ""使用 MSBuild""，并指定 MSBuild 二进制路径"
+Popup_UnityBinPath_Ok,Open,Открыть,打开
+Popup_UnityBinPath_Cancel,Cancel,Отмена,取消
+,,,
+Popup_OptimalSettings_Title,Set optimal settings,Применить оптимальные настройки,设置优化设定
+Popup_OptimalSettings_Description,It changes default parameters to optimal and enables some options in 'Advanced settings'. For more detailed information please check documentation,"Установить настройкам по умолчанию оптимальные значения и включить некоторые настройки в «Дополнительных настройках». Для более детальной информации, пожалуйста, ознакомьтесь с документацией",它会将默认参数调整至最优设定并启用 '高级设置' 中的一些选项。详细信息请参考说明。
+Popup_OptimalSettings_Ok,Okay,Окей,好的
+Popup_OptimalSettings_Cancel,Cancel,Отмена,取消
+Popup_OptimalSettings_Docs,Open documentation,Открыть документацию,打开文档
+,,,
+Popup_PathIncorrect_Title,Invalid symbols in path,Путь содержит невалидные символы,路径中包含无效的字符
+Popup_PathIncorrect_Description,"{0}
+Unity Playworks Plugin doesn't support work with files with some special symbols in the path:  {1}
+Please change your path to not use special symbols. e.g.: {2}
+And then reopen the project.","{0}
+Unity Playworks Plugin не поддерживает работу с файлами с некоторыми специальными символами в пути: {1}
+Пожалуйста, измените свой путь так, чтобы не использовать эти специальные символы. например: {2}
+А затем снова откройте проект.","{0}
+Unity Playworks Plugin 不支持在路径中使用特殊字符: {1}
+请更改文件或文件夹名，以避免使用特殊字符，比如: {2}
+然后重新打开项目。"
+Popup_PathIncorrect_Ok,Okay,Окей,好的
+Popup_PathIncorrect_Cancel,Cancel,Отмена,取消
+,,,
+Popup_AssetsExporting_Title,Asset export,Экспорт ассетов,资源导出
+Popup_AssetsExporting_Description,Collecting assets...,Сбор ассетов...,正在收集资源...
+,,,
+Popup_EnableLunaCompilerV2_Title,Enable Playable Compiler v2?,Включить Playable Compiler v2?,启用 Playable 编译器 v2?
+Popup_EnableLunaCompilerV2_Description,Enabling Playable Compiler v2 could resolve code issues related to C# version. Enable Playable Compiler v2?,"Включение Playable Compiler v2 может исправить ошибки кода, связанные с версией C#. Включить Playable Compiler v2?",启用 Playable 编译器 v2 能够解决因 C# 版本导致的代码问题。 启用 Playable 编译器 v2?
+Popup_EnableLunaCompilerV2_Ok,Okay,Окей,好的
+Popup_EnableLunaCompilerV2_Cancel,Cancel,Отмена,取消
+,,,
+HelpBox_InstallLink_Message,You have incorrect {0} install link. Please change it,"У Вас указана неверная {0} ссылка на скачивание игры. Пожалуйста, исправьте ее",{0} 安装链接不正确。请进行更改
+HelpBox_InstallLinks_Message,You have incorrect iOS and Android install links. Please change them,"У Вас указаны неверные IOS и Android ссылки на скачивание игры. Пожалуйста, исправьте их",iOS 和 Android 安装链接不正确。请进行更改
+,,,
+LunaToolbar_Building,Building...,Сборка...,构建中...
+LunaToolbar_BuildForDevelop,Build Playable for develop,Собрать Develop билд,构建 Playable Develop 版本
+,,,
+LunaProjectBrowser_ShowIncludesExcludes,Show included and excluded files in the Unity Playworks Plugin,Показать включенные и исключенные из сборки ассеты,显示 Unity Playworks Plugin 包含文件和排除文件
+LunaProjectBrowser_HideIncludesExcludes,Hide included and excluded files in the Unity Playworks Plugin,Спрятать показ включенных и исключенных из сборки ассетов,隐藏 Unity Playworks Plugin 包含文件和排除文件
+LunaProjectBrowser_ForceIncludedFile,Force included files in Unity Playworks Plugin,Принудительно включить файлы в сборку,强制在 Unity Playworks Plugin 中包含
+LunaProjectBrowser_ForceExcludedFile,Force excluded files from Unity Playworks Plugin,Принудительно исключить файлы из сборки,强制从 Unity Playworks Plugin 中排除
+LunaProjectBrowser_CSIncludedFile,By default all scripts are included in the Unity Playworks Plugin,По умолчанию все скрипты включены в сборку,默认情况下，所有脚本均在 Unity Playworks Plugin 中包含
+LunaProjectBrowser_CSExcludedFile,Force excluded from the Unity Playworks Plugin,Принудительно исключено из сборки,强制从 Unity Playworks Plugin 中排除
+LunaProjectBrowser_ResourcesIncludedFile,All resources files are included in the Unity Playworks Plugin,Все файлы из папки Resources включены в сборку,所有资源文件均在 Unity Playworks Plugin 中包含
+LunaProjectBrowser_ResourcesExcludedFile,By default resources files are excluded from the Unity Playworks Plugin,По умолчанию все файлы из папки Resources исключены из сборки,默认情况下，会将资源文件从 Unity Playworks Plugin 中排除
+LunaProjectBrowser_StreamingAssetsIncludedFile,All streaming assets are included in the Unity Playworks Plugin,Все Streaming Assets включены в сборку,所有流媒体资源均在 Unity Playworks Plugin 中包含
+LunaProjectBrowser_StreamingAssetsExcludedFile,By default streaming assets are excluded from the Unity Playworks Plugin,По умолчанию Streaming Assets исключены из сборки,默认情况下，流媒体资源不在 Unity Playworks Plugin 中包含
+LunaProjectBrowser_NotIncludedInBuild,Not included in the last Unity Playworks Plugin build,Не включено в последнюю сборку,不在上一次 Unity Playworks Plugin 构建中包含
+LunaProjectBrowser_IncludedInBuild,Included in the last Unity Playworks Plugin build,Включено в последнюю сборку,在上一次 Unity Playworks Plugin 构建中包含
+LunaProjectBrowser_ExcludedInBuild,Referenced but not included in the last Unity Playworks Plugin build,"Ссылается, но не включено в последнюю сборку",已引用，但未在上一次 Unity Playworks Plugin 构建中包含
+LunaProjectBrowser_ForceInclude,Force include,Принудительно включить,强制包含
+LunaProjectBrowser_ForceExclude,Force exclude,Принудительно исключить,强制排除
+LunaProjectBrowser_AddToBuildScenes,Add to build scenes,Добавить к сценам,添加到构建场景
+LunaProjectBrowser_SetAsStartupScene,Set as startup scene,Сделать стартовой,设置为启动场景
+,,,
+EditorTab_AdNetworkSettings_GlobalSettingsTitle,Global settings,Общие настройки,全局设置
+EditorTab_AdNetworkSettings_AppName,Application Name,Имя приложения,应用程序名称
+EditorTab_AdNetworkSettings_IosLink,iOS install game link,IOS ссылка на игру,iOS 安装游戏链接
+EditorTab_AdNetworkSettings_AndroidLink,Android install game link,Android ссылка на игру,Android 安装游戏链接
+EditorTab_AdNetworkSettings_FacebookTitle,Facebook,Facebook,FaceBook
+EditorTab_AdNetworkSettings_FbAssetId,Asset ID,Asset ID,资源 ID
+EditorTab_AdNetworkSettings_FbPackageType,Package type,Тип упаковки,包类型
+EditorTab_AdNetworkSettings_IronSourceTitle,ironSource,ironSource,ironSource
+EditorTab_AdNetworkSettings_IsApiType,API type,Тип API,API 类型
+EditorTab_AdNetworkSettings_IsApiMode,API mode,Режим API,API 模式
+EditorTab_AdNetworkSettings_IsVersionCode,Version code,Код версии,版本代码
+EditorTab_AdNetworkSettings_IsAppGenre,Application Genre,Жанр приложения,应用游戏类型
+EditorTab_AdNetworkSettings_IsPackageType,Package type,Тип упаковки,包类型
+EditorTab_AdNetworkSettings_TikTokTencentTitle,TikTok & Tencent,TikTok и Tencent,TikTok (抖音) 和 Tencent (腾讯)
+EditorTab_AdNetworkSettings_TttOrientation,Orientation,Ориентация,布局方向
+EditorTab_AdNetworkSettings_TikTokTitle,TikTok,TikTok,TikTok (抖音)
+EditorTab_AdNetworkSettings_TtLanguage,Supported Languages,Поддерживаемые языки,支持的语言
+,,,
+Sections_Settings_Name,Settings,Настройки,设置
+Sections_Assets_Name,Assets,Ассеты,资源
+Sections_Code_Name,Code,Код,代码
+Sections_Develop_Name,Build & upload,Собрать и загрузить,构建与上传
+Sections_Playground_Name,Create,Create,Create
+Sections_Expert_Name,Expert,Эксперт,专家
+Sections_SizeBreakdown_Name,Size breakdown,Анализ размера,大小细分
+Sections_PluginUpdates_Name,Plugin Updates,Обновления плагина,插件更新
+Sections_BuildButton,Build {0},Собрать {0},构建 {0}
+Sections_AlternativeBuildButton,Build for {0},Собрать для {0},为 {0} 构建
+Sections_CancelBuildButton,Cancel Build,Прервать,取消构建
+Sections_RuntimeAnalysis_Name,Runtime Analysis,Анализ кода,运行时分析
+,,,
+EditorTab_Basic_Name,Basic,Основные,基本
+EditorTab_Advanced_Name,Advanced,Дополнительные,高级
+EditorTab_AdNetworkSettings_Name,Ad Network,Рекламные сети,广告网络
+EditorTab_Account_Name,Account,Аккаунт,账户
+,,,
+Basic_ScenesInBuild,Scenes in Build,Сцены в сборке,构建中的场景
+Basic_StartupScene,Startup Scene,Стартовая сцена,启动场景
+Basic_ExportType,Export type,Тип экспорта,导出类型
+Basic_ExportType_Resources,Resources,Ресурсы,Resources
+Basic_ExportType_StreamingAssets,Streaming Assets,Streaming Assets,Streaming Assets
+Basic_ProjectSettings,Project settings,Настройки проекта,项目设置
+Basic_ProjectSettings_AutoInstantiate,Auto-instantiate Prefabs,Автораспаковка префабов,自动实例化预置
+Basic_ProjectSettings_OptimiseSize,Optimise build size,Оптимизировать размер билда,优化构建大小
+Basic_ProjectSettings_RealtimeShadows,Realtime Shadows,Тени в реальном времени,实时阴影
+Basic_ProjectSettings_MecanimWASM,Mecanim (Avatar) - Experimental,Mecanim (Avatar) - Experimental,Mecanim (Avatar) - Experimental
+Basic_ProjectSettings_BakeReferenceAmbientProbe,Bake Reference Ambient Probe,Запекать вспомогательные сферические гармоники,Bake Reference Ambient Probe
+Basic_ProjectSettings_EnableLunaCompilerV2,Playable Compiler v2,Playable компилятор v2,Playable 编译器 v2
+Basic_ProjectSettings_UnsupportedLunaCompilerV2,Playable Compiler v2 (Unsupported on Unity 2020.1 and lower),Playable Compiler v2 (Не поддерживается в Unity 2020.1 и ниже),Playable 编译器 v2 (不支持 Unity 2020.1 及以下版本)
+Basic_ProjectSettings_DynamicBatching,Dynamic Batching,Динамический Батчинг,动态合批
+Basic_ProjectSettings_WebGL,WebGL Configuration,Конфигурация WebGL,WebGL Configuration
+,,,
+Universal_Browse,Browse,Обзор,浏览
+Universal_Cancel,Cancel,Отмена,取消
+,,,
+Advanced_GameSettings,Game settings,Настройки игры,游戏设置
+Advanced_UsePlayerPrefs,Use PlayerPrefs,Применить PlayerPrefs,使用 PlayerPrefs
+Advanced_CompressResources,Compress resources,Сжатие ресурсов,压缩资源
+Advanced_PreferWebGl2,WebGL2,WebGL2,WebGL2
+Advanced_CodeMinification,Code minification,Минификация кода,代码最简化
+Advanced_DeadCodeElimination,Eliminate dead code,Исключить неиспользуемый код (DCE),清除死代码
+Advanced_GenericCheck,Additional Generic Check,Проверка C# Generic-ов,额外C#泛型检查
+Advanced_DisableAntiAliasing,Force disable Anti Aliasing,Отключить сглаживание,强制禁用抗锯齿
+Advanced_DCE_RootClasses,DCE root classes,Принудительно сохраняемые классы при DCE,DCE 根类
+Advanced_DCE_RootClasses_Tooltip,Comma separated list of fully specified class names.,"Список полностью заданных имен классов, разделенные запятой.",完全指定类名的以逗号分隔的列表。
+Advanced_Preloader,Preloader,Экран загрузки,加载界面
+Advanced_Preloader_Active,Active,Использовать,启用
+Advanced_Preloader_Icon,Preloader Icon,Иконка загрузки,图标
+Advanced_Preloader_BrowseIconTitle,Choose Path to Preloader Icon,Выберите путь к иконке,选择图标的路径
+Advanced_Preloader_Background,Preloader Background,Загрузочный фон,背景
+Advanced_Preloader_BrowseBackgroundTitle,Choose Path to Preloader Background,Выберите путь к изображению,选择背景的路径
+Advanced_Tools,Tools and Binaries,Инструменты сборки,工具和二进制文件
+Advanced_Tools_Msbuild,MSBuild Tools,MSBuild инструменты,MSBuild 工具
+Advanced_Tools_BrowseMsbuildTitle,Choose Path to MSBuild Tools,Выберите путь к MSBuild инструментам,选择 MSBuild 工具的路径
+,,,
+Account_Account,Account,Аккаунт,账户
+Account_SignedWithEmail,You are signed in with email {0},Вы вошли в систему с адресом электронной почты {0},您已使用邮箱 {0} 登录
+Account_SignOut,Sign out,Выход,登出
+Account_CopyToken,Copy token,Скопировать токен,复制令牌
+,,,
+LoginForm_SignInAsking,Sign in using your Unity Playworks credentials,Используйте свои реквизиты Unity Playworks,使用 Unity Playworks 账户信息进行登陆
+LoginForm_Email,Email,Электронная почта,电子邮件
+LoginForm_Password,Password,Пароль,密码
+LoginForm_ForgotPassword,Forgot your password?,Забыли Ваш пароль?,忘记密码？
+LoginForm_SignIn,Sign in,Войти,登录
+LoginForm_SignInWithGoogle,Sign in with Google,Войти с помощью Google,使用 Google 账户登录
+LoginForm_SsoWaitingScreenMessage,Please sign in using the browser,"Пожалуйста, авторизуйтесь в браузере",请使用浏览器登录
+,,,
+MultiColumnTree_Name,Name,Имя,名称
+MultiColumnTree_Size,Size,Размер,尺寸
+MultiColumnElement_ExpandAll,Expand All,Расширить все,全部展开
+MultiColumnElement_CollapseAll,Collapse All,Свернуть все,全部折叠
+,,,
+Assets_AssetsIncludedExcludeTab,Assets,Ассеты,资源
+Assets_TexturesTab,Textures,Текстуры,纹理
+Assets_SoundsTab,Sounds,Звуки,音效
+Assets_FontsTab,Fonts,Шрифты,字体
+Assets_MeshesTab,Meshes,Меши,网格
+Assets_AnimationsTab,Animations,Анимации,动画
+,,,
+InclExclAssets_ForceExclude,Force-exclude Assets,Принудительно исключить ассеты,强制排除资源
+InclExclAssets_ForceInclude,Force-include Assets,Принудительно включить ассеты,强制包含资源
+,,,
+TexturesTab_DefaultSettings,Default Texture settings,Настройки текстур по умолчанию,默认纹理贴图设置
+TexturesTab_MaxSize,Max size,Максимальный размер,最大尺寸
+TexturesTab_DimensionsSeparator,x,x,x
+TexturesTab_Pixels,pixels,пикселей,像素
+TexturesTab_Format,Format,Формат,格式
+TextureTab_TextureFormatDefault,Default,По умолчанию,默认
+TexturesTab_Quality,Quality,Качество,质量
+TexturesTab_Compression,Compression,Компрессия,压缩
+TextureTab_CompressionNone,None,Ничего,无
+TexturesTab_PngCompression,PNG Compression,Сжатие PNG,PNG Compression
+TexturesTab_CustomScript,Custom script,Скрипт пользователя,自定义脚本
+TexturesTab_CustomScriptExtension,Custom script extension,Расширение скрипта,自定义脚本扩展
+TexturesTab_UseCustomExtension,Use custom extension,Использовать своё расширение,Use custom extension
+TexturesTab_PerTextureSettings,Per-texture settings,Настройки текстуры,逐纹理贴图设置
+TexturesTab_WEBPWarning,WebP requires iOS 14 or higher,WebP требуется iOS 14 или выше,WebP 需要 iOS 14 或更高版本
+TexturesTab_OverrideSettings,{0} Texture settings,{0} Настройки текстуры,{0} 纹理贴图设置
+TexturesTab_PlayableOutputFormat,Playable output format,Формат в сборке,Playable output format
+TexturesTab_UnityImportSettings,Unity Import Settings,Настройки импорта Unity,Unity Import Settings
+TexturesTab_UnityImport_TextureType,Texture Type,Тип текстуры,Texture Type
+TexturesTab_UnityImport_TextureSize,Texture Size,Размер текстуры,Texture Size
+TexturesTab_UnityImport_Format,Import format,Формат импорта,Import format
+,,,
+SoundsTab_DefaultSoundSettings,Default Sound settings,Настройки звука по умолчанию,默认音效设置
+SoundsTab_Format,Format,Формат,格式
+SoundsTab_DefaultChannel,Default,По умолчанию,默认
+SoundsTab_Bitrate,Bitrate,Битрейт,比特率
+SoundsTab_BitrateSpeed,kb/s,kb/s,kb/s
+SoundsTab_CustomScript,Custom script,Скрипт пользователя,自定义脚本
+SoundsTab_CustomScriptExtension,Custom script extension,Расширение скрипта,自定义脚本扩展
+SoundsTab_PerTextureSettings,Per-sound settings,Настройки звука,逐音效设置
+SoundsTab_Cropping,Cropping,Обрезать,剪裁
+SoundsTab_StartCroppingTime,from,с,从
+SoundsTab_EndCroppingTime,to,до,到
+SoundsTab_Play,Play,Воспроизвести,播放
+SoundsTab_Stop,Stop,Остановить,停止
+SoundTab_OverrideSettings,{0} Sound settings,{0} Настройки звука,{0} 音效设置
+SoundsTab_LunaCompressedSoundPreview,Compressed build version,Сжатая версия сборки,Compressed build version
+,,,
+FontTab_DefaultFontSettings,Default Font settings,Настройки шрифта по умолчанию,默认字体设置
+FontTab_Alphabet,Alphabet,Алфавит,字母表
+FontTab_GlyphSize,Glyph size,Размер символа,字形大小
+FontTab_TextureSize,Texture size,Размер текстуры,纹理贴图大小
+FontTab_DimensionsSeparator,x,x,x
+FontTab_Pixels,pixels,пикселей,像素
+FontTab_PerFontSettings,Per-font settings,Настройки шрифта,逐字体设置
+FontTab_OverrideSettings,{0} Font settings,{0} Настройки шрифта,{0} 字体设置
+,,,
+Meshes_DefaultMeshSettings,Default Mesh settings,Настройки меша по умолчанию,默认网格设置
+Meshes_PerMeshSettings,Per-mesh settings,Настройки меша,逐网格设置
+Meshes_HalfPrecision,Store mesh in Half-precision floating-point format,Формат с плавающей точкой половинной точности,以半精度浮点格式存储网格
+Meshes_HalfPrecisionShort,Use half-precision floats,Плавающая точка половинной точности,使用半精度浮点数
+Meshes_OverrideSettings,{0} Mesh settings,{0} Настройки меша,{0} 网格设置
+,,,
+Animations_DefaultAnimationSettings,Default Animation settings,Настройки анимации по умолчанию,默认动画设置
+Animations_PerAnimationSettings,Per-animation settings,Настройки анимации,逐动画设置
+Animations_HalfPrecision,Store animation in Half-precision floating-point format,Формат с плавающей точкой половинной точности,以半精度浮点格式存储动画
+Animations_HalfPrecisionShort,Use half-precision floats,Число половинной точности,使用半精度浮点数
+Animations_OverrideSettings,{0} Animation settings,{0} Настройки анимации,{0} 动画设置
+Animations_StripCurves,Remove redundant keyframes,Удалять избыточные ключи анимации,Remove redundant keyframes
+ShadersTab_DevelopShadersCount,Develop build shader variants total count,Количество найденных вариантов шейдеров в сборке develop,Develop 版本着色器变体总数
+,,,
+Code_DiagnosticsTab,Diagnostics,Диагностика,诊断
+Code_ExclusionsTab,Exclusions,Исключения,排除
+Code_StubsTab,Stubs,Стабы,存根
+Code_ExternalSourcesTab,External Sources,Внешние источники,外部源
+Code_ScriptingDefinesTab,Scripting Defines,Scripting Defines,脚本预处理定义
+,,,
+DiagnosticsTab_DefaultMessage,"No diagnostics, hit 'Run Diagnostics'","Нет диагностики, нажмите 'Запустить диагностику'",没有诊断，点击 '运行诊断'
+DiagnosticsTab_CompilingMessage,Compiling solution...,Компиляция решения ...,正在编译解决方案...
+DiagnosticsTab_CompiledMessage,Solution compiled successfully!,Решение скомпилировалось успешно!,解决方案编译成功!
+DiagnosticsTab_GatheringMessage,Gathering compilation diagnostics...,Сбор диагностики компиляции ...,正在收集编译诊断...
+DiagnosticsTab_ErrorMessage,"Whoops, something went wrong :(","Упс, что-то пошло не так :(",糟糕，出错了:(
+DiagnosticsTab_CleanMessage,No compilation errors found,Не найдено ни одной ошибки компиляции,未发现编译错误
+DiagnosticsTab_ConsoleMessage_CategoryDuplicate,Compilation panel: Can't add error code {0} to category: '{1}' as it is already assigned to '{2}',"Панель компиляции: невозможно добавить код ошибки {0} к категории: «{1}», так как он уже назначен «{2}»",编译面板：无法在类别中添加错误代码 {0}：'{1}'，因为它已经分配给 '{2}'
+DiagnosticsTab_ConsoleMessage_WrongCategoryPath,Compilation panel: Couldn't find categories data at: {0},Панель компиляции: Не удалось найти категории данных по адресу: {0},编译面板：无法在以下位置找到类别数据：{0}
+DiagnosticsTab_GroupBy,Group by:,Группа по:,分组依据：
+DiagnosticsTab_Severity,Severity:,Критичность:,严重程度：
+,,,
+CodeSection_OpenSolution,Open Playable Solution,Открыть Playable решение,打开 Playable 解决方案
+CodeSection_CompileSolution,Compile Solution,Скомпилировать решение,编译解决方案
+CodeSection_RunDiagnostics,Run Diagnostics,Запустить диагностику,运行诊断程序
+,,,
+CodeExcludeTab_ForceExclude,Force-exclude C# files,Принудительно исключить файлы C #,强制排除 C# 脚本
+,,,
+StubberTab_DeleteButtonTooltip,Remove the selected field from the list. You can't remove default fields.,Удалить выбранное поле из списка. Вы не можете удалить стандартные поля.,从列表中移除所选字段。您不能移除默认字段。
+StubberTab_GenerateButtonTooltip,Generate scripts from current nameSpace. You can specify classes or just leave the classes field empty - in this case Stubber will generate all classes. Don't forget to add the directory with original sources to list of Force Excluded C# files.,Создает скрипты из текущего пространства имен. Вы можете указать конкретные классы или оставить поле классов пустым - в этом случае Стаббер будет генерировать все классы. Не забудьте добавить оригинальные скрипты в список исключенных C# файлов.,从当前命名空间生成脚本。您可以指定类，也可将类字段留空。在这种情况下，Stubber 将生成所有类。不要忘记将带有原始来源的目录添加到强制排除的 C# 文件列表中。
+StubberTab_ThirdPartySdks,Third-party SDKs,Сторонние SDK,第三方 SDK
+StubberTab_AutomaticStubbing,Automatic Stubbing,Автоматический Стаббер,自动存根
+StubberTab_Description,"Generate stubs for libraries, plugins and SDKs that aren't supported by Unity Playworks Plugin. This will exclude the library
+from your Playable build and stub all references to that library.","Сформировать стабы для библиотек, плагинов и SDK, которые не поддерживаются Unity Playworks Plugin. 
+Это позволит исключить библиотеку из вашей сборки и создать стабы для всех ссылок на эту библиотеку.",为 Unity Playworks Plugin 不支持的库、插件和 SDK 生成存根。该操作将从您的 Playable 构建中排除库，并对该库的所有引用进行存根。
+StubberTab_SelectSdk,Select SDKs to be stubbed,Выберите SDK для создания стабов,选择需要存根的 SDK
+StubberTab_DeleteFieldButton,Delete field,Удалить поле,删除字段
+StubberTab_CustomSdkSection,Add an SDK to be stubbed,Добавить SDK для создания стабов,添加要存根的 SDK
+StubberTab_CustomSdkName,Name of SDK,Название SDK,SDK 名称
+StubberTab_CustomSdkNamespace,Namespace,Пространство имен,命名空间
+StubberTab_CustomSdkClasses,Name of specific classes,Название классов,特定类的名称
+StubberTab_CustomSdkGenerateButton,Generate Stub,Сгенерировать стаб,生成存根
+StubberTab_SucceedMessage_Ok,Ok,Окей,好的
+StubberTab_SucceedMessage_Title,SDK stubbing succeeded,Генерация стаба прошла успешно,SDK 存根成功
+StubberTab_SucceedMessage_StubbedTypesCount,Count of stubbed types,Количество застабаных типов,存根类型数
+StubberTab_FailedMessage_Ok,Ok,Окей,好的
+StubberTab_FailedMessage_Title,Stub generation failed,Ошибка при генерации стаба,存根生成失败
+StubberTab_TypeGenerationFailed,Type generation failed,Ошибка при генерации типа,类型生成失败
+StubberTab_SDKNotFoundMessage_Ok,Ok,Окей,好的
+StubberTab_SDKNotFound,SDK not found,SDK не найдено,未找到 SDK
+StubberTab_NoneOfTypesListed,None of the listed types,Ни один из перечисленных типов,所列的类型没有
+StubberTab_WereFoundAmongNamespaces,were found among namespaces,не был найден среди пространств имен,在命名空间中被找到
+StubberTab_SDKWasNotFoundInItsDirectory,SDK was not found in its directory,SDK не был найден в своей директории,未在其目录中找到 SDK
+,,,
+StubberTree_Stub,Stub,Стаб,存根
+StubberTree_Name,Name,Имя,名称
+StubberTree_Namespace,Namespace,Пространство имен,命名空间
+StubberTree_Classes,Classes,Классы,类
+,,,
+ExternalSourceTab_CsSources,External C# sources folders,Папки с внешними C # скриптами,外部 C# 源文件夹
+ExternalSourceTab_BrowseAbsolute,Browse for absolute path,Обзор абсолютного пути,浏览绝对路径
+ExternalSourceTab_BrowseAbsoluteHeader,Choose Path to External Sources,Выберите путь к внешним источникам,选择外部源的路径
+ExternalSourceTab_BrowseRelative,Browse for relative path,Обзор относительного пути,浏览相对路径
+ExternalSourceTab_BrowseRelativeHeader,Choose Path to External Sources,Выберите путь к внешним источникам,选择外部源的路径
+ExternalSourceTab_ExternalJs,External JS libraries,Внешние библиотеки JS,外部 JS 库
+ExternalSourceTab_BrowseJsHeader,Choose Path to External library,Выберите путь к внешней библиотеке,选择外部库的路径
+ScriptingDefinesTab_Defines,Scripting Defines,Scripting Defines,脚本定义
+,,,
+DevelopSection_BuildTab,Build,Сборка,构建
+DevelopSection_OpenDirectory,Open build directory after build,Открыть папку с билдом после окончания сборки,构建后打开生成目录
+DevelopSection_Header,Develop,Разработка,开发
+DevelopSection_BuildButton,Build project,Собрать проект,构建项目
+DevelopSection_ServerSection,Server,Сервер,服务器
+DevelopSection_Server_Port,Port,Порт,端口
+DevelopSection_Server_Start,Start server,Запустить сервер,启动服务器
+DevelopSection_Server_Stop,Stop server,Остановить сервер,停止服务器
+DevelopSection_Server_OpenInBrowser,Open in browser,Открыть в браузере,在浏览器中打开
+,,,
+PlaygroundSection_Header,Creative Library,Creative Library,Creative Library
+PlaygroundSection_PackageId,Package Id,Идентификатор пакета,包 Id
+PlaygroundSection_ProductName,Product Name,Имя продукта,产品名称
+PlaygroundSection_BuildProject,Build project,Собрать проект,构建项目
+PlaygroundSection_BuildAndUpload,Build & upload,Собрать и загрузить,构建并上传
+,,,
+ExpertSection_Header,Expert,Эксперт,专家
+,,,
+ExpertTree_Clear,Clear,Очистить,清空
+ExpertTree_ClearOnPlay,Clear On Play,Очистить на запуске,游戏时清空
+ExpertTree_OpenDocs,Open documentation,Открыть документацию,打开文档
+,,,
+SizeBreakdownSection_Header,Per-platform size breakdown,Анализ размера сборки платформы,逐平台大小细分
+SizeBreakdownSection_BuildAndEstimateButton,Build & Estimate size,Оценка размера,构建并估算大小
+SizeBreakdownSection_CompressionHint,Code Minification disabled. We recommend to enable it in Advanced settings to decrease the final build size.,"Минификация кода отключена. Мы рекомендуем включить ее в дополнительных настройках, чтобы уменьшить конечный размер сборки.",代码最简化已禁用。我们建议在高级设置中将其启用，以降低最终构建大小。
+SizeBreakdownSection_BreakdownFailed,Size breakdown failed. Check your console window for errors and LunaTemp/luna.log,Разбивка размера не удалась. Проверьте окно консоли на наличие ошибок и LunaTemp / luna.log,大小细分失败。请检查控制台窗口和 LunaTemp/luna.log 是否报错
+SizeBreakdownSection_TotalSize,Total size,Общий размер,总大小
+SizeBreakdownSection_WEBPTextureFormat,Unity doesn't support WEBP format. Result in Unity Playworks Plugin may be different,Unity не поддерживает WEBP формат. Качество в Unity Playworks Plugin может отличаться,Unity 不支持 WEBP 格式。在 Unity Playworks Plugin 的效果可能会有所不同。
+SizeBreakdownSection_ProgressBarTitle,Estimating assets size,Оценка размера ассетов,估算资源大小中
+SizeBreakdownSection_Outdated,outdated,устаревший,已失效
+SizeBreakdownSection_Description,"Click ""build & estimate size"" button to see all the assets used by Playable\n and their size for specified platform","Нажмите кнопку ""Оценка размера"", чтобы увидеть все ассеты, используемые Playable, \nи какой размер они занимают для заданной платформы","点击 ""构建并估计大小"" 以查看 Playable 在所选广告网络下\n打包的所有资源文件的大小"
+SizeBreakdownSection_RecalculateAssetSize,Recalculate asset size,Пересчитать размер ассета,重新计算素材大小
+SizeBreakdownSection_PreviewNotAvailable_Summary,Asset preview can not be shown. Possible reasons:,Ассет не может быть отображен. Возможные причины:,无法显示素材预览。这可能是因为：
+SizeBreakdownSection_PreviewNotAvailable_OutdatedStatistics,- gathered statistics outdated and this asset not used anymore,- Данные не актуальны и этот ассет более не используется,- 收集的数据已失效并且该素材已不再使用
+SizeBreakdownSection_PreviewNotAvailable_RemovedContent,- Removed Unity Playworks Plugin build (LunaTemp) directory or its content,- Удалена папка сборки Unity Playworks Plugin (LunaTemp) или ее контент,- Unity Playworks Plugin 的 LunaTemp 目录或文件被删除
+SizeBreakdownSection_PreviewNotAvailable_Solution,Click “Build & estimate“ to update statistics and see actual info,"Нажмите “Оценка размера“, чтобы обновить статистику\n и увидеть актуальную информацию",点击 “构建 & 估算“ 以更新数据并查看实际信息
+,,,
+PluginUpdatesSection_Header,Plugin updates,Обновления плагина,插件更新
+PluginUpdatesSection_Description,"You're using an outdated version of Unity Playworks Plugin.
+A new version of the plugin ({0}) is available to download from Unity Playworks.","Вы используете устаревшую версию Unity Playworks Plugin.
+Новая версия плагина ({0}) доступна для скачивания на Unity Playworks.","您正在使用旧版本的 Unity Playworks Plugin。
+新版本插件可以从 Unity Playworks 下载 ({0})。"
+PluginUpdatesSection_TheLatestVersion,You are using the latest version of Unity Playworks Plugin,Вы используете последнюю версию Unity Playworks Plugin,您正在使用最新的 Unity Playworks Plugin
+PluginUpdatesSection_ReleaseNotes,Release Notes - {0},Release Notes - {0},发行说明 - {0}
+PluginUpdatesSection_ReleaseNotesButton,Release Notes,Release Notes,发行说明
+PluginUpdatesSection_DownloadButton,Download,Скачать,下载
+PluginUpdatesSection_ErrorMessage,Unity Playworks Plugin can not connect to update server. Section will be updated once connection is restored,Unity Playworks Plugin can not connect to update server. Section will be updated once connection is restored,Unity Playworks Plugin can not connect to update server. Section will be updated once connection is restored
+,,,
+Localization_Language,Language,Язык,语言
+Localization_SystemLanguageDetected,Your system language is '{0}'. Try to apply '{1}'?,Ваш язык системы «{0}». Попробуем применить '{1}'?,您的系统语言是 '{0}'。是否尝试应用 '{1}'？
+Localization_SystemLanguageDetectedNotSupported,"Your system language is '{0}'. Sorry, we don't support it yet. Try to apply '{1}'?","Ваш язык системы «{0}». К сожалению, мы еще его не поддерживаем. Попробуем применить '{1}'?",您的系统语言是 '{0}'。抱歉，我们目前暂不支持该语言。是否尝试应用 '{1}'？
+,,,
+Expert_DeferredRendering_Title,Deferred rendering is not supported,Отложенный рендеринг не поддерживается,不支持延迟渲染
+Expert_DeferredRendering_Description,"Due to compatibility reasons, Unity Playworks Plugin is only able to use Forward rendering path. Please select the camera ‘{0}’ and set “Rendering Path“ to “Forward“.","Unity Playworks Plugin не поддерживает Deferred rendering path. Пожалуйста, измените Player Settings или переведите камеры «{0}» в режим Forward.",由于兼容性原因，Unity Playworks Plugin 只能使用正向渲染路径。请调整您的玩家设置，或强制相机 '{0}' 进入正向模式。
+Expert_HugeMesh_Title,"Big mesh usage, this has a significant negative effect on Playable size and performance",Большой размер меша,大网格使用，这可能会显著增加输出文件的大小。
+Expert_HugeMesh_Description,"Big mesh {0} used on {1} game object, this might significantly increase playable size, loading time, file size and ram usage.",Тяжелый меш {0} используется на {1} игровом объекте. Рекомендуем уменьшить точность хранения информации или количество вершин,在 {1} 游戏对象上使用大网格 {0}，这可能会显著增加输出文件的大小并占用过多内存
+Expert_InvalidShaderVariant_Title,{0} has problems,Ошибка экспорта варианта шейдера {0},{0} 有问题
+Expert_InvalidShaderVariant_Description,Check shader could be compiled for gles rendering platforms (#pragma only_renderers),"Проверьте шейдер. Убедитесь, что он может быть скомпилирован под GLES rendering платформы (#pragma only_renderers)",检查是否能为 GLES 渲染平台编译着色器 (#pragma only_renderers)
+Expert_ManyMeshColliders_Title,Extensive use of mesh colliders,Частое использование меш коллайдеров,网格碰撞器的广泛使用
+Expert_ManyMeshColliders_Description,"Usage of mesh colliders has a negative effect on performance. You can use primitive colliders instead, such as sphere or box colliders.","Использование меш коллайдеров негативно влияет на производительность.
+При этом их можно заменить на примитивные коллайдеры.",网格碰撞器的使用对性能有负面影响。您可转而使用原始碰撞器。
+Expert_LinearColorSpace_Title,Linear color space is not supported,Линейное цветовое пространство не поддерживается,不支持线性色彩空间
+Expert_LinearColorSpace_Description,"Due to compatibility reasons, Unity Playworks Plugin is only able to use Gamma color space for rendering. Please click the auto fix button or do it manually: Edit → Project Settings → Player Settings → Other Settings → Rendering and set “Color Space” to “Gamma“.","Unity Playworks Plugin использует только цветовое пространство типа гамма для рендеринга. Пожалуйста, измените Player Settings.",由于兼容性原因，Unity Playworks Plugin 只能使用 Gamma 色彩空间进行渲染。请调整您的玩家设置。
+Expert_MissingShaderVariants_Title,No Luna.shader variants asset found,Коллекция шейдер вариантов не найдена,找不到 Luna.shader 着色器变体资源
+Expert_MissingShaderVariants_Description,No Assets/Luna.shader variants asset was found. This might bloat your build with excessive shader variants.,Не найдена коллекция шейдер вариантов по пути Assets/Luna.shader variants. Это может увеличить размер вашего билда из-за чрезмерных вариантов шейдеров.,找不到 Assets/Luna.shader 着色器变体资源。过量使用着色器变体可能导致您的构建大小显著增加。
+Expert_NonPotTexture_Title,"Non-repeat wrap mode used on a texture with non power-of-two dimensions, this might not be rendered correctly.","Текстура с разрешением, не кратным 2, использует non-repeat wrap mode. Она будет отображаться некорректно.",在非二维幂的纹理贴图上使用非重复循环模式，可能会导致无法正确渲染。
+Expert_NonPotTexture_Description,"Non-repeat wrap mode used on '{0}' texture at '{1}' with non power-of-two dimensions. Make sure the width and height are a power-of-two dimension. For example: 512x512, 256x512 or 128x1024.","Игровой объект «{1}» содержит текстуру «{0}» с разрешением, не кратным 2, которая использует non-repeat wrap mode. Она будет отображаться некорректно.",在 '{1}' 非二维幂的 '{0}' 纹理贴图上使用的非重复换行模式，可能无法正确渲染。
+Expert_NullComponent_Title,There are missing components on {0}.,Есть недостающие компоненты на {0}.,{0} 上缺少组件。
+Expert_NullComponent_Description,There are missing components on {0}.,Есть недостающие компоненты на {0}.,{0} 上缺少组件。
+Expert_PlaygroundAssetValue_Title,Playground Asset has no default value,Playground ассеты не имеют значения по умолчанию,Playground 资源没有默认值
+Expert_PlaygroundAssetValue_Description,[LunaPlaygroundAsset] Attribute added onto '{0}' field of '{1}' class must have a default value to appear in Playground.,"Поле, помеченное [LunaPlaygroundAsset] атрибутом, которое добавлено на «{0}» поле «{1}» класса, должно иметь значение по умолчанию, чтобы появиться в Playground.",[LunaPlaygroundAsset] 添加到 '{1}'类的 '{0}' 字段中的属性必须具有默认值，才能在 Playground 中显示。
+Expert_ScaleOnCollider_Title,"Looks like a collider was scaled, this might affect performance.",Обнаружен масштабированный коллайдер,看起来碰撞器已进行缩放调整，这可能会影响性能
+Expert_ScaleOnCollider_Description,"Looks like {0} collider on {1} game object was scaled, this might affect performance.","Масштаб {0} коллайдера на игровом объекте {1} был изменен, это негативно скажется на производительности.",看起来 {1} 游戏对象上的 {0} 碰撞器已进行缩放调整，这可能会影响性能
+Expert_ShaderStripping_Title,Update shader stripping settings to include required shaders,Обновление параметров зачистки шейдера,更新着色器剥离设置
+Expert_ShaderStripping_Description,Please include all shaders required for fog / lightmapping data. Go to Edit → Project Settings → Graphics and scroll down do “Shader Stripping“. Set “Lightmap modes” and “fog modes” to custom and select each shader you use in your scene(s),"В некоторых сценах включен туман и / или запечен свет. Пожалуйста, измените «Shader stripping» активируйте настройку на постоянное включение необходимых шейдерных вариантов.",某些场景似乎启用了雾和/或光映射数据。请修改“着色器剥离”设置，以始终包含所需的着色器变体。
+Expert_UnreadableTexture_Title,Unreadable texture.,Нечитаемые текстуры.,纹理贴图不可读。
+Expert_UnreadableTexture_Description,Can't read '{0}' texture at '{1}'.,Не удается прочитать '{0}' текстуру на '{1}'.,无法读取 '{1}' 处的 '{0}' 纹理贴图。
+Expert_TooManyVertices_Description,"65k mesh vertices limit exceeded for WebGL 1.0, which breaks the playable.","Превышен лимит для WebGL 1.0 в 65 тысяч вершин на меш, что ломает плеебл.","65k mesh vertices limit exceeded for WebGL 1.0, which breaks the playable."
+Expert_TooManyVertices_Details,"The vertices has exceeded 65k on a mesh, which is not supported on WebGL 1.0. Please reduce the vertices of the mesh on the: {0} GameObject.","Вершины превышают лимит 65 тысяч на меш, что не поддерживается в WebGL 1.0. Пожалуйста, уменьшите количество вершин на меше: {0} GameObject.","The vertices has exceeded 65k on a mesh, which is not supported on WebGL 1.0. Please reduce the vertices of the mesh on the: {0} GameObject."
+,,,
+BuildStages_AssetsExporting,Assets exporting,Ассеты экспортируются,资源导出
+BuildStages_AssetsBundling,Assets bundling,Упаковка ассетов,资源捆绑
+BuildStages_CodeBundling,Code bundling,Сборка кода,代码捆绑
+BuildStages_PackageBundling,Package bundling,Сборка пакета,包捆绑
+BuildStages_PackageUploading,Package uploading,Загрузка пакета,包正在上传
+BuildStages_PackageUploadedSuccessfully,Package uploaded successfully,Пакет успешно загружен,包上传成功
+,,,
+ProjectDiagnostics_Title,Project Diagnostics,Диагностика проекта,项目诊断
+ProjectDiagnostics_LastBuild,Last Build,Последняя сборка,上一次构建
+ProjectDiagnostics_BuildID,Build ID,Идентификатор сборки,构建 ID
+ProjectDiagnostics_DevelopButton,Build Develop,Собрать Develop,构建 Develop 版本
+ProjectDiagnostics_AssetsDiagnostics,Assets diagnostics,Диагностика ассетов,资源诊断
+ProjectDiagnostics_CodeDiagnostics,Code diagnostics,Диагностика кода,代码诊断
+ProjectDiagnostics_AssetsExport,Assets Export,Экспорт ассетов,资源导出
+ProjectDiagnostics_AssetsProcessing,Assets Processing,Оптимизация ассетов,资源处理
+ProjectDiagnostics_Scripts,Scripts,Код,脚本
+ProjectDiagnostics_Package,Package,Пакет,包
+ProjectDiagnostics_Severity_Critical,Errors preventing export of your playable,Критические ошибки экспорта,导致您的可试玩广告无法导出的错误
+ProjectDiagnostics_Severity_HighImpact,Issues with high impact on performance and integrity,"Проблемы, влияющие на производительность",对性和完整性影响较大的问题
+ProjectDiagnostics_Severity_Suggestions,Suggestions and optimisations,Предложения по оптимизации,建议和优化
+ProjectDiagnostics_Filtered,Filtered,Скрыто,已过滤
+ProjectDiagnostics_Details,Details,Подробности,详细信息
+ProjectDiagnostics_FilePath,File path,Путь к файлу,文件路径
+ProjectDiagnostics_CopyLog,Copy log,Копировать,复制日志
+ProjectDiagnostics_ReportIssue,Report issue,Сообщить о проблеме,报告问题
+ProjectDiagnostics_SelectLog,Select a log to view more details.,Открыть логи,选择条目以查看更多详细信息
+ProjectDiagnostics_WarningCategory_CORE_FUNCTIONALITY,Core functionality,Главная функциональность,核心功能
+ProjectDiagnostics_WarningCategory_AD_NETWORKS,Ad networks,Рекламные сети,广告网络
+ProjectDiagnostics_WarningCategory_TECHNICAL_PERFORMANCE,Technical performance,Технические характеристики,技术性能
+ProjectDiagnostics_WarningCategory_BEST_PRACTICES,Best practices,Лучшие практики,最佳实践
+ProjectDiagnostics_ReportIssue_Title,Send log to Unity Playworks Plugin,Отправить лог в поддержку Unity Playworks Plugin,向 Unity Playworks Plugin 发送日志
+ProjectDiagnostics_ReportIssue_TopBody,"You can send logs to us for review. If you wish to report an issue with your build that you believe is the result of a bug or problem with Unity Playworks Plugin.
+","Если вы обнаружили проблемы, пришлите нам лог. Проанализировав его, мы сможем быстрее и эффективнее помочь вам, а также попробуем устранить саму проблему в Unity Playworks Plugin.",您可将日志发送给我们进行检阅。如果您希望报告因 Unity Playworks Plugin 故障造成的构建问题。
+ProjectDiagnostics_ReportIssue_BottomBody,"Please provide information about what caused the issue, steps for reproduction and anything else that may help us:
+","Укажите дополнительную информацию о проблеме: что предшествовало проблеме, шаги для воспроизведения или любую другую полезную информацию ",请提供导致问题发生相关的信息、问题复现的步骤，以及其他可能对我们有帮助的信息：
+ProjectDiagnostics_ReportIssue_Close,Close,Закрыть,关闭
+ProjectDiagnostics_ReportIssue_Submit,Submit,Отправить,提交
+,,,
+ProjectDiagnostics_Filter_Stages_AllStages,All stages,Все этапы,所有阶段
+ProjectDiagnostics_Filter_Stages_Stage1,Stage 1,Этап экспорта 1,第 1 阶段
+ProjectDiagnostics_Filter_Stages_Stage2,Stage 2,Этап экспорта 2,第 2 阶段
+ProjectDiagnostics_Filter_Stages_Stage3,Stage 3,Этап экспорта 3,第 3 阶段
+,,,
+ProjectDiagnostics_Filter_ErrorTypes_AllErrortypes,All Error Types,Все типы ошибок,所有错误类型
+ProjectDiagnostics_Filter_ErrorTypes_Uncategorized,Uncategorized,Без категории,未分类
+ProjectDiagnostics_Filter_ErrorTypes_CompilationError,Compilation Error,Ошибка компиляции,编译错误
+ProjectDiagnostics_Filter_ErrorTypes_ExportError,Export Error,Ошибка экспорта,导出错误
+ProjectDiagnostics_Filter_ErrorTypes_Performance,Performance,Производительность,性能
+ProjectDiagnostics_Filter_ErrorTypes_LunaSettings,Unity Playworks Plugin Settings,Настройки Unity Playworks Plugin,Unity Playworks Plugin 设置
+ProjectDiagnostics_Filter_ErrorTypes_Rendering,Rendering,Отрисовка,渲染
+ProjectDiagnostics_Filter_ErrorTypes_BuildSize,Build Size,Размер сборки,构建大小
+ProjectDiagnostics_Filter_ErrorTypes_EngineBuild,Engine Build,Размер движка,引擎构建
+,,,
+ProjectDiagnostics_Filter_SubTypes_AllSubTypes,All Error Sub Types,Все подкатегории ошибок,所有错误子类型
+ProjectDiagnostics_Filter_SubTypes_Uncategorized,Uncategorized,Без категории,未分类
+ProjectDiagnostics_Filter_SubTypes_MissingApi,Missing Api,Отсутствующая API,缺少 API
+ProjectDiagnostics_Filter_SubTypes_SyntaxError,Syntax Error,Синтаксическая ошибка,语法错误
+ProjectDiagnostics_Filter_SubTypes_LunaInternalFailure,Unity Playworks Plugin Internal Failure,Внутренняя ошибка,Unity Playworks Plugin 内部故障
+ProjectDiagnostics_Filter_SubTypes_DarkPatterns,Dark Patterns,Антипаттерн,深色图案
+ProjectDiagnostics_Filter_SubTypes_AssetSize,Asset Size,Размер ассета,资源规模
+ProjectDiagnostics_Filter_SubTypes_UISettings,Ui Settings,Настройки UI,Ui 设置
+ProjectDiagnostics_Filter_SubTypes_BestPractises,Best Practices,Оптимальный подход,最佳做法
+ProjectDiagnostics_Filter_SubTypes_RequiredPlayableAPI,Required Playable Api,Требования к плееблам,所需的 Playable API
+ProjectDiagnostics_Filter_SubTypes_Shaders,Shaders,Шейдеры,着色器
+ProjectDiagnostics_Filter_SubTypes_Assets,Assets,Ассеты,资源
+ProjectDiagnostics_Filter_SubTypes_Textures,Textures,Текстуры,纹理贴图
+ProjectDiagnostics_Filter_SubTypes_Sounds,Sounds,Звуки,音效
+ProjectDiagnostics_Filter_SubTypes_Fonts,Fonts,Шрифты,字体
+ProjectDiagnostics_Filter_SubTypes_Video,Video,Видео,视频
+,,,
+Popup_ProjectDiagnostics_Title,Build Failed,Ошибка сборки,构建失败
+Popup_ProjectDiagnostics_Description,Cannot build for Creative Library due to critical issues found. Please check Project diagnostics to fix issues,"Найдены критические проблемы. Билд для Creative Library не буден собран. Пожалуйста, проверьте Диагностику проекта и исправьте проблемы",Cannot build for Creative Library due to critical issues found. Please check Project diagnostics to fix issues
+Popup_ProjectDiagnostics_Ok,Open,Открыть,打开
+Popup_ProjectDiagnostics_Cancel,Close,Закрыть,关闭
+,,,
+ProjectDiagnostics_LP_HugeMesh_Description,"Big mesh usage, this has a significant negative effect on Playable size and performance",Большой размер меша,大网格使用，这可能会显著增加输出文件的大小。
+ProjectDiagnostics_LP_HugeMesh_Details,"Big mesh {0} used on {1} game object, this might significantly increase playable size, loading time, file size and ram usage.",Тяжелый меш {0} используется на {1} игровом объекте. Рекомендуем уменьшить точность хранения информации или количество вершин,在 {1} 游戏对象上使用大网格 {0}，这可能会显著增加输出文件的大小并占用过多内存
+ProjectDiagnostics_LP_ShaderStripping_Description,Update shader stripping settings to include required shaders,Обновление параметров зачистки шейдера,更新着色器去除设置
+ProjectDiagnostics_LP_ShaderStripping_Details,Some of the scenes appear to have fog enabled and / or lightmapping data. Please modify 'Shader stripping' settings to always include required shader variants.,"В некоторых сценах включен туман и / или запечен свет. Пожалуйста, измените «Shader stripping» активируйте настройку на постоянное включение необходимых шейдерных вариантов.",某些场景似乎启用了雾和/或光映射数据。请修改“着色器去除”设置，以始终包含所需的着色器变量。
+ProjectDiagnostics_LP_NonPotTexture_Description,"Non-repeat wrap mode used on a texture with non power-of-two dimensions, this might not be rendered correctly.","Текстура с разрешением, не кратным 2, использует non-repeat wrap mode. Она будет отображаться некорректно.",在非二维幂的纹理贴图上使用的非重复换行模式，可能无法正确渲染。
+ProjectDiagnostics_LP_NonPotTexture_Details,"Non-repeat wrap mode used on '{0}' texture at '{1}' with non power-of-two dimensions. Make sure the width and height are a power-of-two dimension. For example: 512x512, 256x512 or 128x1024.","Игровой объект «{1}» содержит текстуру «{0}» с разрешением, не кратным 2, которая использует non-repeat wrap mode. Она будет отображаться некорректно.",在 '{1}' 非二维幂的 '{0}' 纹理贴图上使用的非重复换行模式，可能无法正确渲染。
+ProjectDiagnostics_LP_DeferredRendering_Description,Deferred rendering is not supported,Отложенный рендеринг не поддерживается,不支持延迟渲染
+ProjectDiagnostics_LP_DeferredRendering_Details,"Due to compatibility reasons, Unity Playworks Plugin is only able to use Forward rendering path. Please select the camera ‘{0}’ and set “Rendering Path“ to “Forward“.","Unity Playworks Plugin не поддерживает Deferred rendering path. Пожалуйста, измените Player Settings или переведите камеры «{0}» в режим Forward.",由于兼容性原因，Unity Playworks Plugin 只能使用正向渲染路径。请调整您的玩家设置，或强制相机 '{0}' 进入正向模式。
+ProjectDiagnostics_LP_MissingShaderVariant_Description,Check shader could be compiled for gles rendering platforms (#pragma only_renderers),Коллекция шейдер вариантов не найдена,找不到 Luna.Shader 着色器变体资源
+ProjectDiagnostics_LP_MissingShaderVariant_Details,This might bloat your build with excessive shader variants. Please go to the “Runtime Analysis“ tab and select “Shaders“ to view your shader stripping options.,Не найдена коллекция шейдер вариантов по пути Assets/Luna.shader variants. Это может увеличить размер вашего билда из-за чрезмерных вариантов шейдеров.,找不到 Assets/Luna.Shader 变体资源。过量使用着色器变体，可能导致您的构建大小显著增大。
+ProjectDiagnostics_LP_InvalidShaderVariant_Description,Check shader could be compiled for gles rendering platforms (#pragma only_renderers),"Проверьте шейдер. Убедитесь, что он может быть скомпилирован под GLES rendering платформы (#pragma only_renderers)",检查是否能为 GLES 渲染平台编译着色器 (#pragma only_renderers)
+ProjectDiagnostics_LP_InvalidShaderVariant_Details,Details:\n{0},Детали:\n{0},Details:\n{0}
+ProjectDiagnostics_LP_LinearColorSpace_Description,Linear color space is not supported,Линейное цветовое пространство не поддерживается,不支持线性色彩空间
+ProjectDiagnostics_LP_LinearColorSpace_Details,"Due to compatibility reasons, Unity Playworks Plugin is only able to use Gamma color space for rendering. Please click the auto fix button or do it manually: Edit → Project Settings → Player Settings → Other Settings → Rendering and set “Color Space” to “Gamma“.","Unity Playworks Plugin использует только цветовое пространство типа гамма для рендеринга. Пожалуйста, измените Player Settings.",由于兼容性原因，Unity Playworks Plugin 只能使用 Gamma 色彩空间进行渲染。请调整您的玩家设置。
+ProjectDiagnostics_LP_ManyMeshCollider_Description,Extensive use of mesh colliders,Частое использование меш коллайдеров,网格碰撞器的广泛使用
+ProjectDiagnostics_LP_ManyMeshCollider_Details,"Usage of mesh colliders has a negative effect on performance. You can use primitive colliders instead, such as sphere or box colliders.","Использование меш коллайдеров негативно влияет на производительность.
+При этом их можно заменить на примитивные коллайдеры.",网格碰撞器的使用对性能有负面影响。您可转而使用原始碰撞器。
+ProjectDiagnostics_LP_NullComponent_Description,There are missing components on {0}.,Есть недостающие компоненты на {0}.,{0} 上缺少组件。
+ProjectDiagnostics_LP_NullComponent_Details,There are missing components on {0}.,Есть недостающие компоненты на {0}.,{0} 上缺少组件。
+ProjectDiagnostics_LP_PlaygroundAssetValue_Description,Playground Asset has no default value,Playground ассеты не имеют значения по умолчанию,Playground 资源没有默认值
+ProjectDiagnostics_LP_PlaygroundAssetValue_Details,[LunaPlaygroundAsset] Attribute added onto '{0}' field of '{1}' class must have a default value to appear in Playground.,"Поле, помеченное [LunaPlaygroundAsset] атрибутом, которое добавлено на «{0}» поле «{1}» класса, должно иметь значение по умолчанию, чтобы появиться в Playground.",添加到 '{1}'类的 '{0}' 字段中的 [LunaPlaygroundAsset] 属性必须具有默认值，才能在 Playground 中显示。
+ProjectDiagnostics_LP_ScaleOnCollider_Description,"Looks like a collider was scaled, this might affect performance.",Обнаружен масштабированный коллайдер,看起来碰撞器已进行缩放调整，这可能会影响性能
+ProjectDiagnostics_LP_ScaleOnCollider_Details,"Looks like {0} collider on {1} game object was scaled, this might affect performance.","Масштаб {0} коллайдера на игровом объекте {1} был изменен, это негативно скажется на производительности.",看起来 {1} 游戏对象上的 {0} 碰撞器已进行缩放调整，这可能会影响性能
+ProjectDiagnostics_LP_UnreadableTexture_Description,Unreadable texture.,Нечитаемые текстуры.,纹理贴图不可读。
+ProjectDiagnostics_LP_UnreadableTexture_Details,Can't read '{0}' texture at '{1}'.,Не удается прочитать '{0}' текстуру на '{1}'.,无法读取 '{1}' 处的 '{0}' 纹理贴图。
+ProjectDiagnostics_LP_Export_Description,Asset export: {0},Экспорт ассета: {0},资源导出{0}
+ProjectDiagnostics_LP_UnpackedSpriteAtlas_Description,Sprite Atlas not packed {0},"Спрайт атлас ""{0}"" не упакован",Sprite Atlas 未打包 {0}
+ProjectDiagnostics_LP_UnpackedSpriteAtlas_Details,"Make sure 'Include in build' is toggled for related sprite, go to “Assets“ → “Assets“ → “Force include“ for atlases\nSprite: {0}\nAtlas: {1}\n{2}",Убедитесь что опция 'Include in Build' включена для родительского спрайт атласа.\nСпрайт: {0}\nАтлас: {1}\n{2},确保相关的 sprite atlases\nSprite: {0}\nAtlas: {1}\n{2} 选中了 “在构建中包含” 选项
+ProjectDiagnostics_LP_Asset_Description,Asset Processing: {0},Обработка ассета: {0},资源处理：{0}
+ProjectDiagnostics_LP_FailedToCombineGlyphs_Description,Couldn't create bitmap for the font {0},Ошибка создания текстуры шрифта,为字体创建位图失败 {0}
+ProjectDiagnostics_LP_FailedToCombineGlyphs_Details,Failed to combine glyphs to {0}\nPlease check what's wrong by running: {1},Не удалось запечь текстуру для шрифта {0}.\nДополнительную информацию можно получить используя {1},未能将字形组合到 {0} 中\n 请运行以下命令检查错误情况：{1}
+ProjectDiagnostics_LP_SoundCompression_Description,Sound compression failed,Ошибка компрессии аудиофайла,音效压缩失败
+ProjectDiagnostics_LP_SoundCompression_Details,Failed to compress sound {0}\n{1},Не удалось обработать аудио клип {0}\n{1},压缩音效失败 {0}\n{1}
+ProjectDiagnostics_LP_TextureCompression_Description,Texture compression failed,Ошибка компрессии текстуры,纹理贴图压缩失败
+ProjectDiagnostics_LP_TextureCompression_Details,Failed to compress texture {0}\n{1},Не удалось обработать текстуру {0}\n{1},压缩纹理贴图失败 {0}\n{1}
+ProjectDiagnostics_LP_CustomScript_Description,Asset Processing Failed,Ошибка обработки ассета,资源处理失败
+ProjectDiagnostics_LP_CustomScript_Details,"Failed to process asset  {0}, Check custom script {1} attached to {2}\n{3}",Не удалось обработать ассет {0}. Проверьте специализированный скрипт {1} применяемый к {2}\n{3},处理资源失败 {0}，请检查附加到 {2} 的自定义脚本 {1}\n{3}
+ProjectDiagnostics_LP_EngineBuild_Description,Engine build exception,Ошибка сборки,引擎构建异常
+ProjectDiagnostics_LP_AssetManifest_Details,Asset Path: {0}\nJSON: {1},Путь к ассету: {0}\nJSON: {1},资源路径：{0}\nJSON: {1}
+,,,
+ProjectDiagnostics_OpenDocs,Open Documentation,Открыть документацию,打开文档
+ProjectDiagnostics_BuildSuccessful,Build Successful,Сборка завершена успешно,构建成功
+ProjectDiagnostics_BuildFailed,Build failed at,Сборка прервана на,构建失败位置
+ProjectDiagnostics_ReportIssue_Success,Report sent successfully!,Отчет отправлен успешно!,报告发送成功！
+,,,
+ProjectDiagnostics_LP_TMPUnsupportedAtlasPopulationMode_Description,TMP Font Asset uses unsupported 'Atlas Population Mode',TMP Font Asset использует неподдерживаемый 'Atlas Population Mode',TMP Font Asset 使用了不支持的 'Atlas Population Mode'
+ProjectDiagnostics_LP_TMPUnsupportedAtlasPopulationMode_Details,"TMP Font Asset '{0}' uses Atlas Population Mode '{1}' which is not supported. Click on the font asset, then in the inspector panel scroll to Generation Settings → Atlas Population Mode and change it from Dynamic to Static.",TMP Font Asset '{0}' использует Atlas Population Mode '{1}' который не поддерживается,TMP Font Asset '{0}' 使用了不支持的 Atlas Population Mode '{1}'
+ProjectDiagnostics_LP_MSBuildVersion_Description,Invalid MSBuild version,Невалидная MSBuild версия,无效的 MSBuild 版本
+ProjectDiagnostics_LP_MSBuildVersion_Details,MSBuild 15 or higher is required.\nMSBuild can be updated through the Visual Studio installer or here\nhttps://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16\nCurrent path in use: '{0}',Требуется MSBuild версии 15 или выше.\nMSBuild может быть обновлен через Visual Studio установщик или по этой ссылке\nhttps://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16\nТекущий путь: '{0}',需要 MSBuild 15 或更高版本\nMSBuild 可以从 Visual Studio Installer 更新或从这里下载\nhttps://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16\n现在使用的路径: '{0}'
+ProjectDiagnostics_LP_MSBuildPath_Description,Invalid MSBuild path,Невалидный путь к MSBuild,无效的 MSBuild 路径
+ProjectDiagnostics_LP_MSBuildPath_Details,MSBuild failed to be invoked. Please make sure you have a proper path to MSBuild 15 or higher binary configured in Unity Playworks Plugin UI.\nMSBuild can also be installed through the visual studio installer or here\nhttps://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16\nCurrent path in use: '{0}',"Не удалось вызвать MSBuild. Пожалуйста, убедитесь, что Вы указали верный путь к MSBuild в окне плагина.\nMSBuild может быть обновлен через Visual Studio установщик или по этой ссылке\nhttps://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16\nТекущий путь: '{0}'",MSBuild 调用失败。请确保在 Unity Playworks Plugin UI 中正确配置了 MSBuild 15 或更高版本的路径。\nMSBuild 可以从 Visual Studio Installer 更新或从这里下载\nhttps://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16\n现在使用的路径: '{0}'
+ProjectDiagnsotics_LP_DotNetVersion_Description,Invalid .Net version,Невалидная версия .Net,无效的 .Net 版本
+ProjectDiagnostics_LP_DotNetVersion_Details,.Net 4.7 or higher is required. Please make sure .Net 4.7 is installed\nhttps://docs.lunalabs.io/docs/playable/setup/dependencies/#install-net-47,"Необходима .Net 4.7 или выше. Пожалуйста, убедитесь, что .Net 4.7 установлена\nhttps://docs.lunalabs.io/docs/playable/setup/dependencies/#install-net-47",需要 .Net 4.7 或更高版本。请确保已安装 .Net 4.7\nhttps://docs.lunalabs.io/docs/playable/setup/dependencies/#install-net-47
+ProjectDiagnostics_LP_HugeRamUsage_Description,Playable has high RAM usage.,Плеебл использует много RAM,可玩广告使用了大量的内存
+ProjectDiagnostics_LP_HugeRamUsage_Details,Maximum RAM usage must be lower than recommended usage - {0} MB. Current value is {1} MB. Otherwise this will prevent the playable to support older devices.,Максимальное значение RAM должно быть ниже рекомендуемого значения - {0} МБ. Текущее значение {1} МБ. Иначе это не позволит поддерживать плеебл на старых устройствах,最大内存必须小于推荐值 - {0} MB。目前值 {1} MB。超出会导致可玩广告无法在旧设备上运行。
+ProjectDiagnostics_LP_ManyFacebookFiles_Description,Too many files for facebook platform in use,Слишком много файлов для facebook платформы,"文件数量超出 Facebook 平台限制
+"
+ProjectDiagnostics_LP_ManyFacebookFiles_Details,Too many files for Facebook platform in use ({0}) only {1} available. Decrease textures by making a Texture Atlas to use a single texture for multiple assets,"Слишком много файлов для facebook платформы ({0}), {1} допустимый максимум. Уменьшите число используемых текстур или видео, чтобы оставаться в пределах допустимого",文件数量超出 Facebook 平台限制 ({0})，上限为 {1}。 请减少贴图或视频文件。
+ProjectDiagnostics_LP_ManyShaderVariants_Description,Extensive use of shader variants,Использование большого количества шейдер вариантов,过量使用着色器变体
+ProjectDiagnostics_LP_ManyShaderVariants_Details,Extensive usage of shader variants negatively affects playable startup time. Please consider them to be less than {0} ({1} found). Check Runtime analysis -> Shaders tab to see used shaders,"Использование большого количества шейдер вариантов приводит к долгим загрузкам креатива. Пожалуйста, постарайтесь уменьшить их количество до {0} ({1} найдено). Перейдите на вкладку Анализ код -> Шейдеры, чтобы увидеть их",过量使用着色器变体会大幅增加载入时间。请确保总数少于  {0} (检测到 {1})。请在 运行时分析 -> 着色器 中检查正在使用的着色器。
+ProjectDiagnostics_LP_AvatarAnimation_Description,"Avatar animation found, which is not supported in Unity Playworks Plugin. Please bake the animation instead as a workaround. See our docs for more information","Avatar animation found, which is not supported in Unity Playworks Plugin. Please bake the animation instead as a workaround. See our docs for more information",检测到 Unity Playworks Plugin 不支持的 Avatar 动画。请对动画进行烘焙。详情见我们的文档
+ProjectDiagnostics_LP_CharacterController_Description,Use of unsupported Character Controller detected,Use of unsupported Character Controller detected,检测到不支持的 Character Controller
+ProjectDiagnostics_LP_CharacterController_Details,Not all features of the Character Controller are implemented yet. This can result into unexpected behaviour! Please work around this feature instead.,Not all features of the Character Controller are implemented yet. This can result into unexpected behaviour! Please work around this feature instead.,Character Controller 仅有部分功能是支持的。这可能会导致未知错误。请换一种方式实现相关的功能。
+ProjectDiagnostics_LP_SyntaxTransformer_Description,Syntax conversion error - some C# features may not be available,Ошибка транформации синтаксиса - некоторые функции C# могут быть недоступны,语法转换错误 - 某些 C# 功能可能不可用
+Advanced_Tools_Msbuild_Warning,"The MSBuild path is either invalid, or the msbuild version is incompatible, Please make sure you have a proper path to MSBuild 15 or above configured in Unity Playworks Plugin UI. Click here to install MSBuild 15","Путь к MSBuild невалиден или выбранная версия несовместима. Пожалуйста, убедитесь, что Вы указали верный путь к MSBuild версии 15 или выше в окне плагина. Нажмите сюда, чтобы установить MSBuild 15 версии.",MSBuild 路径无效或版本不兼容，请确保在 Unity Playworks Plugin UI 中正确配置了 MSBuild 15 或以上版本的路径。点击这里安装 MSBuild 15
+,,,
+PlaygroundSection_Applications,Available Applications,Доступные Applications,可选应用
+PlaygroundSection_Creatives,Available Concepts,Доступные Концепты,可选创意
+PlaygroundSection_CreativeName,Concept Name,Имя Концепта,创意名称
+PlaygroundSection_NewCreativeTitle,< New Concept >,< Новый Концепт >,< 新创意 >
+PlaygroundSection_EmptyNameWarning,Please fill in the Concept name,"Пожалуйста, заполните имя Концепта",请输入创意名称
+Popup_RuntimeAnalysisReady_Title,Runtime Analysis,Анализ кода,运行时分析
+Popup_RuntimeAnalysisReady_Description,You will now need to play the game through in the browser so the Runtime Analysis tool can find scripts and classes that aren’t used. Play the game and refresh as many times as needed until you feel that you’ve touched all potential parts of the gameplay,"Вам необходимо пройти игру в браузере чтобы Анализ кода мог найти скрипты и классы, которые не используются. Играйте в игру и обновляйте столько раз, сколько необходимо, пока Вы не будете уверены, что затронули все части геймплея",为了让运行时分析工具找出未使用的脚本和类，现在需要您在浏览器中进行游戏。您可以尽可能多次的进行游戏流程直到您觉得所有可能使用的代码都已被检测到。
+SizeBreakdownSection_OptimizeScripts,Optimise scripts,Оптимизировать скрипты,优化脚本
+SizeBreakdownSection_RuntimeAnalysisSavedSize,~30% of scripts size saved by using Runtime Analysis,~30% от размера скриптов сохранено благодаря Анализу кода,运行时分析工具节约了近 30% 的脚本空间
+SizeBreakdownSection_RuntimeAnalysisNotRun,We recommend running Runtime Analysis to find and remove all unused code,Рекомендуем запустить Анализ кода чтобы найти и исключить весь неиспользуемый код,我们建议使用运行时分析工具来找出并移除未使用的代码
+ProjectDiagnostics_LP_ShouldTryRuntimeAnalysis_Description,We recommend running Runtime Analysis to find and remove all unused code,Рекомендуем запустить Анализ кода чтобы найти и исключить весь неиспользуемый код,我们建议使用运行时分析工具来找出并移除未使用的代码
+ProjectDiagnostics_LP_ShouldTryRuntimeAnalysis_Details,"Navigate to the Runtime Analysis → Code tab to enable code stripping. Before uploading the playable, please make sure to have played all scenario’s of the playable in a development build to make Runtime Analysis work properly.","Перейдите в секцию Анализ кода > вкладка код, чтобы включить анализ кода",点击 运行时分析 > 代码 面板并启用代码排除
+RuntimeAnalysisTab_Title,Runtime Analysis,Анализ кода,运行时分析
+RuntimeAnalysisTab_СodeSectionName,Code,Код,代码
+RuntimeAnalysisTab_Start,Start Analysis,Начать анализ,开始分析
+Popup_RuntimeAnalysisReady_Ok,Okay,Окей,好的
+Popup_RuntimeAnalysisReady_Cancel,Cancel,Отмена,取消
+RuntimeAnalysisTab_Description,Click 'Start Analysis' to analyse the game during runtime to find and exclude all unused code and redundant shader variants.\nYou must play the entire game to make sure that needed code will not be excluded,"Нажмите 'Начать анализ' чтобы проанализировать билд в браузере для нахождения и исключения всего\nнеиспользуемого кода и лишних шейдер вариантов. Вы должны пройти всю игру чтобы быть уверенными, что\nнеобходимый код не будет исключен",点击 '开始分析' 来找出并排除游戏运行时没有用到的代码 \n您必须通过完整进行游戏流程来确保所有需要的代码不会被排除
+RuntimeAnalysisTab_ExcludedCode,Excluded Code,Исключённый код,被排除的代码
+RuntimeAnalysisTab_ExcludedModules,Excluded Modules,Исключённые модули,被排除的模块
+RuntimeAnalysisTab_ModulePrefix_physics3d,Physics 3D,Physics 3D,Physics 3D
+RuntimeAnalysisTab_ModulePrefix_physics2d,Physics 2D,Physics 2D,Physics 2D
+RuntimeAnalysisTab_ModulePrefix_particle-system,Particle System,Particle System,Particle System
+RuntimeAnalysisTab_ModulePrefix_reflection,Reflection,Reflection,Reflection
+RuntimeAnalysisTab_ModulePrefix_prefabs,Prefabs,Prefabs,Prefabs
+RuntimeAnalysisTab_ModulePrefix_mecanim-wasm,Mecanim (Avatar),Mecanim (Avatar),Mecanim (Avatar)
+,,,
+RuntimeAnalysisTab_ResetCode,Reset Code,Сбросить код,重置代码
+RuntimeAnalysisTab_ResetShaders,Reset Shaders,Сбросить шейдера,重置着色器
+,,,
+PlaygroundSection_OpenPlayground,Open Creative Library,Открыть Creative Library,打开 Creative Library
+PlaygroundSection_RefreshToolTip,Refresh available Applications,Обновить доступные Applications,刷新现有应用
+EditorTab_AdNetworkSettings_FbDisableCompression,Disable Compression,Отключить сжатие,禁用压缩
+Advanced_ForceBase64,Use Base64 encoding,Сжатие Base64,使用 Base64 编码
+SizeBreakdownSection_Base64,"You can reduce size of you playable by up to ~15% by unchecking ""Use Base64 encoding"" in Settings > Advanced tab","Вы можете уменьшить размер билда на ~15%, выключив ""Сжатие Base64"" в Настройки > вкладка Дополнительные",您可以在 设置 > 高级 中取消 “使用 Base64 编码” 来减少 Playable 最多约15%的大小
+,,,
+ProjectDiagnostics_LP_TextMeshProVersion_Description,This TMP version is not fully supported,Эта версия TMP не поддерживается полностью,此 TMP 版本未被完全支持
+ProjectDiagnostics_LP_TextMeshProVersion_Details,"The incorrect Text Mesh Pro for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager","Используется некорректная версия Text Mesh Pro, пожалуйста, обновите ее до рекомендуемой версии: {0} в Package менеджере. Перейдите в Window  → Package Manager",此 Unity 使用了不支持的 Text Mesh Pro 版本，请更新或降级至推荐版本: {0}
+ProjectDiagnostics_LP_CinemachineVersion_Description,This Cinemachine version is not supported,This Cinemachine version is not supported,不支持此版本的 Cinemachine
+ProjectDiagnostics_LP_CinemachineVersion_Details,"The incorrect Cinemachine version for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager.","Используется некорректная версия Cinemachine, пожалуйста, обновите ее до рекомендуемой версии: {0} в Package менеджере. Перейдите в Window  → Package Manager",此 Unity 使用了不支持的 Cinemachine 版本，请更新或降级至推荐版本: {0}
+ProjectDiagnostics_LP_DOTweenVersion_Description,This DOTween version is not supported,This DOTween version is not supported,不支持此版本的 DOTween
+ProjectDiagnostics_LP_DOTweenVersion_Details,"The incorrect DOTween version for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager.","Используется некорректная версия Dotween, пожалуйста, обновите ее до рекомендуемой версии: {0} в Package менеджере. Перейдите в Window  → Package Manager",此 Unity 使用了不支持的 DOTween 版本，请更新或降级至推荐版本: {0}
+Advanced_Preloader_Background_Color,Background Color,Цвет фона,背景颜色
+Universal_Reset,Reset,Сбросить,重置
+,,,
+Advanced_Tools_MSBuildWarning_Path,"<color=white>The MSBuild path is invalid, please specify a valid path to MSBuild version 15 or above.</color>\nClick here to view documentation on how to update or install a new version of MSBuild","<color=white>Путь к MSBuild невалиден, пожалуйста, укажите верный путь к MSBuild версии 15 или выше.</color>\nНажмите сюда, чтобы увидеть документацию или как обновить или установить новую версию MSBuild",<color=white>MSBuild 路径无效，请指定 MSBuild 15 或更高版本的有效路径。</color>\n点击此处查看有关如何更新或安装新版本 MSBuild 的文档
+Advanced_Tools_MSBuildWarning_Version,<color=white>The Version of MSBuild you are trying to use does not meet version requirements.</color>\nClick here to view documentation on how to install a new version of MSBuild,"<color=white>Версия MSBuild, которую вы используете, не отвечает требованиям.</color>\nНажмите сюда, чтобы увидеть документацию или как обновить или установить новую версию MSBuild",<color=white>您正在尝试使用的 MSBuild 不符合版本要求。</color>\n点击此处查看关于如何安装新版本 MSBuild 的文档
+Advanced_Tools_MSBuildWarning_DotNet,<color=white>The version of MSBuild you are trying to use does not have a required dependency.</color>\nClick here to view how to add the '.Net Desktop Development' workload to your visual studio installation,"<color=white>Версия MSBuild, которую вы используете, не имеет необходимой зависимости.</color>\nНажмите сюда, чтобы узнать как добавить .Net Desktop Development в установщик visual studio",<color=white>您正在尝试使用的 MSBuild 缺少必要的依赖项。</color>\n点击此处查看如何添加 ‘.Net 桌面开发’ 工作负载到您的 Visual Studio 中
+MSBuild_WarningBanner,"MSBuild is misconfigured, this prevents playables from being built. Click here to view the Advanced settings tab","MSBuild неправильно настроен, это препятствует сборке билда. Нажмите сюда чтобы перейти в раздел «Дополнительные настройки»",MSBuild 配置不正确，这会阻止构建 Playable。点击此处查看高级设置选项
+,,,
+SVC_Tab_Label,Shaders,Шейдеры,着色器
+SVC_Tab_LunaSVC_AssetNotFound,"""Luna.shadervariants"" asset not found!","""Luna.shadervariants"" ассет не найден!","未找到 ""Luna.shadervariants"" 文件"
+SVC_Tab_LunaSVC_Create,Create new Shader Variant Collection,Создать новую коллекцию вариантов,创建新的着色器变体集合
+,,,
+SVC_Element_AddShaderAndVariants,Add Shader and Variants:,Добавить шейдер и варианты:,添加着色器和变体
+SVC_Element_Add,Add,Добавить,添加
+SVC_Element_ShowHidden,Show hidden,Показать исключенные,显示隐藏
+SVC_Element_WarningMsgTemplate,Filename: {0} Pass: {1} - selected keyword set exist!,Файл: {0} Пасс: {1} - данный вариант уже существует!,文件名: {0} 通道: {1} - 所选关键字集存在!
+SVC_Element_ErrorMsgTemplate,Filename: {0} Pass: {1} - does not support two or more keywords from the same shader_feature!,"Файл: {0} Пасс: {1} - Вариант не поддерживается! Возможно, вы используете два кейворда из одной shader_feature!",文件名: {0} 通道: {1} - 不支持来自同一个 shader_feature 的两个或多个关键字!
+,,,
+SVC_Inspector_ShaderVariants,Shader variants used on scenes,"Шейдер варианты, используемые на сцене",场景中使用的着色器变体
+SVC_Inspector_IncludedVariants,Shader variants included by User,"Шейдер варианты, добавленные пользователем",用户包含的着色器变体
+SVC_Inspector_ExcludedVariants,Shader variants excluded by User,"Шейдер варианты, исключенные пользователем",用户排除的着色器变体
+SVC_Inspector_ParsedShaders,Parsed shaders,Распаршенные шейдер варианты,已解析的着色器
+SVC_Inspector_ScenesShadersParsedFor,Scenes shaders parsed for,Сцены с распаршенными вариантами,已进行着色器解析的场景
+SVC_Inspector_Window_Btn,Edit,Изменить,编辑
+SVC_Inspector_UsedByLuna,Shader variants ( Runtime Analysis ),Шейдер варианты ( Runtime Analysis ),着色器变体 ( Runtime Analysis )
+RuntimeAnalysisTab_PauseCode,Disable Code Stripping,Отключить исключение кода,禁用排除无用代码
+RuntimeAnalysisTab_PauseShaders,Disable Shader Stripping,Отключить исключение шейдеров,禁用排除无用着色器
+RuntimeAnalysisTab_ShadersCount,Platform build shader variants total count,Количество вариантов шейдеров для платформ сборки,平台导出版本着色器变体总数
+RuntimeAnalysisTab_ShadersWarning,Shader variants total count might be critical and affect your playable's performance.,Количество шейдер вариантов может стать критическим и повлиять на производительность вашего проекта.,着色器变体总数可能过大并会影响性能。
+RuntimeAnalysisTab_ShaderInvalid,invalid,не валидный,无效
+RuntimeAnalysisTab_ParsedShadersModified,Following shaders were modified:\n{0}\nThey were removed from Playable shader variant collection! Build and run develop to gather new changes or add it manually.,"Следующие шейдера были изменены:\n{0}\nОни были удалены из списка шейдеров! Соберите билд заново, чтобы собрать все актуальные изменения или добавьте шейдер вручную.",以下着色器被修改:\n{0}\n它们已从 Playable 着色器变体集合中移除。构建并运行 Develop 版本以检测这些新的变化，或手动添加它们。
+RuntimeAnalysisTab_FirstDevelopBuild,Build and run develop to see the list of shader variants that were\n used in your project and be able to modify them.,"Соберите и запустите девелоп сборку, чтобы увидеть здесь список используемых\n в проекте вариантов шейдеров и иметь возможность редактировать его",构建并运行 Develop 版本以查看场景中使用到的着色器变体\n 并对它们进行调整。
+RuntimeAnalysisTab_FirstDevelopBuild_StrippingDisabledNote,Shader stripping is disabled.,Удаление шейдеров отключено.,着色器剥离未启用
+RuntimeAnalysisTab_ShadersBackwardCompabilityExportError,Export error: current shader data in SVC_Luna.asset are not actual and will be deleted. Please build and run develop to gather all new updated shader data. (Starting from 3.8.0),"Ошибка экспорта: существующие данные о шейдерах в SVC_Luna.asset не актуальны и будут автоматически удалены. Пожалуйста, соберите и проиграйте девелоп сборку, чтобы собрать всю новую актуальную информацию о шейдерах. (Начиная с версии 3.8.0)",导出错误: 当前 SVC_Luna.asset 中的着色器数据不可用并已清空。请重新构建并运行 Develop 版本以检测新的着色器数据。(从 3.8.0 起)
+RuntimeAnalysisTab_ShadersBackwardCompability,Starting from 3.8.0 all existing shader data in SVC_Luna.asset\nwill be deleted automatically in next export stage.\n You will need to build and run develop to see updated shaders data.,"Начиная c версии 3.8.0 существующие данные\n о шейдерах в SVC_Luna.asset будут автоматически удалены.\nСоберите девелоп сборку снова,\nчтобы увидеть обновленную информацию о шейдерах.",从 3.8.0 起 SVC_Luna.asset 中的着色器数据\n将会在下一次导出时自动清空。\n您需要构建并运行 Develop 版本以查看新的着色器数据
+RuntimeAnalysisTab_NoShaderSelected,No shader selected,Не выбран шейдер,未选中任何着色器
+RuntimeAnalysisTab_ShaderWasNotParsed,Redundant shader! None of the selected scenes contains shader you want to include.,Неиспользуемый шейдер! Этот шейдер не используется ни в одной из выбранных вами сцен.,冗余的着色器！您想包含的着色器并未被任何所选的场景使用到。
+,,,
+ProjectDiagnostics_AssetsExportOnly,Build Develop (Assets only),Собрать Develop (ассеты),构建 Develop 版本 (仅资源)
+ProjectDiagnostics_CodeExportOnly,Build Develop (Code only),Собрать Develop (код),构建 Develop 版本 (仅代码)
+ProjectDiagnostics_OptimiseExportWithCaching,Optimize export with Caching,Кэшировать экспорт,使用缓存优化导出速度
+ProjectDiagnostics_OpenInBrowser,Open In Browser,Открыть в браузере,在浏览器中打开
+,,,
+ProjectDiagnostics_LP_IllegalKeyword_Details,You are using a reserved keyword: {0} for Unity Playworks Plugin. Please change the name of the field,"Вы используете зарезервированное для Unity Playworks Plugin ключевое слово: {0}. Пожалуйста, переименуйте имя поля",您正在使用 Unity Playworks Plugin 保留的关键词: {0}，请进行更改。
+ProjectDiagnostics_LP_IllegalKeyword_Description,You are using an illegal keyword: {0},Вы используете нелегальное ключевое слово: {0},您正在使用非法的关键词: {0}
+ProjectDiagnostics_LP_APICall_Details,You are not using the Luna API: {0}.{1}. Some ad networks require these calls. Please add these calls to ensure your playable works on all ad networks. Check documentation for more information,"Вы не используете Luna API: {0}.{1}. Некоторые рекламные сети требуют вызова этих API. Пожалуйста, добавьте эти вызовы для того, чтобы быть уверенными, что Ваш плеебл будет работать на всех платформах. Ознакомьтесь с документацией для дополнительной информации",您没有使用到 Luna 的 API: {0}.{1}。一些广告网络需要用到它们。请将缺失的 API 添加到可玩广告中以确保能在所有的网络上正常运行。详情请查看开发文档。
+ProjectDiagnostics_LP_APICall_Description,You are not using the Luna API: {0}.{1},Вы не используете Luna API: {0}.{1},您没有使用 Luna 的 API: {0}.{1}
+ProjectDiagnostics_LP_APICall_CustomEvents_Details,You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable.,Вы не используете пользовательские события. Рекомендуется использовать пользовательские события для лучшего понимания плеебла.,您没有使用任何自定义事件。建议使用自定义事件来更好的评估可玩广告。
+ProjectDiagnostics_LP_APICall_CustomEvents_Description,You are not using any custom events.,Вы не используете пользовательские события.,您没有使用任何自定义事件。
+ProjectDiagnostics_LP_APICall_CustomEvents_Count_Details,You are only using {0} custom events. It is recommended to use more custom events to have a better understanding of the playable.,Вы используете только {0} пользовательских событий. Рекомендуется использовать пользовательские события для лучшего понимания плеебла.,您只使用了 {0} 个自定义事件。建议使用更多自定义事件来更好地评估可玩广告。
+ProjectDiagnostics_LP_APICall_CustomEvents_Count_Description,You are only using: {0} custom events.,Вы используете только {0} пользовательских событий.,您只使用了 {0} 个自定义事件。
+ProjectDiagnostics_LP_APICall_Not_Supported_Details,You are using a function/component which are currently not supported in Unity Playworks Plugin: {0}{1}.,"Вы используете функцию/компонент, который не поддерживается плагином: {0}{1}.",您正在使用 Unity Playworks Plugin 目前不支持的函数或组件: {0}{1}
+ProjectDiagnostics_LP_APICall_Not_Supported_Description,You are using an unsupported feature: {0}{1},Вы используете неподдерживаемый функционал : {0}{1},您正在使用不支持的功能: {0}{1}
+ProjectDiagnostics_LP_Base_Type_Not_Supported_Details,You are using an unsupported base type: {0} which is not supported in ad networks.,"Вы используете неподдерживаемый базовый тип: {0}, который не поддерживается рекламными сетями.","您正在使用不支持的基类型: {0}, 在广告网络上无法使用"
+ProjectDiagnostics_LP_Base_Type_Not_Supported_Description,You are using an unsupported base type: {0}.,Вы используете неподдерживаемый базовый тип: {0}.,您正在使用不支持的基类型: {0}
+,,,
+HealthCheck_LP_ExcessiveComponents_Description,Exceeded {0} recommended count,Превышено рекомендуемое количество - {0},超出了推荐的上限 {0}
+HealthCheck_LP_ExcessiveComponents_Details,"Recommended: {0}, current: {1}.","Рекомендовано: {0}, текущее: {1}.","推荐: {0}, 目前: {1}"
+ProjectDiagnostics_LP_ExcessiveComponents_Description,Extensive usage of {0} Component,Избыточное использование компонента {0},过量使用 {0} 组件
+ProjectDiagnostics_LP_ExcessiveComponents_Details,"There is extensive usage of the {0} component.\nExcessive usage of any component can be detrimental to performance on lower and in some cases higher end devices, consider reducing the amount the component is used.\nRecommended count: {1}\ncurrent count {2}.",Избыточное использование компонента {0}.\nИзбыточное использование любого компонента может привести к падению производительности на слабых устройствах. Рассмотрите возможность уменьшить число таких компонентов.\nРекомендуемое количество: {1}\nтекущее количество {2}.,过量使用 {0} 组件。\n过量使用任何组件都有可能会对性能在低端甚至一些高端设备上的表现造成影响，请考虑减少使用量。\n推荐: {1}\n目前: {2}
+Basic_TogglingSceneThatNotInBuildSettingsHelpMessage,Toggling will add this scene to Build Settings/Scenes in Build,При выборе эта сцена будет добавлена в Build Settings/Scenes in Build,勾选将该场景添加至构建设置/构建中场景
+ProjectDiagnostics_LP_AnimationCompression_Description,Animation optimisations are disabled,Оптимизация анимаций выключена,动画优化未启用
+ProjectDiagnostics_LP_AnimationCompression_Details,Use the auto fix button or manually go to Assets → Animations and enable the “Half-precision floating-point format“ checkbox.,Попробуйте применить оптимизацию к вашим анимации,请尝试应用动画优化
+ProjectDiagnostics_LP_MeshCompression_Description,Mesh optimisations are disabled,Оптимизация мешей выключена,模型网格优化未启用
+ProjectDiagnostics_LP_MeshCompression_Details,Use the auto fix button or manually go to Assets → Meshes and enable the “Half-precision floating-point format“ checkbox.,Попробуйте применить оптимизацию к вашим мешам,请尝试应用模型网格优化
+,,,
+PlaygroundSection_InvalidLinkWarning,"Game install link may be incorrect. Please update it in Settings > Ad Networks tab or hit ""Update Link""","Ссылка на скачивание игры может быть некорректной. Пожалуйста, обновите ее в Настройки > вкладка Рекламные сети или нажмите ""Обновить ссылку""","游戏安装连接可能不正确。请在 Settings > Ad Networks 进行修改或者点击""更新链接"""
+PlaygroundSection_UpdateInvalidLink,Update Link,Обновить ссылку,更新链接
+ProjectDiagnostics_LP_ClassName_Details,You are using an illegal class name reserved for Unity Playworks Plugin: {0}. Please change the name of the class: {0},"Вы используете невалидное имя класса, зарезервированное плагином: {0}. Пожалуйста, переименуйте класс: {0}",您正在使用 Unity Playworks Plugin 保留的类名称: {0}. 请更改名称: {0}
+ProjectDiagnostics_LP_ClassName_Description,You are using an illegal class name: {0},Вы используете невалидное имя класса: {0},您正在使用非法的类名称: {0}
+Basic_UseDevEnv,Use Dev Environment,Окружение разработчика,使用开发调试环境
+,,,
+ProjectDiagnostics_FixIssue,Fix Issue,Исправить,修复问题
+Popup_ChangeColourSpace_Title,Swap to Gamma Colour Space?,Переключить на Gamma Colour Space?,转换到 Gamma 色彩空间?
+Popup_ChangeColourSpace_Description,This action can be reverted in Project Settings,Это действие может быть отменено в Project Settings,此操作可以在项目设定里撤销
+Popup_ChangeColourSpace_Ok,Okay,Окей,好的
+Popup_ChangeColourSpace_Cancel,Cancel,Отмена,取消
+Popup_ChangeColourSpace_Docs,Open Documentation,Открыть документацию,打开文档
+,,,
+Popup_ChangeTMPVersion_Title,Change TMP version?,Изменить версию TMP?,更换 TMP 版本?
+Popup_ChangeTMPVersion_Description,Unity Playworks Plugin doesn’t support TextMeshPro {0} Change it to recommended {1}?\n\nThis action can be reverted in PackageManager,Unity Playworks Plugin не поддерживает TextMeshPro {0} Изменить ее на рекомендуемую {1}?\n\nЭто действие может быть отменено в PackageManager,Unity Playworks Plugin 不支持 TextMeshPro {0} 将其更换成推荐的 {1}?\n\n该操作可在 PackageManager 中回滚
+Popup_ChangeTMPVersion_Ok,Okay,Окей,好的
+Popup_ChangeTMPVersion_Cancel,Cancel,Отмена,取消
+Popup_ChangeTMPVersion_Docs,Open Documentation,Открыть документацию,打开文档
+,,,
+Basic_SceneExclusionHint,Excluded,Исключена,已排除
+,,,
+ProjectDiagnostics_ErrorType,Error Type,Тип ошибки,错误类型
+ProjectDiagnostics_ErrorSubType,Error Sub Type,Подтип ошибки,错误子类型
+ProjectDiagnostics_ReadMore,Read more...,Документация,查看更多...
+ProjectDiagnostics_LogCount,Log Count:,Число логов:,记录数:
+,,,
+HealthCheck_PG_Checklist,Checklist,Checklist,检查表
+HealthCheck_PG_Status,Status,Status,状态
+HealthCheck_PG_CanBeCompiled,Core functionality,Главная фукциональность,核心功能
+HealthCheck_PG_CompatibleWithAdNetworks,Ad networks,Рекламные сети,广告网络
+HealthCheck_PG_MeetPerformanceRequirements,Technical performance,Технические характеристики,技术性能
+HealthCheck_PG_ContainsBestPractises,Best practises,Лучшие практики,最佳实践
+HealthCheck_PG_ActionRequired,Action Required,Необходимо действие,需要注意
+HealthCheck_PG_Examples,Examples:,Примеры:,例:
+HealthCheck_PG_CoreFunctionality_Explanation,"Your project is unable to compile, please fix all compiler errors in order to test and upload your project.","Ваш проект не компилируется. Пожалуйста, исправьте все ошибки компиляции, чтобы протестировать и опубликовать проект.",您的项目无法进行编译，请修复所有编译错误以进行后续的测试和发布
+HealthCheck_PG_CoreFunctionality_Examples,"Use of Reserved Keywords in the Unity Playworks Plugin, Use of Unsupported Unity Features in the Unity Playworks Plugin","Использование зарезервированного ключнвого слова, использование неподдерживаемого плагином Unity функционала.  ",使用 Unity Playworks Plugin 保留的关键词以及 Unity Playworks Plugin 不支持的 Unity 功能
+HealthCheck_PG_AdNetworks_Explanation,Your project is not compatible with all ad networks. This means some ad networks may reject your playable.,"Ваш проект не поддерживается всеми рекламными сетями. Это означает, что некоторые рекламные сети отклонят Ваш плеебл.",您的项目并不兼容所有的广告网络。在一些网络上可能无法过审。
+HealthCheck_PG_AdNetworks_Examples,Your project does not include InstallFullGame() or GameEnded() API.,Проект не использует InstallFullGame() или GameEnded() API.,项目没有使用 InstallFullGame() 或 GameEnded() API。
+HealthCheck_PG_TechnicalPerformance_Explanation,"Your project does not follow our best practises for playable creatives performance and may not be approved by ad networks, performs poorly or crashes. Playable creatives that do not incorporate our features have a significant lower IPM.","Ваш проект не использует наши лучшие практики для плеебл креативов, и он может быть не одобрен рекламной сетью, плохо оптимизирован или сломаться. Плееблы, которые не используют наш функционал, имеют меньший IPM.",您的项目没有按照最佳实践进行开发，可玩广告可能会出现性能问题导致无法通过广告网络的审核。按照建议开发的情况下，可玩广告会有较高的IPM。
+HealthCheck_PG_TechnicalPerformance_Examples,"Your project is not using the correct texture compression, mesh compression, have too many colliders, particles and rigidbodies.","Ваш проект не использует компрессию текстур, мешей, проект имеет слишком много коллайдеров, частиц и твердых тел.",使用纹理贴图压缩，模型网格压缩，避免过多的碰撞器，粒子系统和刚体
+HealthCheck_PG_BestPractises_Explanation,Your project does not follow our best practices for playable creatives and may perform poorly as a result. Statistics has shown us playable creatives that do not incorporate the following features have a significant lower IPM than those that do.,"Ваш проект не следует лучшим практикам для плеебл креативов и это может отрицательно сказаться на качестве. Статистика показывает, что плееблы, которые не используют наш функционал, имеют IPM гораздо ниже чем у тех плееблов, которые используют функционал.",您的项目没有按照最佳实践进行开发并可能会有较差的性能。数据表明按照我们的建议开发的可玩广告可以获得更高的IPM。
+HealthCheck_PG_BestPractises_Examples,"Your project does not use any Custom Events, does not support all orientations or contains an end card.","Ваш проект не использует пользовательские события, не поддерживает все разрешения или не содержит конечного экрана.",您的项目没有使用任何自定义事件，不支持横竖屏或没有落地页。
+HealthCheck_PG_ReadDocs,Read docs,Документация,阅读文档
+HealthCheck_PG_ViewIssuesAndFix,View issues and fix,Показать и исправить,查看问题并修复
+HealthCheck_PG_CreateHub,Upload to Creative Library,Загрузка в Creative Library,上传到 Creative Library
+,,,
+ProjectDiagnostics_OutdatedReport,Diagnostics failed to display correctly. Please run a new build,"Не удалось отобразить диагностику. Пожалуйста, запустите новый билд",项目诊断无法显示，请重新构建
+,,,
+Popup_CreateHubBuildStart_Title,Build Project?,Собрать проект?,构建项目?
+Popup_CreateHubBuildStart_Description,There are issues in project diagnostics that could improve playable health if fixed.\n\nBuild anyway?,"Обнаружены проблемы в диагностике проекта. Можно повысить качество плеебла, если их исправить.\n\nВсе равно собрать проект?",项目诊断中有问题可以修复以提升性能。\n\n确定现在构建？
+Popup_CreateHubBuildStart_Ok,Build,Собрать,构建
+Popup_CreateHubBuildStart_Cancel,Cancel,Отмена,取消
+,,,
+CreateHub_CoreIssuesWarning,Issues with the core functionality of the playable have been found. Please fix before uploading to Creative Library,"Найдены проблемы в главной функциональности плеебла. Пожалуйста, исправьте перед загрузкой в Creative Library",检测到可玩广告核心功能相关的问题，请修复后再尝试上传至 Creative Library
+,,,
+ProjectDiagnostics_LP_UnreadableVideoClip_Description,Unsupported video format '{0}',Неподдерживаемый формат видео '{0}',不支持的视频格式 '{0}'
+ProjectDiagnostics_LP_UnreadableVideoClip_Details,Unsupported video format '{0}',Неподдерживаемый формат видео '{0}',不支持的视频格式 '{0}'
+,,,
+Popup_UnhandledException_Title,Unhandled Exception,Необрабатываемое исключение,未处理异常
+Popup_UnhandledException_Description,Please check console for more details,Дополнительную информацию можете найти в окне консоли,请在控制台查看更多细节
+Popup_UnhandledException_Ok,Okay,Окей,好的
+Popup_UnhandledException_MoreDetails,More details,Подробности,更多细节
+,,,
+ProjectDiagnostics_IssueDetails,Issue Details,Детали,问题细节
+HealthCheck_Title,Playable Health Status,Статус качества плеебла,可玩广告健康状态
+HealthCheck_FixButton,Details,Подробности,详细信息
+HealthCheck_Category_Description_Empty,{0} has no issues!,Раздел {0} не содержит проблем!,{0} 没有问题！
+HealthCheck_Category_Description_Core_NotCritical,"Your project can be uploaded to Unity Playworks. However, it is recommended to fix not critical issues in the Core section","Ваш проект может быть загружен в Unity Playworks. Тем не менее, рекомендуется исправить некритические проблемы, представленные в секции Главная функциональность","Your project can be uploaded to Unity Playworks. However, it is recommended to fix not critical issues in the Core section"
+HealthCheck_Category_Description_Core,"Your project is unable to compile, please fix all compiler errors in order to test and upload your project.","Ваш проект не компилируется. Пожалуйста, исправьте все ошибки компиляции, чтобы протестировать и опубликовать проект.","您的项目无法编译，请修复所有编译器错误以进行测试和上传。
+"
+HealthCheck_Category_Description_AdNetwork,Your project is not compatible with all ad networks. This means some ad networks may reject your playable.,"Ваш проект не поддерживается всеми рекламными сетями. Это означает, что некоторые рекламные сети отклонят Ваш плеебл.",您的项目并没有和所有广告网络兼容。一些网络可能不会接受您的可玩广告。
+HealthCheck_Category_Description_TechnicalPerformance,"Your project's technical performance may be impacted by issues present within the category, consider fixing to improve technical performance of your playable","Производительность Вашего проекта может быть ухудшена проблемами, представленными в этой категории. Исправьте их, чтобы повысить техническое качество плеебла","
+您的项目的技术性能可能受当前检测到的问题的影响，请考虑修复以提升性能。"
+HealthCheck_Category_Description_BestPractises,Your project does not employ all of our best practises. Fix the issues to improve your playable in various ways,"Ваш проект не использует все наши лучшие практики. Исправьте проблемы, чтобы улучшить Ваш плеебл в разных направлениях",您的项目没有完全参照我们的最佳实践。请修复潜在问题以提升各方面性能。
+,,,
+Popup_EnableAnimationCompression_Title,Enable Animation compression?,Включить компрессию анимаций?,启用动画压缩?
+Popup_EnableAnimationCompression_Description,This action can be reverted in the Assets section,Может быть отменено в секции Assets,该操作可以在 Assets 菜单中回滚
+Popup_EnableAnimationCompression_Ok,Okay,Окей,好的
+Popup_EnableAnimationCompression_Cancel,Cancel,Отмена,取消
+Popup_EnableAnimationCompression_Docs,Open Documentation,Открыть документацию,打开文档
+,,,
+Popup_EnableMeshCompression_Title,Enable Mesh compression?,Включить компрессию мешей?,启用模型网格压缩?
+Popup_EnableMeshCompression_Description,This action can be reverted in the Assets section,Может быть отменено в секции Assets,该操作可以在 Assets 菜单中回滚
+Popup_EnableMeshCompression_Ok,Okay,Окей,好的
+Popup_EnableMeshCompression_Cancel,Cancel,Отмена,取消
+Popup_EnableMeshCompression_Docs,Open Documentation,Открыть документацию,打开文档
+,,,
+Popup_EnableRuntimeAnalysis_Title,Enable Runtime Analysis?,Enable Runtime Analysis?,启用运行时分析?
+Popup_EnableRuntimeAnalysis_Description,This action can be reverted in the Runtime Analysis section,Может быть отменено в секции Runtime Analysis,该操作可以在 Runtime Analysis 菜单中回滚
+Popup_EnableRuntimeAnalysis_Ok,Okay,Окей,好的
+Popup_EnableRuntimeAnalysis_Cancel,Cancel,Отмена,取消
+Popup_EnableRuntimeAnalysis_Docs,Open Documentation,Открыть документацию,打开文档
+,,,
+Basic_ScenesInBuild_Hint,Scenes in Build will display a list of all scenes currently configured in Unity's Build Settings window and additionally (from version 3.5.0) your currently open scene in Unity Editor if it has not been added to Build Settings. Toggling it will add the scene to Build Settings. This is necessary for Unity Playworks Plugin to be able to discover the list of scenes and also to be able to gather the assets and scripts used by those scenes. Build Settings window can be opened via File > Build Settings.,"Сцены в билде отображают список всех сцен сконфигуиррованных в настройках билда Unity и, дополнительно (с версии 3.5.0), Вашу текущую открытую сцену, если она не была добавлена в настройки билда Unity. Включение сцены добавит сцену в настройки билда Unity. Это необходимо для Unity Playworks Plugin для получения списка сцен и сбора использованных в них ассетов и скриптов. Настройки билда могут быть открыты через File > Build settings.",构建中的场景将列出当前在 Unity 的 Build Settings 窗口中配置的所有场景，以及（从版本 3.5.0 开始）在 Unity Editor 中当前打开但尚未添加到 Build Settings 的场景。勾选以将场景添加到构建设置。请勾选所需要的场景以使 Unity Playworks Plugin 能够收集这些场景使用的资源和脚本。 Build Settings 窗口可以通过 File > Build Settings 打开
+,,,
+Basic_ExportType_Hint,Which assets will be exported from Unity Playworks Plugin. Several options are provided to allow you reduce the size quickly.,Какие ассеты будут экспортированы через Unity Playworks Plugin. Предоставлены опции для быстрого уменьшения размера.,决定哪些资源将被 Unity Playworks Plugin 导出。界面有多个不同选项来快速减小构建大小
+Advanced_GameSettings_Hint,In the Unity Playworks Plugin interface a number of advanced settings are provided in order to help you customise the build output of your playables.,"В интерфейсе Unity Playworks Plugin представлены продвинутые настройки, которые помогут настроить выходные данные плеебла.",Unity Playworks Plugin 界面中提供了许多高级设置以帮助您自定义可玩广告的构建导出
+Advanced_UsePlayerPrefs_Hint,If your game uses PlayerPrefs then you may use this checkbox to test the playable behaviour as some ad networks may not facilitate the storing/retrieving of local data.,"Если Ваша игра использует PlayerPrefs, то Вы можете использовать этот флаг, чтобы протестировать работу плеебла, так как некоторые рекламные сети могут не допускать сохранение/получение локальных данных.",如果您的游戏使用了 PlayerPrefs 功能，请勾选该选项并且测试您的可玩广告，部分广告网络不支持本地数据的读写功能
+Advanced_CodeMinification_Hint,Code minification removes unnecessary or redundant data without affecting how the code is executed in the browser. This should be used to reduce the overall size of your playable.,"Минификация кода удаляет необязательные или ненужные данные, не изменяя поведение кода в браузере. Должно быть использовано, чтобы уменьшить общий размер плеебла.",代码最简化删除了不必要或冗余的数据，而不影响代码在浏览器中的执行方式。这可以用于减少可玩广告的整体大小。
+Advanced_GenericCheck_Hint,This feature is used for specific cases with generics and notably should be enabled when using the DOTween plugin.,Эта функция используется для отдельных случаев с generic классами и должна быть включена при использовании плагина DOTween.,此功能用于泛型的特定情况，特别是在使用 DOTween 插件时应启用
+Advanced_DisableAntiAliasing_Hint,By default anti aliasing will be used if supported by the device which is running the playable. Use this option if you want to disable anti alias for all devices. Enabling this option could increase performance on high resolution monitors like 1440p or 4K.,"По умолчанию, анти-алиасинг будет включен, если поддерживается девайсом, на котором запущен плеебл. Используйте этот флаг, чтобы отключить анти-алиасинг для всех девайсов. Включение этого флага может повысить производительность на мониторах с высоким разрешением (1440р или 4К).",如果运行设备支持，默认情况下将使用抗锯齿。如果您想为所有设备禁用抗锯齿功能，请使用此选项。启用此选项可以提高 1440p 或 4K 等高分辨率显示器的性能
+Advanced_ForceBase64_Hint,"Unity Playworks Plugin encodes binary assets such as images and videos in Base122. By using Base122 we can represent assets using 122 characters instead of 64 saving up to ~30% space in comparison to Base64.
+In some cases Base122 may cause an errors in Ad Networks.","Unity Playworks Plugin кодирует такие бинарные ассеты, как изображения и видео, в Base122. Используя Base122 можно представить ассет с использованием 122 символов, вместо 64 и сэкономить до ~30% размера, в сравнении с Base64. В некоторых случаях Base122 может создавать ошибки в рекламных сетях.","Unity Playworks Plugin 会将资源例如图像和视频以 Base122 进行编码。通过使用 Base122，我们可以使用 122 个字符而不是 64 个字符来表示资源，与 Base64 相比节省了大约 30% 的空间。
+但是在某些特殊情况下，Base122 可能会在广告网络上报错。"
+Advanced_Preloader_Hint,The preloader is displayed while the playable ad is initialising to ensure users aren't left waiting with a blank screen.,"Прелоадер отображается во время загрузки плеебла, чтобы пользователь не ожидал загрузки, глядя на пустой экран.",使用载入界面以替换广告初始化时的黑屏
+Advanced_Preloader_Active_Hint,This checkbox enables or disables the preloader.,Этот флаг включает или выключает прелоадер.,启用或禁用载入界面
+Advanced_Preloader_Icon_Hint,The icon will be displayed in the center of the screen during playable loading process. Recommended size: 50x50 pixels. Please note that Unity Playworks Plugin compresses are not applied to the icon.,Иконка будет отображаться в центре экрана во время загрузки. Рекомендованный размер: 50х50 пикселей. Сжатие к иконке не применяется.,图标将会在载入界面的正中央显示。推荐尺寸: 50 x 50 像素。请注意该图标不受贴图压缩设置的影响。
+Advanced_Preloader_Background_Color_Hint,Use this field to change the background color of the preloader.,"Используйте это поле, чтобы изменить цвет фона прелоадера.",更改载入界面的背景颜色
+,,,
+Basic_ProjectSettings_AutoInstantiate_Hint,"The Auto-instantiate Prefabs option instantiates prefabs during playable startup when enabled. This can lead to longer loading time but reduce frame rate drops during gameplayThe Auto-instantiate Prefabs option instantiates prefabs during playable startup when enabled. This can lead to longer loading time, but reduce frame rate drops during gameplay. Also, prefab data isn't available before prefab instantiation.","Опция Автораспаковка префабов иннициализирует префаб во время инициализации плеебла. Это может привести к увеличению времени загрузки, но снизить падения фреймрейта во время геймплея. Также, данные префаба недоступны до момента его инициализации.",Auto-instantiate Prefabs 选项启用后将在可玩广告初始化阶段将 Prefabs 实例化。这可能会加长加载时间，但会减少游戏过程中帧率的情况。此外，Prefabs 的相关数据在实例化之前不可用。
+,,,
+EditorTab_AdNetworkSettings_AppName_Hint,The name of your application which will be used in the Preloader displayed before the ad has loaded.,"Название Вашего приложения, которое будет отображено в прелоадере во время загрузки плеебла.",载入界面显示的 App 名称
+EditorTab_AdNetworkSettings_IosLink_Hint,The Apple App Store link for your app. Please note this is only required for Unity Ads & AdColony.,Ссылка на Apple App Store Вашего приложения. Необходимо только для Unity Ads и AdColony.,Apple 商店 App 地址。投放 Unity Ads 和 AdColony 必填。
+EditorTab_AdNetworkSettings_AndroidLink_Hint,The Google Play Store link for your app. Please note this is only required for Unity Ads & AdColony.,Ссылка на Google Play Store Вашего приложения. Необходимо только для Unity Ads и AdColony.,Google Play 商店 App 地址。投放 Unity Ads 和 AdColony 必填。
+,,,
+EditorTab_AdNetworkSettings_FbAssetId_Hint,The unique ID of your asset.,Уникальный идентификатор Вашего ассета.,您的素材的专有 ID
+EditorTab_AdNetworkSettings_FbPackageType_Hint,Whether the build for Facebook is provided as a ZIP (5Mb limit) or a single inlined HTML file (2Mb limit).,"Определяет, представлен ли билд для Facebook как ZIP (лимит 5 МБ) или как единичный HTML файл (лимит 2МБ).",是否为 Facebook 打包为 ZIP (5MB 限制) 或内联 HTML 文件 (2MB 限制)
+,,,
+EditorTab_AdNetworkSettings_IsApiType_Hint,The API which will be used in the playable ad.,"API, который будет использован в плеебле.",可玩广告所使用的 API
+EditorTab_AdNetworkSettings_IsApiMode_Hint,PA (Playable Ad) or IEC (Interactive End Card).,PA (Playable Ad) or IEC (Interactive End Card).,PA 或者 IEC
+EditorTab_AdNetworkSettings_IsVersionCode_Hint,Version code (please consult ironSource documentation).,Код версии (см. подробнее в документации ironSource).,版本码 (请查询 ironSource 文档)
+,,,
+EditorTab_AdNetworkSettings_IsPackageType_Hint,Whether the build for ironSource is provided as a single inlined HTML file or used a CDN to deliver the assets.,Билд для ironSource представлен как единичный HTML файл или используется CDN для доставки ресурсов.,是否为 ironSource 打包为内联 HTML 文件或使用 CDN 传输资源
+,,,
+EditorTab_AdNetworkSettings_TttOrientation_Hint,Both TikTok and Tencent require that you define whether your playable supports responsive or fixed orientation.,"Оба, TikTok и Tencent, требуют указать, поддерживает ли плеебл адаптивную или фиксированную ориентацию.",TikTok(抖音)和Tencent(腾讯)需要您提供可玩广告是否支持横竖屏切换或固定转向的信息
+,,,
+EditorTab_AdNetworkSettings_TtLanguage_Hint,TikTok requires that you specify which languages your playable will support.,"TikTok требует указать, какие языки поддерживает плеебл.",TikTok(抖音)需要您提供可玩广告所支持的语言
+EditorTab_AdNetworkSettings_FbDisableCompression_Hint,Facebook disable compresion.,Facebook отключение сжатия.,Facebook 禁用压缩
+Account_Account_Hint,Here you can logout of your Unity Playworks account.,Здесь Вы можете выйти из своего аккаунта Unity Playworks.,登出 Unity Playworks 账户
+InclExclAssets_ForceExclude_Hint,It allows you to control which assets are excluded from your build. Please note selecting a folder excludes every asset in that folder.,Это поле позволяет контроллировать какие ассеты будут вырезаны из билда. Выбор папки вырезает все ассеты в ней.,控制从构建中排除哪些素材。请注意，选择文件夹将会排除该文件夹下所有的素材。
+InclExclAssets_ForceInclude_Hint,It allows you to control which assets are included in your build. Please note selecting a folder includes every asset in that folder and force-include always wins.,Это поле позволяет контроллировать какие ассеты будут включены в билд. Выбор папки включает все ассеты в ней в билд. Принудительное включение перезапишет принудительное выключение ассета.,控制从构建中包括哪些素材。请注意，选择文件夹将会包括该文件夹下所有的素材，并且将覆盖强制排除的设定。
+TexturesTab_DefaultSettings_Hint,"Textures often take most of the build size. Change this settings to apply compression for them, if you want to specify compression for some textures - use override settings below.","Текстуры часто занимают большую часть билда. Изменените эти настройки для применения к ним сжатия, если же Вы хотите определить настройки лишь для некоторых текстур - используйте перезаписанные настройки.",纹理贴图通常会占用较大的构建空间。如果要为某些纹理进行不同的设定，请使用逐纹理贴图压缩
+TexturesTab_MaxSize_Hint,This control allows to set maximum allowed size (width x height) of a texture.,This control allows to set maximum allowed size (width x height) of a texture,控制纹理贴图最大允许的分辨率 ( 宽 x 高)
+TexturesTab_PerTextureSettings_Hint,Used to change separate textures compression settings. Please note selecting a folder includes every asset in that folder.,Используется для изменения настроек компрессии отдельных текстур. Выбор папки перезапишет настройки для всех ассетов в ней.,用来更改单个纹理贴图的压缩设定。请注意，选择文件夹将会包括文件夹下所有的纹理贴图。
+SoundsTab_PerTextureSettings_Hint,Used to change separate sounds compression settings. Please note selecting a folder includes every asset in that folder.,Используется для изменения настроек компрессии отдельных звуков. Выбор папки перезапишет настройки для всех ассетов в ней.,用来更改单个音效的压缩设定。请注意，选择文件夹将会包括文件夹下所有的音效。
+FontTab_PerFontSettings_Hint,Used to change separate fonts compression settings. Please note selecting a folder includes every asset in that folder.,Используется для изменения настроек компрессии отдельных шрифтов. Выбор папки перезапишет настройки для всех ассетов в ней.,用来更改单个字体的压缩设定。请注意，选择文件夹将会包括文件夹下所有的字体。
+Meshes_PerMeshSettings_Hint,Used to change separate meshes compression settings. Please note selecting a folder includes every asset in that folder.,Используется для изменения настроек компрессии отдельных мешей. Выбор папки перезапишет настройки для всех ассетов в ней.,用来更改单个网格的压缩设定。请注意，选择文件夹将会包括文件夹下所有的网格。
+Animations_PerAnimationSettings_Hint,Used to change separate animations compression settings. Please note selecting a folder includes every asset in that folder.,Используется для изменения настроек компрессии отдельных анимаций. Выбор папки перезапишет настройки для всех ассетов в ней.,用来更改单个动画的压缩设定。请注意，选择文件夹将会包括文件夹下所有的动画动画。
+TexturesTab_Format_Hint,This controls the format of the texture. By default Unity Playworks Plugin uses PNG32 format which is a lossless compression format supporting RGB and Alpha channels.,"Контролирует формат текстуры. По умолчанию, Unity Playworks Plugin использует формат PNG32, который поддерживает сжатие без потерь и каналы RGB и Alpha.",用来控制纹理贴图的格式。Unity Playworks Plugin 默认使用无损并支持 Alpha 通道的 PNG32 格式。
+TexturesTab_Compression_Hint,PNG is well-known for being able to be compressed to reduce size whilst maintain quality images.,"PNG известен своим свойством уменьшать размер изображения, сохраняя его качество.",PNG 以能够压缩减小尺寸同时保持图像质量而闻名
+TexturesTab_Quality_Hint,Quality in percentage [0-100],Процент качества [0-100],质量百分比 [0-100]
+TexturesTab_CustomScript_Hint,There are instances when a developer can find their own combination of settings for pngcrush or even resort to a custom tool like pngquat (which we highly recommend to consider for PNG files with limited colors).,"Бывают случаи, когда разработчик может найти свою собственную комбинацию настроек для pngcrush или даже прибегнуть к пользовательскому инструменту, такому как pngquant (который мы настоятельно рекомендуем использовать для файлов PNG с ограниченным количеством цветов).",在某些情况下，开发者自行配置 pngcrush，或者使用类似于 pngquat 的自定义压缩工具（我们强烈建议考虑对色彩进行限制的 PNG 文件）
+TexturesTab_CustomScriptExtension_Hint,There are instances when a developer can find their own combination of settings for pngcrush or even resort to a custom tool like pngquat (which we highly recommend to consider for PNG files with limited colors).,"Бывают случаи, когда разработчик может найти свою собственную комбинацию настроек для pngcrush или даже прибегнуть к пользовательскому инструменту, такому как pngquat (который мы настоятельно рекомендуем использовать для файлов PNG с ограниченным количеством цветов).",在某些情况下，开发者自行配置 pngcrush，或者使用类似于 pngquat 的自定义压缩工具（我们强烈建议考虑对色彩进行限制的 PNG 文件）
+SoundsTab_DefaultSoundSettings_Hint,"This section allows you to decrease size of your sound in final build, use override settings below if you need different quality for some sounds.","Эта секция позволят уменьшить размер звуков в билде. Перезапишите настройки ниже, если необходимо разное сжатие для разных звуков.",用来减小打包后音效占用的大小，如果需要对某些音效进行不同的设定，请使用逐音效压缩
+SoundsTab_Bitrate_Hint,This controls the bitrate of the sound measured in Kb/s.,"Контролирует битрейт звука, измеряется в КБ/с.",控制音效的比特率 Kb/s
+SoundsTab_Cropping_Hint,"It allows you to cut part of sound that you need in your playable, can be especially useful for too long decay or too long ambient sounds if you have problem with playable size.","Позволяет обрезать часть звука, которая нужна для плеебла. Может быть особенно полезно для очень длинных фоновых звуков, если они имеют слишком большой размер.",控制音效的剪裁。在背景音乐或者环境音效过长的情况下可以快速缩小构建的大小。
+FontTab_DefaultFontSettings_Hint,This section allows you to control how Unity Playworks Plugin generates font atlases and its primarily aim is decreasing size of the font data.,Эта секция позволяет контроллировать как Unity Playworks Plugin генерирует атласы шрифтов. Его основная цель это уменьшение размера данных шрифтов.,控制 Unity Playworks Plugin 如何生成字体图集，其主要目的是减小字体数据所占用的空间。
+FontTab_Alphabet_Hint,This controls which characters get rasterized into an atlas. Make sure all characters that your playable needs is here (otherwise they won't be rendered at runtime).,"Контролирует то, какие символы будут добавлены в атлас. Убедитесь, что все символы, которые используются в плеебле, добавлены (иначе они не будут отрисованы в рантайме).",控制哪些字符被栅格化为图集。请确保您包括了所有可玩广告需要用到的字符(否则它们不会在运行时显示)。
+FontTab_GlyphSize_Hint,This controls line height measured in pixels for the rasterization tool and can affect quality of your font rendering.,"Контролирует высоту строки, измеряемую в пикселях, для инструмента растеризации и может влиять на качество отрисовки шрифта.",控制栅格化工具以像素为单位测量的行高，并且会影响字体渲染的质量。
+FontTab_TextureSize_Hint,This affect font atlas size. Make sure it's enough for all your font characters in your alphabet.,"Влияет на размер атласа шрифта. Убедитесь, что этого достаточно для всех символов в Вашем алфавите.",这会影响字体图集的大小。请确保它足以容纳您游戏所需要的所有字符。
+Meshes_DefaultMeshSettings_Hint,Unity Playworks Plugin exports vertex data from meshes as float numbers to keep it as precise as possible to the original art.,"Unity Playworks Plugin экспортирует данные вершин из мешей как числа с плавающей запятой, чтобы сохранять их как можно ближе к оригиналу.",Unity Playworks Plugin 将网格中的顶点数据作为浮点数导出，以使其尽可能精确到与原数据没有差别。
+Meshes_HalfPrecision_Hint,This will instruct Unity Playworks Plugin to use half-precision floats to decrease 50% storing mesh data size.,"Укажет Unity Playworks Plugin использовать половинную точность чисел с плавающей запятой, чтобы уменьшить на 50% размер данных мешей.",Unity Playworks Plugin 将使用半精度浮点的格式来减少50%的网格数据存储大小。
+Animations_DefaultAnimationSettings_Hint,Animations are in most cases represented as simple curves (and sometimes are as references to other objects.,"В большинстве случаев анимации представлены простыми кривыми (и иногда, как ссылки на другие объекты).",动画在大多数情况下会以简单的曲线来表现(有时会引用其他对象)。
+Animations_HalfPrecision_Hint,This will instruct Unity Playworks Plugin to use half-precision floats to decrease 50% storing animation data size.,"Укажет Unity Playworks Plugin использовать половинную точность чисел с плавающей запятой, чтобы уменьшить на 50% размер данных анимаций.",Unity Playworks Plugin 将使用半精度浮点的格式来减少50%的动画数据存储大小。
+ScriptingDefinesTab_Defines_Hint,In your game code you may wrap certain features in Scripting Defines; this code will only be compiled and run in certain conditions or platforms such as specific Unity Versions.,"Отдельные функции в коде игры могут быть обернуты в Scripting Defines. Этот код будет скомпилирован и запущен только в определенных условиях, например, определенная платформа или версия Unity.",您的游戏代码中可能包括自定义的脚本定义/宏；这些代码只会在特定条件下运行，例如指定的 Unity 版本。
+CodeExcludeTab_ForceExclude_Hint,Here you can remove unwanted code that gets in your playable.,"Здесь можно удалить ненужный/неиспользуемый код, который попадает в плеебл.",您可以在这里选择排除构建中不需要的脚本。
+StubberTab_ThirdPartySdks_Hint,Stubber allows you to automatically stub libraries that are not essential of your playable but are included in your Unity project.,"Стаббер позволяет автоматически стабить библиотеки, которые необязательны для плеебла, но включены в проект.",存根器允许您自动将包含在 Unity 项目中但不需要使用的库进行存根。
+StubberTab_CustomSdkName_Hint,Library to stub.,"Библиотека, которую нужно застабить.",需要存根的库。
+StubberTab_CustomSdkNamespace_Hint,"Leave it empty to stub all namespace, or use comma to separate names
+example: namespace.Name1., namespace.Name2, ...","Оставьте пустым, чтобы застабить все пространство имен или используйте запятую, чтобы разделить имена.Например: namespace.Name1., namespace.Name2, ...","留空以将所有的命名空间存根，或使用逗号隔开
+例: namespace.Name1., namespace.Name2, ..."
+StubberTab_CustomSdkClasses_Hint,"Leave it empty to stub all classes, or use comma to separate names
+example: className1, className2, ...","Оставьте пустым, чтобы застабить все классы или используйте запятую, чтобы разделить имена классов. Например: className1, className2, ...","留空以将所有的类存根，或使用逗号隔开
+例: className1, className2, ..."
+ExternalSourceTab_CsSources_Hint,At times you may wish to include additional C# source code for example from a shared or centralised repository.,"В некоторых случаях бывает необходимо включить дополнительный код на C#, например, из общих библиотек или централизованых репозиториев.",有时您可能希望项目中包括其他 C# 源代码，例如来自共享或集中存储库的代码。
+ExternalSourceTab_ExternalJs_Hint,If you include External JavaScript libraries into your project you can use Bridge.Script.Write() to execute their code.,"Если в проект включены внешние JavaScript библиотеки, то их код можно выполнить используя Bridge.Script.Write().",如果您将外部 JavaScript 库包含到您的项目中，您可以使用 Bridge.Script.Write() 来执行它们的代码。
+RuntimeAnalysisTab_Title_Hint,Runtime Analysis is a feature of Unity Playworks Plugin that excludes unused classes methods or shaders from your playable build in order to save space whilst also eliminating the time needed to manually exclude these yourself. Runtime Analysis also excludes modules that that are not used in the project. You will need to playthrough your game enough times that you go through most possible interactions.,"Runtime Analysis - это функция Unity Playworks Plugin, которая исключает неиспользуемые классы, методы и шейдеры из плеебла, чтобы снизить размер билда, также убирая необходимость делать это вручную. Runtime Analysis также исключает неиспользуемые в проекте модули. Необходимо проиграть плеебл несколько раз, чтобы исполнить все задуманные сценарии.",Runtime Analysis 是 Unity Playworks Plugin 的一项功能，它可以从您的可玩广告中排除掉未使用的类/函数或着色器，以节省空间，同时也消除了您自己手动排除这些所需的时间。Runtime Analysis 还可以排除项目中未使用的模块。您需要尽可能多地测试游戏，以确保所有需要的类/函数/着色器/模块被检测到。
+RuntimeAnalysisTab_PauseCode_Hint,By activating this checkbox you will prevent Runtime Analysis from removing any code regardless of the content of excluded code or excluded modules.,"Включая этот флаг, Вы предотвратите удаление любого кода системой Runtime Analysis, независимо от содержимого исключенного кода или исключенных модулей.",勾选此选项将阻止 Runtime Analysis 排除任何代码，包括以下手动勾选的类和模块。
+RuntimeAnalysisTab_ExcludedModules_Hint,In this section you can specify if your project does not use any of the following modules it will decrease playable size. In most cases no need to do it manually because Runtime Analysis does it automatically.,"В этой секции можно указать, использует ли проект перечисленные модули и уменьшить размер билда. В большинстве случаев нет необходимости делать это вручную, так как Runtime Analysis сделает это автоматически.",您可以手动勾选不需要的模块以减小构建的大小。大多数情况下 Runtime Analysis 会自动检测到不需要的模块。
+RuntimeAnalysisTab_PauseShaders_Hint,By activating this checkbox you will prevent Runtime Analysis from removing any shader.,"Включая этот флаг, Вы предотвратите удаление любых шейдеров системой Runtime Analysis.",勾选此选项将阻止 Runtime Analysis 排除任何着色器。
+ProjectDiagnostics_OptimiseExportWithCaching_Hint,"If this setting is active Unity Playworks Plugin won't rebuild whole project if possible but detect parts which has changes and rebuild only them, like if only code was changed - only code rebuilds. It can significantly decrease playable build time.","Если этот флаг включен, то Unity Playworks Plugin не будет пересобирать весь проект, если возможно, а будет определять, какие части были изменены и пересобирать только их, например, если был изменен только код - только код будет пересобран. Это может значительно снизить время сборки билда.",如果勾选此选项，Unity Playworks Plugin 将不会重新构建整个项目，而是只更新修改过的代码或者素材。它能够显著缩短构建的时间。
+Basic_ProjectSettings_BakeReferenceAmbientProbe_Hint,"If you are using Built-in Render Pipeline and your playable looks visually different, you might want to try enabling Bake Reference Ambient Probe option. During the export stage, Unity Playworks Plugin bakes your scenes with certain settings and grabs ambient probe data. It’s required for unity_indirectSpecular uniform calculation which represents values that needed for correct Environment Reflections in your scene. As well we depend on ambient probe values Unity calculates for us during export stage, which means if you change ambient probe in any possible way (runtime Skybox update or Lighting/Intensity Multiplier change) your scene might look different.","Если используется Built-in Render Pipeline и Ваш плеебл выглядит визуально иначе, возможно Вы хотите попробовать включить опцию Bake Reference Ambient Probe. Во время стадии экспорта Unity Playworks Plugin запечет сцены с определенными настройками и заберет данные Ambient Probe. Это необходимо для вычисления unity_indirectSpecular юниформа, который хранит значения, которые необходимы для корректирования Environment Reflections в сцене. Также мы зависим от значений Ambient Probes, которые вычисляет Unity во время стадии экспорта, это значит, что при изменении Ambient Probes любым способом (изменение Skybox во время выполнения или изменение множителя интенсивности света) - сцена может выглядеть иначе.",如果您正在使用 Built-in Render Pipeline 并且可玩广告渲染结果有较大差异，您可以尝试启用 Bake Reference Ambient Probe 选项。在导出的过程中，Unity Playworks Plugin 会基于环境数据以及项目光照设定重新烘焙场景。它对于 unity_indirectSpecular uniform 正确计算场景中环境反射所需的值是必要的，同时我们还会使用 Unity 在导出阶段为我们计算的环境探针值。如果您以任何可方式更改环境探针(运行时更新天空盒或光照/强度)，您的场景可能看起来会有所不同。
+Basic_ProjectSettings_UnsupportedLunaCompilerV2_Hint,"Compiles C# 9.0 / 8.0 and downgrades the C# version of code. Then, the pipeline compiles the lowered C# version code and converts it into JavaScript. Not supported for unity 2020.1 and bellow.",Компилирует C# 8.0/9.0 и понижает версию C# для кода. Далее компилирует код с пониженной версией C# и конвертирует его в JavaScript. Не поддерживается в Unity 2020.1 и ниже.,编译 C# 9.0 / 8.0 并且降低代码的 C# 版本。之后，管线将编译低版本的 C# 代码并转译到 JavaScript。不支持 Unity 2020.1 及更早版本。
+Basic_ProjectSettings_EnableLunaCompilerV2_Hint,"Compiles C# 9.0 / 8.0 and downgrades the C# version of code. Then, the pipeline compiles the lowered C# version code and converts it into JavaScript. Build time may be slightly increased.",Компилирует C# 8.0/9.0 и понижает версию C# для кода. Далее компилирует код с пониженной версией C# и конвертирует его в JavaScript. Может незначительно увеличить время сборки билда.,编译 C# 9.0 / 8.0 并且降低代码的 C# 版本。之后，管线将编译低版本的 C# 代码并转译到 JavaScript。构建时间会有所增加。
+Account_CopyToken_Hint,"Useful for some console commands which you may need for automatization process, like: './jake project:deploy USER_EMAIL=your.email@domain.com USER_TOKEN=%yourToken% TARGET_PLATFORM=playground' (Runs the full project build & uploads the build directly to Creative Library).","Может быть полезно для некоторых консольных команд, которые могут быть использованы для автоматизации процессов, например, './jake project:deploy USER_EMAIL=your.email@domain.com USER_TOKEN=%yourToken% TARGET_PLATFORM=playground' (запускает полную сборку проекта и загружает билд прямо в Creative Library).",对于自动化过程可能需要的一些控制台命令很有用，例如: './jake project:deploy USER_EMAIL=your.email@domain.com USER_TOKEN=%yourToken% TARGET_PLATFORM=playground' (构建并上传到 Creative Library)
+Basic_ProjectSettings_OptimiseSize_Hint,Fallbacks Unity Playworks Plugin assets settings to optimal (default).,Сбрасывает настройки Unity Playworks Plugin к настройкам по умолчанию.,重设 Unity Playworks Plugin 资源设定到最优 (默认)
+CodeSection_OpenSolution_Hint,"Opens your code compiled with the Playable engine instead of Unity. This can be useful for identifying any features you’ve used that are unsupported by the Luna API, allowing you to adjust the playable logic accordingly","Открывает код, скомпилированный с библиотекой Unity Playworks Plugin, вместо библиотеки Unity. Может быть полезно, чтобы увидеть, какие API используются в проекте и не поддерживаются в Luna API, чтобы исправить ошибки плеебла.",打开使用 Playable 引擎而不是 Unity 编译的代码。可能有助于查看所有被您使用但不被 Luna API 支持的内容，以据此更正可玩广告的逻辑。
+CodeSection_CompileSolution_Hint,Compiling your code along with Playable engine instead of unity. May be useful to see all used by you but unsupported by Luna API to correct playable logic depending on that.,"Компилирует с библиотекой Unity Playworks Plugin, вместо библиотеки Unity. Может быть полезно, чтобы увидеть, какие API используются в проекте и не поддерживаются в Luna API, чтобы исправить ошибки плеебла.",编译基于 Playable 引擎而不是 Unity 的代码。可能有助于查看所有被您使用但不被 Luna API 支持的内容，以据此更正可玩广告的逻辑。
+Basic_ProjectSettings_RealtimeShadows_Hint,"Shadows may negatively impact performance on some devices, or they may not work at all. This could be related to the device specific limitations (e.g. GPU memory). In order to resolve this issue, try lowering the shadow settings, and ensure that Unity's WebGL1 build on the device is able to render shadows.","Тени могут негативно влиять на производительность на некоторых девайсах или не работать вообще. Это может быть связано с ограничениями конкретного девайса (такими, как видеопамять). Чтобы решить эту проблему попробуйте снизить настройки теней и убедиться, что в билде Unity WebGL девайс также способен отрисовывать тени.",阴影可能会对某些设备的性能产生负面影响，或者它们可能根本无法工作。这可能与设备特定限制有关(例如 GPU 内存)。为了解决这个问题，请尝试降低阴影设置，并确保在设备上 Unity WebGL1 的构建能够渲染阴影。
+Basic_ProjectSettings_DynamicBatching_Hint,Dynamic Batching is an optimization technique used in rendering engines to reduce overhead on the draw calls issuing process by merging several draw calls into single one.,"Dynamic Batching это техника оптимизации, используемая в игровых движках, которая уменьшает количество вызовов отрисовки, путем объединения нескольких вызовов в один.",Dynamic Batching 是渲染引擎中使用的一种优化技术，通过将多个绘图调用合并为一个来减少资源开销。
+EditorTab_AdNetworkSettings_GlobalSettingsTitle_Hint,General settings for all the platforms.,Общие настройки для всех платформ.,所有广告网络的通用设定
+PlaygroundSection_Header_Hint,"Creative Library allows you to manage, create, edit and export unlimited iterations of your playables for all the major ad networks. Change and test multiple variants such as colours, speeds, game mechanics and messaging, all from within Creative Library using the Playable Editor attributes.","Creative Library позволяет управлять, создавать, редактировать и экспортировать неограниченное количество итераций плееблов во все главные рекламные сети. Изменяйте и тестируйте различные переменные, такие как цвет, скорость, игровые механики и тексты - все это доступно в Creative Library с использованием Playable Editor атрибутов.",Creative Library 允许您管理，创建，编辑以及导出各种不同版本的可玩广告到所有广告网络。更改并且测试各种版本，例如颜色，速度，游戏机制以及信息，这些都可以在 Creative Library 的 Playable Editor 中进行操作。
+HealthCheck_Title_Hint,"PHC is a short, but important checklist which scans the project for readiness of the playable ad. Because playable ads have many factors which decide an ad performs well on the ad network, such as runtime performance (FPS), or even certain API’s that have to be called, else, the playable ad will be rejected by the ad network.","PHC - это краткий, но важный список, который проверяет готовность проекта. Так как рекламные сети имеют множество факторов для оценки того, насколько плеебл будет успешным в рекламной сети (например, производительность или даже наличие обязательных вызовов API), то плеебл может быть отклонен рекламной сетью.",PHC 提供了一个简短但重要的检查清单，用于扫描项目以了解可玩广告的准备情况。可玩广告有很多因素会影响在广告网络上的表现，例如运行时的性能（FPS），甚至必须调用某些 API，否则，可玩广告将无法在广告网络过审。
+ProjectDiagnostics_Title_Hint,Project Diagnostics aims to streamline the debugging experience with Unity Playworks Plugin: After building the diagnostics window will display any pertinent warning/error messages based on that build's outcome.,"Project Diagnostics стремится упростить процесс поиска ошибок при работе с Unity Playworks Plugin: после сборки билда окно диагностики отобразит любые уведомления/ошибки, найденные в процессе сборки.",Project Diagnostics 旨在简化 Unity Playworks Plugin 的调试体验：构建项目后，诊断窗口将根据该构建的结果显示任何相关的警告/错误消息。
+SizeBreakdownSection_Header_Hint,"To get a detailed breakdown of what is taking up space in yourUnity Playworks Plugin builds, hit 'Build & Estimate size'. After rebuilding your project, Unity Playworks Plugin will do provide you with a breakdown of each asset size presented grouped by asset type.","Чтобы получить детальный отчет, что именно занимает пространство в билде плеебла, нажмите ""Оценить размер"". После сборки проекта Unity Playworks Plugin предоставит отчет о том, сколько пространства занимает каждый ассет, сгруппировав по типу ассета.",要详细了解 Unity Playworks Plugin 构建中各个资源占用空间的情况，请点击“构建和估算大小”。重建项目后，Unity Playworks Plugin 会为您列出每个文件的大小(按资源类型分组)。
+PlaygroundSection_Applications_Hint,All the application available to you in Creative Library. Go to the Creative Library for creating new if needed.,"Все приложения доступные Вам в Creative Library. Перейдите в Creative Library, чтобы создать новое.",所有 Creative Library 中可用的应用 。如果需要，可以在 Creative Library 新建应用。
+PlaygroundSection_Creatives_Hint,Diffrent realizations of playables for one same application. Useful when you want to experiment with different concepts of application ads.,"Различные варианты плееблов внутри одного приложения. Полезно, когда Вы хотите поэкспериментировать с разными концепциями рекламных приложений.",同一个应用下不同版本的可玩广告。对于探索不同的广告创意非常有用。
+PlaygroundSection_CreativeName_Hint,"if you want to add a new concept to your application, select the < New Concept > option in the Available Concepts dropdown menu, this will activate the input field and you will be able to give a name to your new concept.","Если Вы хотите добавить новый концепт в Ваше приложение, выберите опцию < Новый концепт > в списке доступных концептов. Это активирует поле для ввода имени для нового концепта.","如果您想要添加新的创意到您的应用中，清选择可选应用下的 <新创意>，并且输入新的名称。
+"
+,,,
+ProjectDiagnostics_UnityVersion_Description,You are using an unsupported Unity version,Вы используете неподдерживаемую Unity версию,您正在使用不支持的 Unity 版本
+ProjectDiagnostics_UnityVersion_Details,"Unity Playworks Plugin does not officially support Unity version: {0}, bugs may occur. Therefore it is recommended to use a supported Unity LTS version for Unity Playworks Plugin: {1}","Unity Playworks Plugin официально не поддерживает Unity версию: {0}, могут возникнуть баги. Поэтому рекомендуется использовать поддерживаемую Unity LTS версию: {1}","Unity Playworks Plugin 没有正式支持 Unity 版本: {0}, 可能会出现错误。所以我们建议与 Unity Playworks Plugin 使用支持的 Unity LTS版本: {1}"
+,,,
+Popup_AutoFixFail_Title,Fix could not be applied,Исправление не может быть применено,无法应用修复
+Popup_AutoFixFail_Description,"An issue occured and the fix could not be applied, try manually fixing","Не удалось применить автоматическое исправление, попробуйте исправить проблему вручную",发生错误，修复无法被应用，请尝试手动修复
+Popup_AutoFixFail_Ok,Okay,Окей,好的
+,,,
+HelpButton_OpenDocumentation,Open documentation,Открыть документацию,打开文档
+,,,
+ProjectDiagnostics_FixAll,Fix all,Исправить все,修复全部
+Popup_FixAllErrors_Title,Fix all Issues?,Исправить все ошибки?,修复全部问题?
+Popup_FixAllErrors_Cancel,Cancel,Отмена,取消
+Popup_FixAllErrors_Ok,Confirm,Подтвердить,确定
+ProjectDiagnostics_AvailableToFix,Available to fix automatically,Автоисправление,可自动修复
+,,,
+ProjectDiagnostics_LP_EnableShaderRuntimeAnalysis_Description,We recommend running Runtime Analysis to find and remove all unused shader variants,"Мы рекомендуем использовать Runtime Analysis, чтобы найти и убрать все неиспользуемые варианты шейдеров",我们建议使用 运行时分析 来寻找并移除不用的着色器变体
+ProjectDiagnostics_LP_EnableShaderRuntimeAnalysis_Details,"You have {0} shaders and {1} shader variants in your scene, this can be detrimental to the loading times and size of your playable.\n\nRuntime Analysis has only found {2} shader variants in use within your playable. Navigate to the Runtime Analysis > Shaders tab to enable shader stripping to help reduce the amount of shaders, and shader variants present in your playable","Имеется {0} шейдеров и {1} шейдер вариантов в сцене, это может негативно повлиять на время загрузки и размер плеебла.\n\nRuntime Analysis нашел только {2} шейдер вариантов, которые используются в плеебле. Перейдите во вкладку Runtime Analysis > Shaders, чтобы включить shader stripping и уменьшить количество шейдеров и шейдер вариантов в плеебле.",您的场景有 {0} 个着色器和 {1} 个着色器变体，这会影响可玩广告的载入时间以及构建大小。\n\nRuntime Analysis 仅检测到 {2} 个着色器遍体被调用。请在 Runtime Analysis > Shaders 面板中启用着色器剥离以减少着色器和着色器变体的数量。
+Popup_EnableShaderRuntimeAnalysis_Title,Enable Shader stripping?,Включить Shader stripping?,启用 着色器排除?
+Popup_EnableShaderRuntimeAnalysis_Description,This action will change project settings. this can be reverted in the Runtime Analysis section > Shaders tab,Это действие изменит Project Settings. Может быть отменено в секции Runtime Analysis > Shaders,该操作将改变项目设定。您可以在 运行时分析 > 着色器 面板中进行撤销
+Popup_EnableShaderRuntimeAnalysis_Ok,Okay,Окей,好的
+Popup_EnableShaderRuntimeAnalysis_Cancel,Cancel,Отмена,取消
+Popup_EnableShaderRuntimeAnalysis_Docs,Open Documentation,Открыть документацию,打开文档
+,,,
+Popup_ChangeColourSpace_Fail,Colour space could not be changed,Цветовое пространство не может быть изменено,无法更改色彩空间
+Popup_EnableRuntimeAnalysis_Fail,Runtime Analysis could not be enabled,Runtime analysis не может быть включен,无法启用运行时分析
+Popup_ChangeTMPVersion_Fail,TMP version could not be changed,Версия TMP не может быть изменена,无法更改 TMP 版本
+Popup_EnableAnimationCompression_Fail,Animation compression could not be enabled,Компрессия анимаций не может быть включена,无法启用动画压缩
+Popup_EnableMeshCompression_Fail,Mesh compression could not be enabled,Компрессия мешей не может быть включена,无法启用网格压缩
+Popup_EnableLunaCompilerV2_Fail,Playable Compiler v2 could not be enabled,Playable Compiler v2 не может быть включен,无法启用 Playable Compiler v2
+Popup_EnableShaderRuntimeAnalysis_Fail,Shader Runtime Analysis could not be enabled,Shader Runtime Analysis не может быть включен,无法启用着色器运行时分析
+ProjectDiagnostics_LP_PackageNotSupported_Description,Unsupported packages were found,Обнаружены неподдерживаемые пакеты,检测到不支持的插件或包
+ProjectDiagnostics_LP_PackageNotSupported_Details,Unity Playworks Plugin doesn't support listed packages: {0}. We recommend you to remove them and workaround their functionality,В настоящий моментUnity Playworks Plugin не поддерживает следующие пакеты: {0}. Рекомендуем отказаться от них и заменить их функциональность,Unity Playworks Plugin 不支持以下插件或包: {0}. 我们建议您删除并另找替代方案
+,,,
+CodeAnalysis_LP_ReservedKeyword_Description,You are using a Unity Playworks Plugin reserved keyword: {0},Вы используете зарезервированное слово для Unity Playworks Plugin: {0},您正在使用 Unity Playworks Plugin 保留的关键词: {0}
+CodeAnalysis_LP_ReservedKeyword_Details,You are using a reserved keyword: {0} for Unity Playworks Plugin. Please change the name of the field/class,Вы используете зарезервированное слово: {0} для Unity Playworks Plugin. Измените имя поля/класса,您正在使用 Unity Playworks Plugin 保留的关键词: {0} 。请更改 域/类 的名称
+CodeAnalysis_LP_LunaAPI_Description,You are not using the Luna API: {1}.{0},Вы не используете Luna API: {1}.{0},您没有使用到 Luna API: {1}.{0}
+CodeAnalysis_LP_LunaAPI_Details,You are not using the Luna API: {1}.{0}. Some ad networks require these calls. Please add these calls to ensure your playable works on all ad networks. Check documentation for more information.,"Вы не используете Luna API: {1}.{0}. Некоторые рекламные сети требуют эти вызовы. Пожалуйста, добавьте эти вызовы, чтобы гарантировать, что плеебл будет работать во всех рекламных сетях. Изучите документацию, чтобы узнать подробнее.",您没有使用到 Luna API: {1}.{0}. 一些广告网络需要调用它们，请添加这些函数以确保可玩广告可以在所有广告网络上正确运行。查看文档详情。
+CodeAnalysis_LP_CustomEventMissing_Description,You are not using any custom events,Вы не используете никаких пользовательских событий,您没有使用任何自定义事件。
+CodeAnalysis_LP_CustomEventMissing_Details,You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable,Вы не используете никаких пользовательских событий. Рекомендуется использовать пользовательские осбытия для лучшего понимания плеебла,您没有使用任何自定义事件。 我们建议进行打点来更好地理解可玩广告的用户体验流程。
+CodeAnalysis_LP_CustomEventCount_Description,You are only using: {0} custom events.,Вы используете только: {0} пользовательских событий.,您只使用了: {0} 个自定事件。
+CodeAnalysis_LP_CustomEventCount_Details,You are only using {0} custom events. It is recommended to use more custom events to have a better understanding of the playable,"Вы используете только {0} пользовательских событий. Рекомендуется использовать больше пользовательских событий, чтобы лучше понимать плеебл.",您只使用了 {0} 个自定义事件。我们建议添加更多的事件来更好地理解可玩广告的用户体验流程。
+CodeAnalysis_LP_APINotSupported_Description,You are using an unsupported feature: {0}{1},Вы используете неподдерживаемую фукнциональность: {0}{1},您正在使用不支持的功能: {0}{1}
+CodeAnalysis_LP_APINotSupported_Details,You are using a function/component which are currently not supported in Unity Playworks Plugin: {0}{1},"Вы используете функцию/компонент, который сейчас недоступен в Unity Playworks Plugin: {0}{1}",您正在使用 Unity Playworks Plugin 目前不支持的函数/组件: {0}{1}
+CodeAnalysis_LP_BaseTypeNotSupported_Description,You are using an unsupported base type: {0},Вы используете неподдерживаемый базовый тип: {0},您正在使用不支持的基类: {0}
+CodeAnalysis_LP_BaseTypeNotSupported_Details,You are using an unsupported base type: {0} which is not supported in ad networks,"Вы используете неподдерживаемый базовый тип: {0}, который не поддерживается в рекламных сетях",您正在使用广告网络不支持的基类: {0}
+CodeAnalysis_LP_NoLunaPlaygroundFields_Description,You are not using any LunaPlaygroundFields attributes,Вы не используете никаких LunaPlaygroundFields атрибутов,您没有使用任何 LunaPlaygroundFields。
+CodeAnalysis_LP_NoLunaPlaygroundFields_Details,"You are not using any LunaPlaygroundFields attributes, it allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks","Вы не используете никаких LunaPlaygroundFields атрибутов, это позволит конфигурировать плеебл в разные концепты для поиска лучших вариаций, которые могут значительно поднять эффективность плеебла во всех рекламных сетях.",您没有使用任何 LunaPlaygroundFields，它允许您根据不同的概念来配置您的可玩广告，从而找到最佳的版本。这可以显著提高可玩广告在所有广告网络上的表现。
+CodeAnalysis_LP_NotEnoughLunaPlaygroundFields_Description,You are not using the minimum recommended amount of LunaPlaygroundFields attributes,Вы не используете минимальное рекомендованное количество LunaPlaygroundFields атрибутов,您使用的 LunaPlaygroundFields 数量过小
+CodeAnalysis_LP_NotEnoughLunaPlaygroundFields_Details,"You are not using the minimum recommended amount of LunaPlaygroundFields attributes, you are using: {0} and we recommend using a minimum of: {1}. It allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks","Вы не используете минимальное рекомендованное количество LunaPlaygroundFields атрибутов, вы используете: {0} и мы рекомендуем использовать не менее: {1}. Это позволит конфигурировать плеебл в разные концепты для поиска лучших вариаций, которые могут значительно поднять эффективность плеебла во всех рекламных сетях.",您使用的 LunaPlaygroundFields 数量过小: {0} 我们推荐至少使用: {1}。 它允许您根据不同的概念来配置您的可玩广告，从而找到最佳的版本。这可以显著提高可玩广告在所有广告网络上的表现
+CodeAnalysis_LP_JSON_Description,You are using an unsupported JSON feature: {0},Вы используете неподдерживаемую JSON функциональность: {0},您正在使用不支持的 JSON 功能: {0}
+CodeAnalysis_LP_JSON_Details,You are using an unsupported JSON feature: {0}. Please use Newtonsoft.JSON instead,Вы используете неподдерживаемую JSON функциональность: {0}. Используйте вместо этого Newtonsoft.JSON,您正在使用不支持的 JSON 功能: {0}。请替换为 Newtonsoft.JSON。
+CodeAnalysis_LP_WrongAPI_Description,You are using the wrong API: {0},Вы используете неверный API: {0},您正在使用错误的 API: {0}
+CodeAnalysis_LP_WrongAPI_Details,You are using the wrong API: {0}. Which can lead to ad networks rejecting the playable. Please use Luna.Unity.Playable.InstallFullGame() instead,Вы используете неверный API: {0}. что может привести к отклонению плеебла рекламными сетями. Используйте Luna.Unity.Playable.InstallFullGame(),您正在使用错误的 API: {0}， 这将导致可玩广告无法过审。请替换为 Luna.Unity.Playable.InstallFullGame()。
+CodeAnalysis_LP_NoGameEndedAPI_Description,You are not using the Game Ended API: {1}.{0},Вы не используете Game Ended API: {1}.{0},You are not using the Game Ended API: {1}.{0}
+CodeAnalysis_LP_NoGameEndedAPI_Details,"You are not using the Game Ended API: {1}.{0}. Some ad networks require this call, please add the event to avoid the ad being rejected.","Вы не используете Game Ended API: {1}.{0}. Некоторые рекламные сети требуют этот вызов, пожалуйста, добавьте вызов этого события, чтобы избежать отказа от рекламной сети.","You are not using the Game Ended API: {1}.{0}. Some ad networks require this call, please add the event to avoid the ad being rejected."
+CodeAnalysis_LP_MSBuild_Description,MSBuild completed with error: {0},Выполнение MSBuild завершилось с ошибкой: {0},MSBuild completed with error: {0}
+,,,
+Popup_PackageStatsError_Title,Package statistics gathering failed,Ошибка во время сбора статистики пакета,Package statistics gathering failed
+Popup_PackageStatsError_Description,"Package statistics gathering failed. Please check the luna.log file, or review the documentation.","Ошибка во время сбора статистики пакета. Пожалуйста, проверьте luna.log файл или ознакомьтесь с документацией.","Package statistics gathering failed. Please check the luna.log file, or review the documentation."
+Popup_PackageStatsError_Ok,Show Log,Показать логи,Show Log
+Popup_PackageStatsError_Cancel,Cancel,Отмена,Cancel
+Popup_PackageStatsError_Alt,Documentation,Документация,Documentation
+,,,
+MecanimSerializationException_BaseMessage,Mecanim (Avatar) serialization error! Unfortunately we can't serialize given asset. Probably mecanim (Avatar) serialization doesn't support current Unity version. Please exclude this asset or use compatible Unity version.,"Ошибка сериализации Mecanim (Avatar)! К сожалению, не получилось сериализовать данный ресурс. Возможно, сериализация не совместима с данной версией Unity. Пожалуйста, ислючите данный ресурс из экспортируемых или попробуйте использовать совместимую версию Unity.",Mecanim (Avatar) serialization error! Unfortunately we can't serialize given asset. Probably mecanim (Avatar) serialization doesn't support current Unity version. Please exclude this asset or use compatible Unity version.
+,,,
+ProjectDiagnostics_BrokenBuildWithNoErrors,"The build has failed, and the PHC feature did not capture any errors.\nPlease click the button to open the logs for more details","Сборка завершилась неудачно, и функция PHC не зафиксировала никаких ошибок.\nПожалуйста, нажмите кнопку, чтобы открыть логи для получения более подробной информации.","The build has failed, and the PHC feature did not capture any errors.\nPlease click the button to open the logs for more details"
+ProjectDiagnostics_BrokenBuild_Show_Log_Button,Show Logs,Показать логи,Show Logs
+,,,
+LunaDevTab_UseLocalResources,Use Local Resources,Использовать Локальные Ресурсы,Use Local Resources
+LunaDevTab_PhcCanBlockBuild,Phc Can Block Build,Phc Может Блокировать Сборку,Phc Can Block Build
+LunaDevTab_UseShadersCache,Use Shaders Cache,Использовать Кэш Шейдеров,Use Shaders Cache
+LunaDevTab_EnableSpector,Enable Spector,Включить Spectator,Enable Spector
+LunaDevTab_EnableStartup,Enable Startup,Включить При Запуске,Enable Startup
+LunaDevTab_EnableTrace,Enable Trace,Включить Трассировку,Enable Trace
+LunaDevTab_UseLocalResources_Hint,LunaDevTab_UseLocalResources_Hint,LunaDevTab_UseLocalResources_Hint,LunaDevTab_UseLocalResources_Hint
+LunaDevTab_PhcCanBlockBuild_Hint,LunaDevTab_PhcCanBlockBuild_Hint,LunaDevTab_PhcCanBlockBuild_Hint,LunaDevTab_PhcCanBlockBuild_Hint
+LunaDevTab_UseShadersCache_Hint,LunaDevTab_UseShadersCache_Hint,LunaDevTab_UseShadersCache_Hint,LunaDevTab_UseShadersCache_Hint
+LunaDevTab_EnableSpector_Hint,Enable Spector When Opening In Browser,LunaDevTab_EnableSpector_Hint,Enable Spector When Opening In Browser
+LunaDevTab_EnableStartup_Hint,Enable Startup When Opening In Browser,LunaDevTab_EnableStartup_Hint,Enable Startup When Opening In Browser
+LunaDevTab_EnableTrace_Hint,LunaDevTab_EnableTrace_Hint,LunaDevTab_EnableTrace_Hint,LunaDevTab_EnableTrace_Hint
+LunaDevTab_ReloadLocalization,Reload Localization,Перезагрузить Локализацию,Reload Localization
+LunaDevTab_ReloadConfigs,Reload Configs,Перезагрузить Конфиги,Reload Configs
+LunaDevTab_ReloadAllResources,Reload All Resources,Перезагрузить Все Ресурсы,Reload All Resources
+LunaDevTab_UpdateRemoteResources,Update Remote Resources,Обновить Удалённые Ресурсы,Update Remote Resources
+LunaDevTab_CheckDocLinks,Check Doc Links,Проверить Ссылки на Документы,Check Doc Links
+LunaDevTab_ReloadLocalization_Hint,LunaDevTab_ReloadLocalization_Hint,LunaDevTab_ReloadLocalization_Hint,LunaDevTab_ReloadLocalization_Hint
+LunaDevTab_ReloadConfigs_Hint,LunaDevTab_ReloadConfigs_Hint,LunaDevTab_ReloadConfigs_Hint,LunaDevTab_ReloadConfigs_Hint
+LunaDevTab_ReloadAllResources_Hint,LunaDevTab_ReloadAllResources_Hint,LunaDevTab_ReloadAllResources_Hint,LunaDevTab_ReloadAllResources_Hint
+LunaDevTab_UpdateRemoteResources_Hint,LunaDevTab_UpdateRemoteResources_Hint,LunaDevTab_UpdateRemoteResources_Hint,LunaDevTab_UpdateRemoteResources_Hint
+LunaDevTab_CheckDocLinks_Hint,LunaDevTab_CheckDocLinks_Hint,LunaDevTab_CheckDocLinks_Hint,LunaDevTab_CheckDocLinks_Hint
+,,,
+Basic_ProjectSettings_StaticBatching,Static Batching,Статический Батчинг,Static Batching
+Basic_ProjectSettings_StaticBatching_Hint,"Static Batching is an optimization technique used in rendering to reduce draw call overhead by combining static GameObjects into a single mesh. This allows multiple objects that share the same material to be rendered in a single draw call, improving rendering performance.","Статический Батчинг - это метод оптимизации, используемый при рендеринге для уменьшения кол-ва вызовов отрисовки путем объединения мешей статических объектов в один меш.","Static Batching is an optimization technique used in rendering to reduce draw call overhead by combining static GameObjects into a single mesh. This allows multiple objects that share the same material to be rendered in a single draw call, improving rendering performance."
+,,,
+ProjectDiagnostics_LP_TextMeshProNoEssentials_Details,"TextMeshPro Essentials have not been imported into your project.
+Without these resources TextMeshPro elements may not be rendered correctly or may show missing references.
+To fix this, go to Window > TextMeshPro > Import TMP Essential Resources and complete the import process","В проект не были импортированы ресурсы TextMeshPro Essentials.
+Без них некоторые TextMeshPro элементы могут отображаться некорректно или содержать отсутствующие ссылки.
+Чтобы исправить это, откройте меню Window > TextMeshPro > Import TMP Essential Resources и выполните импорт.
+","TextMeshPro Essentials have not been imported into your project.
+Without these resources TextMeshPro elements may not be rendered correctly or may show missing references.
+To fix this, go to Window > TextMeshPro > Import TMP Essential Resources and complete the import process"
+ProjectDiagnostics_LP_TextMeshProNoEssentials_Description,TextMeshPro Essentials are missing,Отсутствуют ресурсы TextMeshPro Essentials,TextMeshPro Essentials are missing
+Meshes_UseSimplification,Reduce mesh complexity,Уменьшить сложность меша,Reduce mesh complexity
+Meshes_UseSimplificationShort,Reduce mesh,Уменьшить меш,Reduce mesh
+Meshes_UseSimplification_Hint,This will instruct Unity Playworks Plugin to reduce the mesh size by lowering the number of vertices in the mesh while trying to keep the mesh's original shape,"Эта опция позволит плагину Unity Playworks уменьшить размер меша, сократив количество вершин, при этом стараясь сохранить исходную форму меша.",This will instruct Unity Playworks Plugin to reduce the mesh size by lowering the number of vertices in the mesh while trying to keep the mesh's original shape
+Meshes_SimplificationPercentage,Reduction,Процент уменьшения,Reduction
+Meshes_SimplificationPercentage_Hint,Target percentage reduction of vertices count,Процент сокращения количества вершин,Target percentage reduction of vertices count
+Meshes_LinkCloseVertices,Link close vertices,Объединять близкие вершины,Link close vertices
+Meshes_LinkCloseVertices_Hint,"During reduction process, Unity Playworks Plugin will treat vertices that are very close to each other as a single vertex.","Во время процесса уменьшения плагин Unity Playworks будет считать вершины одной вершиной, если они находятся очень близко друг к другу.","During reduction process, Unity Playworks Plugin will treat vertices that are very close to each other as a single vertex."
+ProjectDiagnostics_UnsupportedRenderObjectsEvent_Description,You are using an unsupported render event,Вы используете неподдерживаемое событие рендеринга,You are using an unsupported render event
+ProjectDiagnostics_UnsupportedRenderObjectsEvent_Details,"The Unity Playworks Plugin does not support the {0} render event. Please check the settings of {1} (Render Objects) render feature. Currently, we fully support the following events: BeforeRenderingOpaques, AfterRenderingOpaques, BeforeRenderingSkybox, AfterRenderingSkybox, BeforeRenderingTransparents, and AfterRenderingTransparents. Other events may not work or may work incorrectly.","Unity Playworks Plugin не поддерживает событие рендеринга {0}. Пожалуйста, проверьте настройки рендер фичи {1} (Render Objects). В настоящее время полностью поддерживаются следующие события: BeforeRenderingOpaques, AfterRenderingOpaques, BeforeRenderingSkybox, AfterRenderingSkybox, BeforeRenderingTransparents и AfterRenderingTransparents. Другие события могут не работать или работать некорректно.","The Unity Playworks Plugin does not support the {0} render event. Please check the settings of {1} (Render Objects) render feature. Currently, we fully support the following events: BeforeRenderingOpaques, AfterRenderingOpaques, BeforeRenderingSkybox, AfterRenderingSkybox, BeforeRenderingTransparents, and AfterRenderingTransparents. Other events may not work or may work incorrectly."
+ProjectDiagnostics_UnsupportedPassIndexRenderObjects_Description,You are using an override pass index in Render Objects render feature. It may work differently in Unity Playworks Plugin,Вы используете override pass индекс в рендер фиче Render Objects. Это может работать иначе в Unity Playworks Plugin,You are using an override pass index in Render Objects render feature. It may work differently in Unity Playwork Plugin
+ProjectDiagnostics_UnsupportedPassIndexRenderObjects_Details,"Unity Playworks Plugin does not export all passes that are used in Unity, and as a result, some indices of shader passes can be changed, so a different shader pass might be used than the one used in Unity during the render process. Please check the settings of {0} (Render Objects) render feature. To avoid any problems with that, use LightMode tags or override the material/shader without using an index.","Unity Playworks Plugin не экспортирует все проходы, используемые в Unity, из-за чего индексы shader passes могут измениться, и в процессе рендеринга может использоваться другой shader pass, отличный от Unity. Пожалуйста, проверьте настройки рендер фичи {0} (Render Objects). Чтобы избежать проблем, используйте теги LightMode или переопределите материал/шейдер без использования индекса.","Unity Playworks Plugin does not export all passes that are used in Unity, and as a result, some indices of shader passes can be changed, so a different shader pass might be used than the one used in Unity during the render process. Please check the settings of {0} (Render Objects) render feature. To avoid any problems with that, use LightMode tags or override the material/shader without using an index."
+ProjectDiagnostics_UnsupportedRenderFeature_Description,You are using an unsupported render feature,Вы используете неподдерживаемую рендер фичу,You are using an unsupported render feature
+ProjectDiagnostics_UnsupportedRenderFeature_Details,The Unity Playworks Plugin does not support the following render feature: '{0}'.,Unity Playworks Plugin не поддерживает следующую функцию рендеринга: '{0}'.,The Unity Playworks Plugin does not support the following render feature: '{0}'.
+ProjectDiagnostics_UnsupportedRenderFeatureSSAO_Description,URP ScreenSpaceAmbientOcclusion (SSAO) is active in URP UniversalRenderData.,Функция URP ScreenSpaceAmbientOcclusion (SSAO) активна в URP UniversalRenderData.,URP ScreenSpaceAmbientOcclusion (SSAO) is active in URP UniversalRenderData.
+ProjectDiagnostics_UnsupportedRenderFeatureSSAO_Details,"The Unity Playworks Plugin doesn't directly support Unity's built-in SSAO. If you enable this effect in Unity, it will not appear in your final build. To use SSAO, you can enable it directly in Dev Environment or Creative Editor on Unity Playworks.","Плагин Unity Playworks напрямую не поддерживает встроенный в Unity эффект SSAO. Если вы включите этот эффект в Unity, он не отобразится в вашей финальной сборке. Для использования SSAO необходимо включить его с помощью настроек, расположенных в среде разработки (DevEnv) или в редакторе творческих задач (Creative Editor) на Unity Playworks.","The Unity Playworks Plugin doesn't directly support Unity's built-in SSAO. If you enable this effect in Unity, it will not appear in your final build. To use SSAO, you can enable it directly in Dev Environment or Creative Editor on Unity Playworks."

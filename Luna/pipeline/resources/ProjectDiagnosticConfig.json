@@ -1,0 +1,322 @@
+﻿{
+    "entities": [
+        {
+            "Value": 307200,
+            "ErrorCode": 1000,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1001,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1002,
+            "ErrorType": 3,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1003,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1004,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1005,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1006,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 10,
+            "ErrorCode": 1007,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1008,
+            "ErrorType": 3,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1009,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1010,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1011,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1012,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1013,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1014,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1015,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 10,
+            "ErrorCode": 1016,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1017,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1018,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 20,
+            "ErrorCode": 1022,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 100,
+            "ErrorCode": 1023,
+            "ErrorType": 1,
+            "Severity": 0
+        },
+        {
+            "Value": 256000000,
+            "ErrorCode": 1024,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1025,
+            "ErrorType": 0,
+            "Severity": 1
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1026,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1027,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1028,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1030,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1031,
+            "ErrorType": 2,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1032,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2000,
+            "ErrorType": 0,
+            "Severity": 1
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2001,
+            "ErrorType": 0,
+            "Severity": 1
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2002,
+            "ErrorType": 0,
+            "Severity": 1
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2003,
+            "ErrorType": 0,
+            "Severity": 1
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2004,
+            "ErrorType": 0,
+            "Severity": 1
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2005,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2006,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2007,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 2008,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3000,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3001,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3002,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3003,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3005,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3006,
+            "ErrorType": 1,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3007,
+            "ErrorType": 3,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3008,
+            "ErrorType": 3,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3009,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3010,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3011,
+            "ErrorType": 3,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3012,
+            "ErrorType": 3,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 1033,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+         {
+            "Value": 0,
+            "ErrorCode": 1034,
+            "ErrorType": 0,
+            "Severity": 0
+        },
+        {
+            "Value": 0,
+            "ErrorCode": 3014,
+            "ErrorType": 0,
+            "Severity": 0
+        }
+    ]
+}

@@ -1,0 +1,167 @@
+script.
+    ( function () {
+        // the flag to store start game status to avoid double loads
+        // in some ad networks
+        var _startGame = false;
+        // the flag indicating the game has completed startup sequence successfully
+        var _startedGame = false;
+        // the queue on unsafe events to re-trigger once the game starts
+        var _unsafeEvents = [];
+
+        // the routine that runs the startup sequence and makes sure startGame()
+        // callback is invoked only once
+        var startGameOnce = function () {
+            // check that the game has not started yet
+            if ( _startGame ) {
+                return;
+            }
+
+            // mark the game as started
+            _startGame = true;
+
+            var dispatchPostrenderEvent = function() {
+                var eventHandler = window.app.app.events || window.app.app;
+                eventHandler.off( 'postrender', dispatchPostrenderEvent );
+
+                window.dispatchEvent( new Event( 'luna:postrender' ) );
+            };
+
+            var dispatchStartedEvent = function() {
+                // We need the luna:initialized event here for the third-party Playables only, because unlike the Engine
+                // they do not have real initializing stage, but we want to trigger it anyway.
+                window.dispatchEvent( new Event( 'luna:initialized' ) );
+                window.dispatchEvent( new Event( 'luna:started' ) );
+
+                if ( window.app && window.app.app ) {
+                    var eventHandler = window.app.app.events || window.app.app;
+                    eventHandler.on( 'postrender', dispatchPostrenderEvent );
+                } else {
+                    window.dispatchEvent( new Event( 'luna:postrender' ) );
+                }
+            };
+
+            var callback = function() {
+                const promisesToWait = [];
+                // We should wait for any base122-encoded assets to load. Engine code is written in a way that
+                // assumes that all inline image are ready when startGame is called, and we can't do anything
+                // about it cause we should be backward-compatible with old builds.
+                promisesToWait.push( window._decode122Promise || Promise.resolve() );
+                promisesToWait.push( ( window.pc && window.pc.waitForBox2D ) || Promise.resolve() );
+                promisesToWait.push( ( window.pc && window.pc.waitForMecanim ) || Promise.resolve() );
+                Promise.all( promisesToWait ).then( () => {
+                    window._decode122Promise = null;
+                    if ( window.pi ) {
+                        // load 'starting' event
+                        window.pi.logStarting();
+                    }
+
+                    // run the startup
+                    var result = window.startGame();
+
+                    // check if it returned a promise
+                    if ( result && result.then ) {
+                        // it is - await till it resolves
+                        result.then( function () {
+                            dispatchStartedEvent();
+                        } );
+                    } else {
+                        // it is not - probably synchronous startup in effect?
+                        dispatchStartedEvent();
+                    }
+                } );
+            };
+
+            if ( window.pi ) {
+                // make sure PI is ready (i.e. config is fetched or timed out, initialization is complete etc)
+                window.pi.ready( callback );
+            } else {
+                callback();
+            }
+        };
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                window.dispatchEvent( new Event( 'luna:pause' ) );
+            } else {
+                window.dispatchEvent( new Event( 'luna:resume' ) );
+            }
+        }); 
+
+        window.addEventListener( 'luna:unsafe:mute', function () {
+            if ( _startedGame ) {
+                window.dispatchEvent( new Event( 'luna:mute' ) );
+            } else {
+                _unsafeEvents.push( 'luna:mute' );
+            }
+        } );
+
+        window.addEventListener( 'luna:unsafe:unmute', function () {
+            if ( _startedGame ) {
+                window.dispatchEvent( new Event( 'luna:unmute' ) );
+            } else {
+                _unsafeEvents.push( 'luna:unmute' );
+            }
+        } );
+
+        window.addEventListener( 'luna:unsafe:pause', function() {
+            window.dispatchEvent( new Event( 'luna:unsafe:mute' ) );
+
+            if ( _startedGame ) {
+                window.dispatchEvent( new Event( 'luna:pause' ) );
+            } else {
+                _unsafeEvents.push( 'luna:pause' );
+            }
+        } );
+
+        window.addEventListener( 'luna:unsafe:resume', function() {
+            window.dispatchEvent( new Event( 'luna:unsafe:unmute' ) );
+
+            if ( _startedGame ) {
+                window.dispatchEvent( new Event( 'luna:resume' ) );
+            } else {
+                _unsafeEvents.push( 'luna:resume' );
+            }
+        } );
+
+        window.addEventListener( 'luna:resume', function () {
+            startGameOnce();
+        } );
+
+        window.addEventListener( 'luna:start', function () {
+            startGameOnce();
+        } );
+
+        window.addEventListener( 'luna:initialized', function () {
+            _startedGame = true;
+
+            _unsafeEvents.forEach( function( eventName ) { window.dispatchEvent( new Event( eventName ) ) } );
+            _unsafeEvents.length = 0;
+        } );
+
+        window.addEventListener( 'luna:started', function () {
+            if ( !window.pi ) {
+                return;
+            }
+
+            if ( window.app && window.app.app ) {
+                window.pi.attachTo( window.app.app );
+            }
+
+            window.pi.logStarted();
+        } );
+
+        window.addEventListener( 'luna:build', function() {
+            Bridge.ready( function() {
+                Luna.Unity.Analytics.Applovin = Luna.Unity.Analytics.Applovin || {};
+
+                if ( window.pi ) {
+                    Luna.Unity.LifeCycle.GameEnded = function() {
+                        window.dispatchEvent( new Event( 'luna:ended' ) );
+                        window.pi.logGameEnd();
+                    }
+
+                    Luna.Unity.Analytics.LogEvent$1 = window.pi.logCustomEvent.bind( window.pi );
+                }
+            } );
+        } );
+    } )();

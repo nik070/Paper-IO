@@ -1,0 +1,832 @@
+﻿{
+  "Entries": [
+    {
+      "Category": "Internal compiler error",
+      "Codes": [
+        "CS0001"
+      ]
+    },
+    {
+      "Category": "Metadata file 'dll_name' could not be found",
+      "Codes": [
+        "CS0006"
+      ]
+    },
+    {
+      "Category": "Unexpected common language runtime initialization error — 'description'",
+      "Codes": [
+        "CS0007"
+      ]
+    },
+    {
+      "Category": "The name of type 'type' is too long",
+      "Codes": [
+        "CS0015"
+      ]
+    },
+    {
+      "Category": "Could not write to output file 'file' — 'reason'",
+      "Codes": [
+        "CS0016"
+      ]
+    },
+    {
+      "Category": "Operator 'operator' cannot be applied to operands of type 'type' and 'type'",
+      "Codes": [
+        "CS0019"
+      ]
+    },
+    {
+      "Category": "Cannot implicitly convert type 'type' to 'type'",
+      "Codes": [
+        "CS0029"
+      ]
+    },
+    {
+      "Category": "Operator 'operator' is ambiguous on operands of type 'type1' and 'type2'",
+      "Codes": [
+        "CS0034"
+      ]
+    },
+    {
+      "Category": "Cannot access a nonstatic member of outer type 'type1' via nested type 'type2'",
+      "Codes": [
+        "CS0038"
+      ]
+    },
+    {
+      "Category": "Cannot convert type 'type1' to 'type2' via a reference conversion, boxing conversion, unboxing conversion, wrapping conversion, or null type conversion",
+      "Codes": [
+        "CS0039"
+      ]
+    },
+    {
+      "Category": "Inconsistent accessibility: return type 'type' is less accessible than method 'method'",
+      "Codes": [
+        "CS0050"
+      ]
+    },
+    {
+      "Category": "Inconsistent accessibility: parameter type 'type' is less accessible than method 'method'",
+      "Codes": [
+        "CS0051"
+      ]
+    },
+    {
+      "Category": "Inconsistent accessibility: field type 'type' is less accessible than field 'field'",
+      "Codes": [
+        "CS0052"
+      ]
+    },
+    {
+      "Category": "An explicit interface implementation of an event must use event accessor syntax  ",
+      "Codes": [
+        "CS0071"
+      ]
+    },
+    {
+      "Category": "The name 'identifier' does not exist in the current context",
+      "Codes": [
+        "CS0103"
+      ]
+    },
+    {
+      "Category": "The modifier 'modifier' is not valid for this item",
+      "Codes": [
+        "CS0106"
+      ]
+    },
+    {
+      "Category": "'member1' hides inherited member 'member2'. Use the new keyword if hiding was intended.",
+      "Codes": [
+        "CS0108"
+      ]
+    },
+    {
+      "Category": "'function' : no suitable method found to override",
+      "Codes": [
+        "CS0115"
+      ]
+    },
+    {
+      "Category": "A namespace cannot directly contain members such as fields or methods.",
+      "Codes": [
+        "CS0116"
+      ]
+    },
+    {
+      "Category": "An object reference is required for the nonstatic field, method, or property 'member'",
+      "Codes": [
+        "CS0120"
+      ]
+    },
+    {
+      "Category": "'member' is inaccessible due to its protection level",
+      "Codes": [
+        "CS0122"
+      ]
+    },
+    {
+      "Category": "'variable' is of type 'type'. A const field of a reference type other than string can only be initialized with null.",
+      "Codes": [
+        "CS0134"
+      ]
+    },
+    {
+      "Category": "A value of an integral type expected",
+      "Codes": [
+        "CS0151"
+      ]
+    },
+    {
+      "Category": "Control cannot fall through from one case label ('label') to another  ",
+      "Codes": [
+        "CS0163"
+      ]
+    },
+    {
+      "Category": "Use of unassigned local variable 'name'  ",
+      "Codes": [
+        "CS0165"
+      ]
+    },
+    {
+      "Category": "Type of conditional expression cannot be determined because there is no implicit conversion between 'class1' and 'class2'",
+      "Codes": [
+        "CS0173"
+      ]
+    },
+    {
+      "Category": "Invalid rank specifier: expected ',' or ']'  ",
+      "Codes": [
+        "CS0178"
+      ]
+    },
+    {
+      "Category": "The 'this' object cannot be used before all of its fields are assigned to  ",
+      "Codes": [
+        "CS0188"
+      ]
+    },
+    {
+      "Category": "Only assignment, call, increment, decrement, and new object expressions can be used as a statement  ",
+      "Codes": [
+        "CS0201"
+      ]
+    },
+    {
+      "Category": "Ambiguity between 'member1' and 'member2'  ",
+      "Codes": [
+        "CS0229"
+      ]
+    },
+    {
+      "Category": "'identifier' does not have a predefined size, therefore sizeof can only be used in an unsafe context",
+      "Codes": [
+        "CS0233"
+      ]
+    },
+    {
+      "Category": "The type or namespace name 'name' does not exist in the namespace 'namespace' (are you missing an assembly reference?)  ",
+      "Codes": [
+        "CS0234"
+      ]
+    },
+    {
+      "Category": "The type or namespace name 'type/namespace' could not be found (are you missing a using directive or an assembly reference?)  ",
+      "Codes": [
+        "CS0246"
+      ]
+    },
+    {
+      "Category": "Missing partial modifier on declaration of type 'type'; another partial declaration of this type exists  ",
+      "Codes": [
+        "CS0260"
+      ]
+    },
+    {
+      "Category": "Cannot implicitly convert type 'type1' to 'type2'. An explicit conversion exists (are you missing a cast?)  ",
+      "Codes": [
+        "CS0266"
+      ]
+    },
+    {
+      "Category": "Use of unassigned out parameter 'parameter'  ",
+      "Codes": [
+        "CS0269"
+      ]
+    },
+    {
+      "Category": "Array size cannot be specified in a variable declaration (try initializing with a 'new' expression)  ",
+      "Codes": [
+        "CS0270"
+      ]
+    },
+    {
+      "Category": "Cannot create an instance of the variable type 'type' because it does not have the new() constraint  ",
+      "Codes": [
+        "CS0304"
+      ]
+    },
+    {
+      "Category": "The type 'typename' must be a non-abstract type with a public parameterless constructor in order to use it as parameter 'parameter' in the generic type or method 'generic'  ",
+      "Codes": [
+        "CS0310"
+      ]
+    },
+    {
+      "Category": "The type 'type1' cannot be used as type parameter 'T' in the generic type or method '\\<name>'. There is no implicit reference conversion from 'type1' to 'type2'.  ",
+      "Codes": [
+        "CS0311"
+      ]
+    },
+    {
+      "Category": "The type parameter 'type parameter' cannot be used with the 'as' operator because it does not have a class type constraint nor a 'class' constraint  ",
+      "Codes": [
+        "CS0413"
+      ]
+    },
+    {
+      "Category": "'identifier': cannot provide arguments when creating an instance of a variable type  ",
+      "Codes": [
+        "CS0417"
+      ]
+    },
+    {
+      "Category": "'identifier': a reference to a volatile field will not be treated as volatile  ",
+      "Codes": [
+        "CS0420"
+      ]
+    },
+    {
+      "Category": "Unreachable expression code detected  ",
+      "Codes": [
+        "CS0429"
+      ]
+    },
+    {
+      "Category": "The type TypeName1 exists in both TypeName2 and TypeName3  ",
+      "Codes": [
+        "CS0433"
+      ]
+    },
+    {
+      "Category": "Cannot modify the result of an unboxing conversion  ",
+      "Codes": [
+        "CS0445"
+      ]
+    },
+    {
+      "Category": "Foreach cannot operate on a 'Method or Delegate'. Did you intend to invoke the 'Method or Delegate'?  ",
+      "Codes": [
+        "CS0446"
+      ]
+    },
+    {
+      "Category": "Introducing a 'Finalize' method can interfere with destructor invocation. Did you intend to declare a destructor?  ",
+      "Codes": [
+        "CS0465"
+      ]
+    },
+    {
+      "Category": "Ambiguity between method 'method' and non-method 'non-method'. Using method group.  ",
+      "Codes": [
+        "CS0467"
+      ]
+    },
+    {
+      "Category": "The constant 'variable' cannot be marked static  ",
+      "Codes": [
+        "CS0504"
+      ]
+    },
+    {
+      "Category": "'function1' : cannot change access modifiers when overriding 'access' inherited member 'function2'  ",
+      "Codes": [
+        "CS0507"
+      ]
+    },
+    {
+      "Category": "Predefined type 'type' is not defined or imported  ",
+      "Codes": [
+        "CS0518"
+      ]
+    },
+    {
+      "Category": "Struct member 'struct2 field' of type 'struct1' causes a cycle in the struct layout  ",
+      "Codes": [
+        "CS0523"
+      ]
+    },
+    {
+      "Category": "'function' : cannot override because 'property' does not have an overridable get accessor  ",
+      "Codes": [
+        "CS0545"
+      ]
+    },
+    {
+      "Category": "'conversion routine' : user defined conversion to/from interface  ",
+      "Codes": [
+        "CS0552"
+      ]
+    },
+    {
+      "Category": "One of the parameters of a binary operator must be the containing type  ",
+      "Codes": [
+        "CS0563"
+      ]
+    },
+    {
+      "Category": "Property, indexer, or event 'name' is not supported by the language; try directly calling accessor method 'name!'  ",
+      "Codes": [
+        "CS0570"
+      ]
+    },
+    {
+      "Category": "'function' : cannot explicitly call operator or accessor  ",
+      "Codes": [
+        "CS0571"
+      ]
+    },
+    {
+      "Category": "Duplicate 'attribute' attribute  ",
+      "Codes": [
+        "CS0579"
+      ]
+    },
+    {
+      "Category": "Attribute 'attribute' is not valid on this declaration type. It is valid on 'type' declarations only.  ",
+      "Codes": [
+        "CS0592"
+      ]
+    },
+    {
+      "Category": "'class' is not an attribute class  ",
+      "Codes": [
+        "CS0616"
+      ]
+    },
+    {
+      "Category": "'member' is obsolete: 'text'  ",
+      "Codes": [
+        "CS0618"
+      ]
+    },
+    {
+      "Category": "Bad array declarator: To declare a managed array the rank specifier precedes the variable's identifier. To declare a fixed size buffer field, use the fixed keyword before the field type.  ",
+      "Codes": [
+        "CS0650"
+      ]
+    },
+    {
+      "Category": "Bitwise-or operator used on a sign-extended operand; consider casting to a smaller unsigned type first  ",
+      "Codes": [
+        "CS0675"
+      ]
+    },
+    {
+      "Category": "Accessor 'accessor' cannot implement interface member 'member' for type 'type'. Use an explicit interface implementation.  ",
+      "Codes": [
+        "CS0686"
+      ]
+    },
+    {
+      "Category": "Constraint cannot be special class 'identifier'",
+      "Codes": [
+        "CS0702"
+      ]
+    },
+    {
+      "Category": "Inconsistent accessibility: constraint type 'identifier' is less accessible than 'identifier'  ",
+      "Codes": [
+        "CS0703"
+      ]
+    },
+    {
+      "Category": "The type forwarder for type 'type' in assembly 'assembly' causes a cycle  ",
+      "Codes": [
+        "CS0731"
+      ]
+    },
+    {
+      "Category": "No best type found for implicitly typed array.  ",
+      "Codes": [
+        "CS0826"
+      ]
+    },
+    {
+      "Category": "A lambda expression must have an expression body to be converted to an expression tree.  ",
+      "Codes": [
+        "CS0834"
+      ]
+    },
+    {
+      "Category": "'Property name' must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.  ",
+      "Codes": [
+        "CS0840"
+      ]
+    },
+    {
+      "Category": "Backing field for automatically implemented property 'name' must be fully assigned before control is returned to the caller. Consider calling the parameterless constructor from a constructor initializer.  ",
+      "Codes": [
+        "CS0843"
+      ]
+    },
+    {
+      "Category": "An expression tree lambda may not contain a coalescing operator with a null literal left-hand side.  ",
+      "Codes": [
+        "CS0845"
+      ]
+    },
+    {
+      "Category": "Identifier expected  ",
+      "Codes": [
+        "CS1001"
+      ]
+    },
+    {
+      "Category": "Unrecognized escape sequence  ",
+      "Codes": [
+        "CS1009"
+      ]
+    },
+    {
+      "Category": "Keyword 'this' or 'base' expected  ",
+      "Codes": [
+        "CS1018"
+      ]
+    },
+    {
+      "Category": "Overloadable unary operator expected  ",
+      "Codes": [
+        "CS1019"
+      ]
+    },
+    {
+      "Category": ") expected  ",
+      "Codes": [
+        "CS1026"
+      ]
+    },
+    {
+      "Category": "#error: 'text'",
+      "Codes": [
+        "CS1029"
+      ]
+    },
+    {
+      "Category": "A previous catch clause already catches all exceptions. All exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException  ",
+      "Codes": [
+        "CS1058"
+      ]
+    },
+    {
+      "Category": "Use of possibly unassigned field 'name'. Struct instance variables are initially unassigned if struct is unassigned.  ",
+      "Codes": [
+        "CS1060"
+      ]
+    },
+    {
+      "Category": "'type' does not contain a definition for 'member' and no extension method 'name' accepting a first argument of type 'type' could be found (are you missing a using directive or an assembly reference?).  ",
+      "Codes": [
+        "CS1061"
+      ]
+    },
+    {
+      "Category": "Do not use 'System.Runtime.CompilerServices.ExtensionAttribute'. Use the 'this' keyword instead.  ",
+      "Codes": [
+        "CS1112"
+      ]
+    },
+    {
+      "Category": "No overload for method 'method' takes 'number' arguments  ",
+      "Codes": [
+        "CS1501"
+      ]
+    },
+    {
+      "Category": "The best overloaded method match for 'name' has some invalid arguments  ",
+      "Codes": [
+        "CS1502"
+      ]
+    },
+    {
+      "Category": "Invalid token 'token' in class, struct, or interface member declaration  ",
+      "Codes": [
+        "CS1519"
+      ]
+    },
+    {
+      "Category": "Cannot access protected member 'member' via a qualifier of type 'type1'; the qualifier must be of type 'type2' (or derived from it)  ",
+      "Codes": [
+        "CS1540"
+      ]
+    },
+    {
+      "Category": "Property, indexer, or event 'property' is not supported by the language; try directly calling accessor method 'accessor'  ",
+      "Codes": [
+        "CS1546"
+      ]
+    },
+    {
+      "Category": "Cryptographic failure while signing assembly 'assembly' — 'reason'  ",
+      "Codes": [
+        "CS1548"
+      ]
+    },
+    {
+      "Category": "Conflicting options specified: Win32 resource file; Win32 manifest.  ",
+      "Codes": [
+        "CS1564"
+      ]
+    },
+    {
+      "Category": "Error generating Win32 resource: 'file'  ",
+      "Codes": [
+        "CS1567"
+      ]
+    },
+    {
+      "Category": "foreach statement cannot operate on variables of type 'type1' because 'type2' does not contain a public definition for 'identifier'",
+      "Codes": [
+        "CS1579"
+      ]
+    },
+    {
+      "Category": "Missing XML comment for publicly visible type or member 'Type_or_Member'  ",
+      "Codes": [
+        "CS1591"
+      ]
+    },
+    {
+      "Category": "XML parser could not be loaded for the following reason: 'reason'. The XML documentation file 'file' will not be generated.  ",
+      "Codes": [
+        "CS1598"
+      ]
+    },
+    {
+      "Category": "Assembly generation -- reason  ",
+      "Codes": [
+        "CS1607"
+      ]
+    },
+    {
+      "Category": "Unable to delete temporary file 'file' used for default Win32 resource -- resource  ",
+      "Codes": [
+        "CS1610"
+      ]
+    },
+    {
+      "Category": "Cannot modify the return value of 'expression' because it is not a variable  ",
+      "Codes": [
+        "CS1612"
+      ]
+    },
+    {
+      "Category": "'name' is ambiguous between 'name' and 'nameAttribute'; use either '@name' or 'nameAttribute'.",
+      "Codes": [
+        "CS1614"
+      ]
+    },
+    {
+      "Category": "Option 'option' overrides attribute 'attribute' given in a source file or added module  ",
+      "Codes": [
+        "CS1616"
+      ]
+    },
+    {
+      "Category": "foreach statement cannot operate on variables of type 'type' because it implements multiple instantiations of 'interface', try casting to a specific interface instantiation  ",
+      "Codes": [
+        "CS1640"
+      ]
+    },
+    {
+      "Category": "Feature 'feature' is not part of the standardized ISO C# language specification, and may not be accepted by other compilers  ",
+      "Codes": [
+        "CS1644"
+      ]
+    },
+    {
+      "Category": "Cannot assign to 'variable' because it is a 'read-only variable type'  ",
+      "Codes": [
+        "CS1656"
+      ]
+    },
+    {
+      "Category": "'warning text'. See also error 'error code'  ",
+      "Codes": [
+        "CS1658"
+      ]
+    },
+    {
+      "Category": "'T': type used in a using statement must be implicitly convertible to 'System.IDisposable'  ",
+      "Codes": [
+        "CS1674"
+      ]
+    },
+    {
+      "Category": "Reference to type 'Type Name' claims it is defined in this assembly, but it is not defined in source or any added modules  ",
+      "Codes": [
+        "CS1683"
+      ]
+    },
+    {
+      "Category": "The predefined type 'System.type name' is defined in multiple assemblies in the global alias; using definition from 'File Name'  ",
+      "Codes": [
+        "CS1685"
+      ]
+    },
+    {
+      "Category": "Accessing a member on 'member' may cause a runtime exception because it is a field of a marshal-by-reference class  ",
+      "Codes": [
+        "CS1690"
+      ]
+    },
+    {
+      "Category": "'number' is not a valid warning number  ",
+      "Codes": [
+        "CS1691"
+      ]
+    },
+    {
+      "Category": "Use command line option \"compiler_option\" or appropriate project settings instead of \"attribute_name\"  ",
+      "Codes": [
+        "CS1699"
+      ]
+    },
+    {
+      "Category": "Assembly reference Assembly Name is invalid and cannot be resolved  ",
+      "Codes": [
+        "CS1700"
+      ]
+    },
+    {
+      "Category": "Assuming assembly reference \"Assembly Name #1\" matches \"Assembly Name #2\", you may need to supply runtime policy  ",
+      "Codes": [
+        "CS1701"
+      ]
+    },
+    {
+      "Category": "An assembly with the same simple name 'name' has already been imported. Try removing one of the references or sign them to enable side-by-side.  ",
+      "Codes": [
+        "CS1703"
+      ]
+    },
+    {
+      "Category": "An assembly with the same simple name 'Assembly Name' has already been imported. Try removing one of the references or sign them to enable side-by-side.  ",
+      "Codes": [
+        "CS1704"
+      ]
+    },
+    {
+      "Category": "Assembly 'AssemblyName1' uses 'TypeName' which has a higher version than referenced assembly 'AssemblyName2'  ",
+      "Codes": [
+        "CS1705"
+      ]
+    },
+    {
+      "Category": "Fixed size buffers can only be accessed through locals or fields  ",
+      "Codes": [
+        "CS1708"
+      ]
+    },
+    {
+      "Category": "Do not use 'System.Runtime.CompilerServices.FixedBuffer' attribute. Use the 'fixed' field modifier instead.  ",
+      "Codes": [
+        "CS1716"
+      ]
+    },
+    {
+      "Category": "Class 'class' cannot have multiple base classes: 'class_1' and 'class_2'  ",
+      "Codes": [
+        "CS1721"
+      ]
+    },
+    {
+      "Category": "Friend assembly reference 'reference' is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.  ",
+      "Codes": [
+        "CS1726"
+      ]
+    },
+    {
+      "Category": "'type' does not contain a constructor that takes 'number' arguments.  ",
+      "Codes": [
+        "CS1729"
+      ]
+    },
+    {
+      "Category": "A reference was created to embedded interop assembly '\\<assembly1>' because of an indirect reference to that assembly from assembly '\\<assembly2>'. Consider changing the 'Embed Interop Types' property on either assembly.  ",
+      "Codes": [
+        "CS1762"
+      ]
+    },
+    {
+      "Category": "Unsafe type 'type name' cannot be used in object creation.  ",
+      "Codes": [
+        "CS1919"
+      ]
+    },
+    {
+      "Category": "The best overloaded method match for 'method' has wrong signature for the initializer element. The initializable Add must be an accessible instance method.  ",
+      "Codes": [
+        "CS1921"
+      ]
+    },
+    {
+      "Category": "Error reading Win32 manifest file 'filename' -- 'error'.  ",
+      "Codes": [
+        "CS1926"
+      ]
+    },
+    {
+      "Category": "Expression cannot contain query expressions  ",
+      "Codes": [
+        "CS1933"
+      ]
+    },
+    {
+      "Category": "Could not find an implementation of the query pattern for source type 'type'.  'method' not found.  ",
+      "Codes": [
+        "CS1936"
+      ]
+    },
+    {
+      "Category": "The type of one of the expressions in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.  ",
+      "Codes": [
+        "CS1941"
+      ]
+    },
+    {
+      "Category": "The type of the expression in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.  ",
+      "Codes": [
+        "CS1942"
+      ]
+    },
+    {
+      "Category": "An expression of type 'type' is not allowed in a subsequent from clause in a query expression with source type 'type'. Type inference failed in the call to 'method'.  ",
+      "Codes": [
+        "CS1943"
+      ]
+    },
+    {
+      "Category": "An anonymous method expression cannot be converted to an expression tree.",
+      "Codes": [
+        "CS1946"
+      ]
+    },
+    {
+      "Category": "Member 'name' implements interface member 'name' in type 'type'. There are multiple matches for the interface member at run-time. It is implementation dependent which method will be called.  ",
+      "Codes": [
+        "CS1956"
+      ]
+    },
+    {
+      "Category": "Character 'character' is not allowed on the command-line or in response files",
+      "Codes": [
+        "CS2032"
+      ]
+    },
+    {
+      "Category": "Type of 'variable' is not CLS-compliant  ",
+      "Codes": [
+        "CS3003"
+      ]
+    },
+    {
+      "Category": "Overloaded method 'method' differing only by unnamed array types is not CLS-compliant  ",
+      "Codes": [
+        "CS3007"
+      ]
+    },
+    {
+      "Category": "'type': base type 'type' is not CLS-compliant  ",
+      "Codes": [
+        "CS3009"
+      ]
+    },
+    {
+      "Category": "Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.  ",
+      "Codes": [
+        "CS4014"
+      ]
+    },
+    {
+      "Category": "Unexpected use of an unbound generic name",
+      "Codes": [
+        "CS7003"
+      ]
+    },
+	{
+	  "Category": "Field 'field' is never assigned to, and will always have its default value 'value'",
+	  "Codes": [
+		"CS0649"
+	  ]
+	},
+	{
+	  "Category": "Unnecessary using directive",
+	  "Codes": [
+		"CS8019"
+	  ]
+	}
+  ]
+}

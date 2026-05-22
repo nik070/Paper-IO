@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2797206081954222612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2797206081954222610}
+  - component: {fileID: 2797206081954222611}
+  - component: {fileID: 2481994843340229140}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2797206081954222610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797206081954222612}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2797206081954222611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797206081954222612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5dae5199a274d71be750eb7af97f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundEnabled: 1
+  _soundVolume: 0.7
+  _clips:
+  - Name: kill_toast
+    Clip: {fileID: 8300000, guid: e8b34d6e28deb404cb97ef902671d821, type: 3}
+    Volume: 0.75
+    Loop: 0
+  - Name: PlayerDie
+    Clip: {fileID: 8300000, guid: ad11fec54266ba04ba7cea4e37998758, type: 3}
+    Volume: 1
+    Loop: 0
+  - Name: Kill
+    Clip: {fileID: 8300000, guid: fdf1d5f65eb240e41bd7dae69377481d, type: 3}
+    Volume: 1
+    Loop: 0
+  - Name: ZoneCaptured
+    Clip: {fileID: 8300000, guid: 4c88e9ea7ba8edf46bd4e7b1c8b7726b, type: 3}
+    Volume: 1
+    Loop: 0
+  - Name: PlayerEating
+    Clip: {fileID: 8300000, guid: afc5f76e3dbfe3445a77d72aa0f1addd, type: 3}
+    Volume: 1
+    Loop: 1
+  - Name: Tap
+    Clip: {fileID: 8300000, guid: 858782bf21140404cbdd3f8bebea7745, type: 3}
+    Volume: 0.5
+    Loop: 0
+  - Name: Tap_Locked
+    Clip: {fileID: 8300000, guid: ffbe986a62bb19c498fd9d83080269f5, type: 3}
+    Volume: 0.97
+    Loop: 0
+  - Name: GameOver
+    Clip: {fileID: 8300000, guid: 2e362c138f39a404cbd86cb954820b7b, type: 3}
+    Volume: 1
+    Loop: 0
+  - Name: WinCard
+    Clip: {fileID: 8300000, guid: c570fedcc8bd45ca8e6ed650f44ff90f, type: 3}
+    Volume: 1
+    Loop: 0
+  - Name: EndCard
+    Clip: {fileID: 8300000, guid: fb30a63d778a4058ba99dac192788fa2, type: 3}
+    Volume: 1
+    Loop: 0
+--- !u!81 &2481994843340229140
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797206081954222612}
+  m_Enabled: 1

@@ -1,0 +1,21 @@
+extends  ../resources/pug/layout
+
+append style
+    style.
+        .preloader {
+            display: none;
+        }
+
+block dev-tools-detector
+
+block scripts
+    for resource in resources.scripts
+        script( src=resource.src defer )
+
+block content
+    script
+        include content.js
+
+block runtime
+    script
+        include runtime.js

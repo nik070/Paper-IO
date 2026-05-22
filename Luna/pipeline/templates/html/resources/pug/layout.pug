@@ -1,0 +1,164 @@
+doctype html
+html
+    head
+        block meta
+            meta( charset="utf-8" )
+            meta( http-equiv="Content-Type", content="text/html; charset=utf-8" )
+            meta( name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" )
+
+        <!-- htmlmin:ignore -->
+    <!-- htmlmin:ignore -->
+
+    body
+        block touch-emulation
+            script
+                include ../js/touch-emulator.js
+
+        block preloader
+            include ../pug/preloader
+
+        block dev-tools-detector
+            script.
+                (() => {
+                    let token = window.insertYourRemoteDebuggingTokenHere = '';
+                    if ( token ) {
+                        const script = document.createElement( 'script' );
+                        script.setAttribute( 'src', 'https://console.re/connector.js' );
+                        script.setAttribute( 'data-channel', token );
+                        script.setAttribute( 'id', 'consolerescript' );
+                        document.head.appendChild( script );
+                    }
+                    window.devToolsAreOpen = false;
+                    let skippedMessagesCount = 0;
+                    let getWarning = () => {
+                        if ( token ) {
+                            return `Remote debugging is enabled, use the following link to access remote console: http://console.re/${token}`;
+                        }
+
+                        const warningMessage = skippedMessagesCount ?
+                            `Logs are not displayed when dev tools are hidden. Please reload the game with dev tools opened to see ${skippedMessagesCount} hidden messages.\n` :
+                            '';
+                        return warningMessage + 'Learn how to debug your playable remotely at https://docs.lunalabs.io/docs/playable/ad-networks/remote-debugging';
+                    };
+
+                    console.warn( Object.defineProperties( new Error(), {
+                        toString: {
+                            value() {
+                                if ( new Error().stack.includes( 'String@' ) ) {
+                                    // Safari
+                                    window.devToolsAreOpen = true;
+                                }
+                                return getWarning();
+                            },
+                        },
+                        message: {
+                            get() {
+                                // Chrome / FF
+                                window.devToolsAreOpen = true;
+                                return getWarning();
+                            },
+                        },
+
+                        name: {
+                            get() {
+                                return '[DEBUGGING]';
+                            },
+                        },
+                    } ) );
+
+                    let rePromise = new Promise( ( resolve ) => {
+                        const checkAvailability = () => {
+                            if ( console.re ) {
+                                resolve( console.re );
+                            } else {
+                                setTimeout( checkAvailability, 100 );
+                            }
+                        }
+
+                        checkAvailability();
+                    } )
+
+                    const consoleMethodsToPatch = [ 'debug', 'trace', 'info', 'log', 'warn', 'error' ];
+                    for ( const methodName of consoleMethodsToPatch ) {
+                        const originalMethod = console[ methodName ];
+                        console[ methodName ] = ( ...args ) => {
+                            if ( args && args[ 0 ] && typeof args[ 0 ] === 'string' && args[ 0 ].startsWith( 'consoleRe' ) ) {
+                                // Messages from console.re, logging them will lead to an infinite loop
+                                return;
+                            }
+
+                            if ( token ) {
+                                rePromise.then( ( consoleRe ) => consoleRe[ methodName ].apply( console.re, args ) );
+                            }
+
+                            if ( !window.devToolsAreOpen ) {
+                                skippedMessagesCount++;
+                                return;
+                            }
+
+                            originalMethod.apply( console, args );
+                        }
+                    }
+                })();
+
+        block style
+            style
+                include ../css/default.css
+
+        block config
+            include ../pug/config
+
+        block tools
+            include ../pug/tools
+
+        block libraries
+            if libraries
+                script( src = libraries.src )
+            else
+                script
+                    include ../../resources/js/pi.js
+
+                if compress && compress.enabled
+                    script( data-startup-only )
+                        case compress.brotliType
+                            when 0
+                                include ../js/unbrotli-legacy.min.js
+                            default
+                                include ../js/unbrotli.min.js
+
+        script.
+            window.DEBUG = document.location.search.includes( 'debug' );
+            window.TRACE = false;
+            window.DEVELOP = false;
+            window.TESTS = false;
+            window.FORCE_STABLE_RANDOM_SEED = false;
+
+        block pi-config
+            include ./pi
+
+        include ./compress
+
+        block scripts
+            <!-- htmlmin:ignore -->
+            if resources
+                for resource in resources
+                    if resource && resource.content
+                        script( data-startup-only ) !{ resource.content }
+                    else if resource
+                        script( src = resource.src defer data-startup-only )
+            <!-- htmlmin:ignore -->
+
+        block body
+            include ./body
+
+            block content
+                script.
+                    window.addEventListener( 'luna:build', function() {
+                        window.pi.logLoaded();
+                        window.dispatchEvent( new Event( 'luna:start' ) );
+                    } );
+
+            block runtime
+
+    <!-- htmlmin:ignore -->
+<!-- htmlmin:ignore -->

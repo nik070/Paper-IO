@@ -1,0 +1,157 @@
+block resources
+    for image in images
+        if config.image !== 'external'
+            if image.data122
+                img( id=image.id data-src122=image.data122 data-mime=image.mime style="display: none;" crossorigin="" )
+            else
+                img( id=image.id src=image.data style="display: none;" crossorigin="" )
+        else
+            img( id=image.id data-src=image.data style="display: none;")
+
+    for video in videos
+        if config.video !== 'external'
+            if video.data122
+                video( id=video.id data-src122=video.data122 data-mime=video.mime style="display: none;" preload="auto" autoload="" muted="" playsinline="" crossorigin="" )
+            else
+                video( id=video.id src=video.data style="display: none;" preload="auto" autoload="" muted="" playsinline="" crossorigin="" )
+        else
+            video( id=video.id data-src=video.data style="display: none;" crossorigin="" )
+
+    for sound in sounds
+        if config.sound !== 'external'
+            if sound.data122
+                audio( id=sound.id data-src122=sound.data122 data-mime=sound.mime style="display: none;" crossorigin="" )
+            else
+                audio( id=sound.id src=sound.data style="display: none;" crossorigin="" )
+        else
+            audio( id=sound.id data-src=sound.data style="display: none;" crossorigin="" )
+
+include ../pug/decode122
+
+canvas#application-canvas
+
+script.
+    window._bridgeReady = false;
+    window._domReady = false;
+    // Sometimes when using webworkers we decompress scripts before 'DOMContentLoaded' event causing listener
+    // to think that it's dealing with builds with sync decompression. In this case two 'luna:ready' events will be emitted
+    // and we want to prevent that
+    window._readyEventEmitted = false;
+
+    window.addEventListener( 'DOMContentLoaded', () => {
+        if ( window._compressedAssets ) {
+            Promise.all( window._compressedAssets ).then( () => window.dispatchEvent( new Event( 'bridge:ready' ) ) );
+        }
+    } );
+
+    window.addEventListener( 'bridge:ready', function() {
+        window._bridgeReady = true;
+        if ( window._domReady && !window._readyEventEmitted ) {
+            window._readyEventEmitted = true;
+            window.dispatchEvent( new Event( 'luna:ready' ) );
+        }
+    } );
+
+    window.addEventListener( 'DOMContentLoaded', function() {
+        window._domReady = true;
+        if ( 'Bridge' in window ) {
+            // We're dealing with develop or test builds where bridge is included as a regular script and available
+            // when DOMContentLoaded fired.
+            // Otherwise bridge script is a part of compressed resources in html file and bridge:ready event will be fired
+            // when it's available
+            window._bridgeReady = true;
+        }
+        if ( window._bridgeReady && !window._readyEventEmitted ) {
+            window._readyEventEmitted = true;
+            window.dispatchEvent( new Event( 'luna:ready' ) );
+        }
+    } );
+
+include ./filters
+
+script.
+    function startGame() {
+        return new Promise( function ( resolve, reject ) {
+            pc.TextGenerator.fontRatio = 2.0;
+
+            window.app = new LunaUnity.Application(
+                document.getElementById( "application-canvas" ),
+                window.$environment,
+                new LunaUnity.Application.StartupScene( "-1", "#{startup_scene}" )
+            );
+
+            const initializeTask = ( window.app.InitializeAsync && window.app.InitializeAsync() ) || System.Threading.Tasks.Task.fromResult( true );
+            initializeTask.continueWith( function( status ) {
+                if ( status.exception ) {
+                    console.error( 'Cannot start the game due to exception' );
+                    reject( status.exception );
+                    return;
+                }
+
+                // That event indicates that luna engine was successfully initialized and ready to process events
+                window.dispatchEvent( new Event( 'luna:initialized' ) );
+                window.dispatchEvent( new Event( 'luna:starting' ) );
+
+                window.app.StartWithJSCallback( function() {
+                    var preloader = document.getElementById( "application-preloader" );
+
+                    if ( preloader != null ) {
+                        preloader.parentNode.removeChild( preloader );
+                    }
+
+                    window.dispatchEvent(new Event('luna:filters:update'));
+
+                    resolve();
+                } );
+            } );
+        } );
+    }
+
+block shared
+    include ../pug/content/shared
+
+block volume
+    script.
+        ( function () {
+            var _mute = false;
+
+            window.audioVolumeToggle = function ( mute ) {
+                if ( mute !== _mute ) {
+                    _mute = mute;
+
+                    if ( mute ) {
+                        Luna.Unity.LifeCycle.OnMute();
+                        window.app.app.muteAudio();
+                    } else {
+                        Luna.Unity.LifeCycle.OnUnmute();
+                        window.app.app.unmuteAudio();
+                    }
+
+                    if ( window.app && window.app.AudioManager ) {
+                        window.app.AudioManager.TriggerMasterVolumeChange( _mute ? 0 : 1 );
+                    }
+                }
+            };
+
+            window.addEventListener( "luna:unmute", function() {
+                window.audioVolumeToggle( false );
+            } );
+
+            window.addEventListener( "luna:mute", function() {
+                window.audioVolumeToggle( true );
+            } );
+
+            window.addEventListener( 'luna:pause', function () {
+                if ( window.app && window.app.app ) {
+                    Luna.Unity.LifeCycle.OnPause();
+                    window.app.app.pause();
+                }
+            } );
+
+            window.addEventListener( 'luna:resume', function () {
+                if ( window.app && window.app.app ) {
+                    Luna.Unity.LifeCycle.OnResume();
+                    window.app.app.resume();
+                }
+            } );
+        } )();

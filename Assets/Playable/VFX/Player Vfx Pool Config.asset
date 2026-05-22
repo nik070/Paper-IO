@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67cd8d16d1134f5abe67a063a385d8e5, type: 3}
+  m_Name: Player Vfx Pool Config
+  m_EditorClassIdentifier: 
+  Variants:
+  - Variant: Death
+    Prefab: {fileID: 1617244311963359154, guid: 5b451a9ba1e6846ecab848a16697c3b2,
+      type: 3}
+    InitialSize: 1
+    InitialPackSize: 0
+    Increment: 1
+    IncrementPackSize: 0
+    GrowCap: 5
+    PoolCap: 9
+  - Variant: CutTrail
+    Prefab: {fileID: 2141284625184215555, guid: 464cf87a551a5445984e3eb822c7b1bc,
+      type: 3}
+    InitialSize: 1
+    InitialPackSize: 0
+    Increment: 1
+    IncrementPackSize: 0
+    GrowCap: 9
+    PoolCap: 9
+  - Variant: KillPaintCircle
+    Prefab: {fileID: 4213331475200041241, guid: fbf8c91969f3449ed92aa2b920171718,
+      type: 3}
+    InitialSize: 1
+    InitialPackSize: 0
+    Increment: 1
+    IncrementPackSize: 0
+    GrowCap: 9
+    PoolCap: 9

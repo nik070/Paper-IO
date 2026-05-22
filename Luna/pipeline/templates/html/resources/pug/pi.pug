@@ -1,0 +1,88 @@
+script.
+    window.pi.apply( window, window.LUNA_PI_SETTINGS || [] );
+
+mixin logEventWrapper
+    script.
+        window.pi.originalLogEvent = window.pi.logEvent;
+        window.pi.logEvent = function( eventName, resetTimestamp, options ) {
+            this.injectAdData();
+            return this.originalLogEvent( eventName, resetTimestamp, options );
+        };
+
+block injectAdData
+    case targetPlatform
+        when 'ironsource'
+            script.
+                window.pi.injectAdData = function() {
+                    if ( this.env.impressionId ) {
+                        return;
+                    }
+                    try {
+                        const adData = mraid.getMraidAdData();
+                        // extract UII
+                        this.env.impressionId = adData.UII;
+                        this.env.creativeId = adData.creativeId || '';
+                        this.env.campaignId = adData.campaignId || '';
+                        // detect rewarded status
+                        if ( adData.productType === 'RewardedVideo' ) {
+                            this.env.isRewarded = 1;
+                        } else if ( adData.productType === 'Interstitial' ) {
+                            this.env.isRewarded = 0;
+                        }
+                    } catch ( ex ) {
+                        console.warn( 'mraid API is not available, skipping ad data injection' );
+                    }
+                };
+            +logEventWrapper
+        when 'unityads'
+            script.
+                window.pi.injectAdData = function() {
+                    if ( this.env.impressionId ) {
+                        return;
+                    }
+                    try {
+                        const adData = mraid.getMraidAdData();
+                        // extract UII
+                        this.env.impressionId = adData.UII;
+                        this.env.creativeId = adData.creativeId || '';
+                        this.env.campaignId = adData.campaignId || '';
+                    } catch ( ex ) {
+                        console.warn( 'mraid API is not available, skipping ad data injection' );
+                    }
+                };
+            +logEventWrapper
+        when 'vungle'
+            script.
+                window.pi.injectAdData = function() {
+                    if ( !window.VungleHelper ) {
+                        return;
+                    }
+                    try {
+                        if ( window.VungleHelper.rewardedAd === true ) {
+                            this.env.isRewarded = 1;
+                        } else if ( window.VungleHelper.rewardedAd === false ) {
+                            this.env.isRewarded = 0;
+                        }
+                    } catch ( ex ) {
+                        console.warn( 'VungleHelper is not available, skipping ad data injection' );
+                    }
+                };
+            +logEventWrapper
+        when 'mintegral'
+            script.
+                window.pi.injectAdData = function() {
+                    if ( !window.MW_INIT ) {
+                        return;
+                    }
+                    try {
+                        const isRewardAds = window.MW_INIT.isRewardAds();
+                        if ( isRewardAds === true ) {
+                            this.env.isRewarded = 1;
+                        } else if ( isRewardAds === false ) {
+                            this.env.isRewarded = 0;
+                        }
+                    } catch ( ex ) {
+                        console.warn( 'Mintegral is not available, skipping ad data injection' );
+                    }
+                };
+            +logEventWrapper

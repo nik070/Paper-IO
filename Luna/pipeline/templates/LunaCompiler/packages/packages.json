@@ -1,0 +1,15 @@
+{
+    "com.unity.textmeshpro": {
+        "^3.0.6": "com.unity.textmeshpro/3.0.6/TextMeshPro.dll"
+    },
+    "com.unity.cinemachine": {
+        "^2.4.0": "com.unity.cinemachine/2.4.0/Cinemachine.dll"
+    },
+    "com.esotericsoftware.spine.spine-csharp": {
+        "~4.1.0": "com.esotericsoftware.spine.spine-csharp/4.1/spine-csharp.dll",
+        "~4.0.0": "com.esotericsoftware.spine.spine-csharp/4.0/spine-csharp.dll"
+    },
+    "com.unity.ide.rider": {
+        "*": "com.unity.ide.rider/3.0.0/JetBrains.dll"
+    }
+}

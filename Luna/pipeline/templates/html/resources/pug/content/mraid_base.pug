@@ -1,0 +1,61 @@
+script.
+    ( function() {
+        var _started = false;
+        var _paused = false;
+        var HIDDEN = 'hidden';
+
+        function isViewable() {
+            return mraid.isViewable() && mraid.getState() !== HIDDEN;
+        }
+
+        function stateChangeHandler() {
+            if ( _started ) {
+                if ( isViewable() && _paused ) {
+                    window.dispatchEvent( new Event( 'luna:resume' ) );
+                    _paused = false;
+                } else if ( !isViewable() && !_paused ) {
+                    window.dispatchEvent( new Event( 'luna:pause' ) );
+                    _paused = true;
+                }
+            } else if ( isViewable() ) {
+                window.dispatchEvent( new Event( 'luna:start' ) );
+                _started = true;
+            }
+        }
+
+        function orientationChangeHandler() {
+        }
+
+        function audioVolumeChangeHandler( volume ) {
+            window.dispatchEvent( new Event( !!volume ? 'luna:unsafe:unmute' : 'luna:unsafe:mute' ) );
+        }
+
+        var mraidIsReady = ( function() {
+            if ( typeof mraid !== 'undefined' ) {
+                mraid.removeEventListener( "ready", mraidIsReady );
+
+                mraid.addEventListener( 'viewableChange', stateChangeHandler );
+                mraid.addEventListener( 'stateChange', stateChangeHandler );
+                mraid.addEventListener( 'orientationchange', orientationChangeHandler );
+                mraid.addEventListener( 'audioVolumeChange', audioVolumeChangeHandler );
+
+                stateChangeHandler();
+            } else {
+                window.dispatchEvent( new Event( 'luna:start' ) );
+            }
+        } );
+
+        window.addEventListener( 'luna:build', function() {
+            window.pi.logLoaded();
+
+            if ( typeof mraid !== 'undefined' ) {
+                if ( mraid.getState() === 'loading' ) {
+                    mraid.addEventListener( "ready", mraidIsReady );
+                } else {
+                    mraidIsReady();
+                }
+            } else {
+                window.dispatchEvent( new Event( 'luna:start' ) );
+            }
+        } );
+    } ) ();

@@ -1,0 +1,217 @@
+if compress && compress.enabled
+    script( data-startup-only ).
+        window.sharedBase122Buffer = null;
+
+        ( () => {
+            let curByte = 0;
+            let bitOfByte = 0;
+            let decodedIndex = 0;
+            const kIllegals = [ 0, 10, 13, 34, 38, 92 ];
+            const kShortened = 0b111;
+
+            function push7( byte, decoded ) {
+                byte <<= 1;
+                curByte |= ( byte >>> bitOfByte );
+                bitOfByte += 7;
+                if ( bitOfByte >= 8 ) {
+                    decoded[ decodedIndex++ ] = curByte;
+                    bitOfByte -= 8;
+                    curByte = ( byte << ( 7 - bitOfByte ) ) & 255;
+                }
+            }
+
+            window._base122ToArrayBuffer = ( strData, useSharedBuffer = false ) => {
+                const maxOutputLength = 1.75 * strData.length | 0;
+                let decoded = null;
+                if ( useSharedBuffer ) {
+                    if ( !window.sharedBase122Buffer || window.sharedBase122Buffer.length < maxOutputLength ) {
+                        window.sharedBase122Buffer = new Uint8Array( maxOutputLength );
+                    }
+                    decoded = window.sharedBase122Buffer;
+                } else {
+                    decoded = new Uint8Array( maxOutputLength );
+                }
+
+                curByte = 0;
+                bitOfByte = 0;
+                decodedIndex = 0;
+
+                for ( let i = 0; i < strData.length; i++ ) {
+                    const c = strData.charCodeAt( i );
+                    if ( c > 127 ) {
+                        const illegalIndex = ( c >>> 8 ) & 7;
+                        if ( illegalIndex !== kShortened ) {
+                            push7( kIllegals[ illegalIndex ], decoded );
+                        }
+                        push7( c & 127, decoded );
+                    } else {
+                        push7( c, decoded );
+                    }
+                }
+
+                return new Uint8Array( decoded.buffer, 0, decodedIndex );
+            }
+        } )();
+
+        function _base64ToArrayBuffer( base64 ) {
+            var binary_string = window.atob( base64 );
+            var len = binary_string.length;
+            var bytes = new Uint8Array( len );
+            for ( var i = 0; i < len; i++ ) {
+                bytes[ i ] = binary_string.charCodeAt( i );
+            }
+            return bytes;
+        }
+
+        window._usingWebWorkers = false;
+        window._freeWorkers = [];
+        window._workerWaitingList = [];
+        window._workerBlobUrl = null;
+
+        function _initParallelDecompression() {
+            window._usingWebWorkers = true;
+            const workerCode = `
+                const unbrotli = (${ window.makeBrotliDecodeStr })();
+                self.onmessage = async ( e ) => {
+                    const { buffer, length } = e.data;
+                    const result = await unbrotli( new Uint8Array( buffer, 0, length ) );
+
+                    postMessage( { result: result.buffer }, [ result.buffer ] );
+                }
+            `;
+            const workerBlob = new Blob( [ workerCode ], { type: 'application/javascript' } );
+            window._workerBlobUrl = URL.createObjectURL( workerBlob );
+            const workersToSpawn = Math.max( Math.min( navigator.hardwareConcurrency || 2, 4 ), 2 );
+            for ( let i = 0; i < workersToSpawn; i++ ) {
+                window._freeWorkers.push( new Worker( window._workerBlobUrl ) );
+            }
+        }
+
+        function _initSyncDecompression() {
+            window._usingWebWorkers = false;
+            Function( `"use strict"; window.unbrotli = (${ window.makeBrotliDecodeStr })()` )();
+        }
+
+        ( () => {
+            const webWorkersMode = window.$environment ? window.$environment.usingWebWorkers || 'off' : 'off';
+            let enableWebWorkers = true;
+            if ( webWorkersMode === 'off' ) {
+                enableWebWorkers = false;
+            } else if ( webWorkersMode === 'test' ) {
+                // 33% chance to enable web workers
+                enableWebWorkers = murmurhash3_32_gc( window.pi.env.sessionId ) % 3 === 0
+            }
+
+            try {
+                if ( enableWebWorkers ) {
+                    _initParallelDecompression()
+                } else {
+                    _initSyncDecompression();
+                }
+            } catch ( e ) {
+                console.error( e );
+                _initSyncDecompression();
+            } finally {
+                delete window.makeBrotliDecodeStr;
+            }
+        } )();
+
+        function _fetchFreeWorker() {
+            return new Promise( ( resolve ) => {
+                if ( window._freeWorkers.length !== 0 ) {
+                    resolve( window._freeWorkers.pop() );
+                } else {
+                    window._workerWaitingList.push( resolve );
+                }
+            } );
+        }
+
+        function _freeWorker( worker ) {
+            if ( window._workerWaitingList.length !== 0 ) {
+                window._workerWaitingList.pop()( worker );
+            } else {
+                window._freeWorkers.push( worker );
+            }
+        }
+
+        const decompressUsingWebWorkers = function( asset, isBase122 ) {
+            return new Promise( ( resolve ) => {
+                _fetchFreeWorker().then( ( worker ) => {
+                    const uintArray = isBase122 ? _base122ToArrayBuffer( asset ) : _base64ToArrayBuffer( asset );
+                    const buffer = uintArray.buffer;
+                    worker.postMessage( { buffer, length: uintArray.length }, [ buffer ] );
+                    const handleMessage = ( message ) => {
+                        worker.removeEventListener( 'message', handleMessage );
+                        _freeWorker( worker );
+                        debugger
+                        resolve( new Uint8Array( message.data.result ) );
+                    }
+                    worker.addEventListener( 'message', handleMessage );
+                } );
+            } );
+        };
+
+        const assetToArrayBuffer = function( asset, isBase122 ) {
+            if ( isBase122 ) {
+                return _base122ToArrayBuffer( asset );
+            } else {
+                return _base64ToArrayBuffer( asset );
+            }
+        }
+
+        const decompressInTheSameThread = function ( asset, isBase122 ) {
+            return new Promise( async ( resolve ) => {
+                resolve( await unbrotli( assetToArrayBuffer( asset, isBase122 ) ) );
+            } );
+        }
+
+        const decompress = function( asset, isBase122 ) {
+            if ( window.lunaStartup ) {
+                window.lunaStartup.timestamps.decompressionStarted = window.lunaStartup.timestamps.decompressionStarted || performance.now();
+            }
+            return window._usingWebWorkers ? decompressUsingWebWorkers( asset, isBase122 ) : decompressInTheSameThread( asset, isBase122 );
+        }
+
+        const decompressArrayBuffer = function( asset, isBase122 ) {
+            return new Promise( ( resolve ) => {
+                decompress( asset, isBase122 ).then( ( { buffer } ) => {
+                    resolve( buffer );
+                } ).catch( ( e ) => console.error( e ) );
+            } );
+        };
+
+        const decompressString = function( asset, isBase122 ) {
+            return new Promise( ( resolve ) => {
+                decompress( asset, isBase122 ).then( ( data ) => {
+                    const result = new TextDecoder( 'utf-8' ).decode( data );
+                    resolve( result );
+                } ).catch( ( e ) => console.error( e ) );
+            } );
+        };
+
+        window.addEventListener( 'luna:ready', function() {
+            Promise.all( window._compressedAssets ).then( function() {
+                if ( window.lunaStartup ) {
+                    window.lunaStartup.timestamps.decompressionFinished = performance.now();
+                }
+
+                window._compressedAssets = null;
+                window.unbrotli = null;
+                for ( const worker of window._freeWorkers ) {
+                    worker.terminate();
+                }
+                window._freeWorkers = null;
+                window._workerWaitingList = null;
+                URL.revokeObjectURL( window._workerBlobUrl );
+                window._workerBlobUrl = null;
+                window.sharedBase122Buffer = null;
+
+                window.dispatchEvent( new Event( 'luna:build' ) );
+            } ).catch( ( e ) => console.error( e ) );
+        } );
+
+else
+    script.
+        window.addEventListener( 'luna:ready', function() {
+            window.dispatchEvent( new Event( 'luna:build' ) );
+        } );

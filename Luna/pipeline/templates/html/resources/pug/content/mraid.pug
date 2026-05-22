@@ -1,0 +1,23 @@
+include mraid_base
+
+script.
+    window.addEventListener( 'luna:build', function() {
+        Bridge.ready( function() {
+            Luna.Unity.Playable.InstallFullGame = function( iosLink, androidLink ) {
+                window.pi.logCta();
+
+                iosLink = iosLink || window.$environment.packageConfig.iosLink;
+                androidLink = androidLink || window.$environment.packageConfig.androidLink;
+
+                const isIOS = ( /iphone|ipad|ipod|macintosh/i ).test( window.navigator.userAgent.toLowerCase() );
+                const storeLink = isIOS ? iosLink : androidLink;
+
+                if ( typeof mraid !== 'undefined' ) {
+                    mraid.open( storeLink );
+                } else {
+                    console.warn( 'Mraid is not defined' );
+                    window.open( storeLink, '_blank' );
+                }
+            };
+        } );
+    } );

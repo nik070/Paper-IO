@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0c268766aad3840a8c3bff790f7c15, type: 3}
+  m_Name: Skin_Bird
+  m_EditorClassIdentifier: 
+  _displayName: KrasH
+  _characterPrefab: {fileID: 103362587787412872, guid: 88a794e152b4e1648b80b6bd13bd2e8f,
+    type: 3}
+  _characterColor: {r: 0.943, g: 0.396, b: 0.407, a: 1}
+  _vfxAdditiveColor: {r: 0.83137256, g: 0.15294118, b: 0.1882353, a: 1}
+  _vfxAdditiveTrailColor: {r: 0.93333334, g: 0.2509804, b: 0.52156866, a: 1}
+  _vfxAdditiveSkinColor: {r: 0.6313726, g: 0.08627451, b: 0.14509805, a: 1}
+  _skinHeight: 0.707
+  _shadowSize: 1.7
+  _zoneColor: {r: 0.976, g: 0.361, b: 0.294, a: 1}
+  _zoneShadowColor: {r: 0.736, g: 0.15, b: 0.087, a: 1}
+  _zoneMaterial: {fileID: 2100000, guid: 1230cc0de168e8248a23b28429b1f0f2, type: 2}
+  _trailColor: {r: 0.976, g: 0.361, b: 0.294, a: 0.49}
+  _trailMaterial: {fileID: 2100000, guid: 6eb2362f935628543a4ac18c512e58a9, type: 2}
+  _overrideHudSpecularColor: 0
+  _hudSpecularColor: {r: 0, g: 0, b: 0, a: 0}
+  _hudNameColor: {r: 0.99215686, g: 0.78039217, b: 0.7529412, a: 1}

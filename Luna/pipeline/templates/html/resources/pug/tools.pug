@@ -1,0 +1,237 @@
+script.
+    window.addEventListener( 'luna:started', () => {
+        Luna.LogDebugInfo = () => {
+            const lablColor = 'color: #bada55';
+            const descColor = 'color: #ffaa80';
+            const app = pc.Application.getApplication();
+
+            console.log( `%c CompanyName: %c${ UnityEngine.Application.companyName }`, lablColor, descColor );
+            console.log( `%c ProductName: %c${ UnityEngine.Application.productName }`, lablColor, descColor );
+            if ( window.$environment.buildId ) {
+                console.log( `%c Playground BuildID: %c${ window.$environment.buildId }`, lablColor, descColor );
+            }
+            console.log( `%c CreativeName: %c${ UnityEngine.Application.creativeName }`, lablColor, descColor );
+            console.log( `%c UnityVersion: %c${ UnityEngine.Application.unityVersion }`, lablColor, descColor );
+            console.log( `%c BuildPlatform: %c${ UnityEngine.Application.buildPlatform }`, lablColor, descColor );
+            console.log( `%c Unity ProjectID: %c${ UnityEngine.Application.projectId }`, lablColor, descColor );
+            console.log( `%c Unity BuildID: %c${ UnityEngine.Application.buildID }`, lablColor, descColor );
+            console.log( `%c LunaPackage: %c${ UnityEngine.Application.lunaVersion } (${ UnityEngine.Application.lunaSHA })`, lablColor, descColor );
+
+            console.log( `%c LunaInitializationTime: %c${ UnityEngine.Application.lunaInitializationTime } ${ UnityEngine.Application.lunaDaysSinceInstall } day(s) running`, lablColor, descColor );
+            const isIronSource = window.$environment.targetPlatform === 'ironsource';
+            console.log( `%c AdNetworkPlatform: %c${ window.$environment.targetPlatform } API: ${ isIronSource ? ( window.$environment.packageConfig.apiType === 0 ? 'DAPI' : 'Nucleo' ) : 'MRAID' }`, lablColor, descColor );
+
+            console.log( `%c AndroidStoreLink: %c${ UnityEngine.Application.androidStoreLink }`, lablColor, descColor );
+            console.log( `%c IosStoreLink: %c${ UnityEngine.Application.iosStoreLink }`, lablColor, descColor );
+            console.log( `%c ColorSpace: %c${ System.Enum.getName( UnityEngine.ColorSpace, pc.ProjectSettings.instance.desiredColorSpace ) }`, lablColor, descColor );
+            if ( window.lunaStartup ) {
+                console.log( `%c AverageStartup: %c${ window.lunaStartup.measuredTime.avgStartupTime }ms`, lablColor, descColor );
+            } else {
+                console.log( '%c AverageStartup: %cWorks only with /?startup key', lablColor, descColor );
+            }
+
+            console.log( `%c Scene count: %c${ UnityEngine.SceneManagement.SceneManager.sceneCount }`, lablColor, descColor );
+            /**
+             * @type {string[]}
+             */
+            const scenes = [];
+            UnityEngine.SceneManagement.SceneManager.scenes.forEach( ( scene ) => {
+                scenes.push( scene.name );
+            } );
+            console.log( `%c Scenes: %c${ scenes.join( '\n ' ) }`, lablColor, descColor );
+
+            console.log( `%c BaseEncoding: %c${ UnityEngine.Application.base64enabled === 'True' ? 'Base64' : 'Base122' }`, lablColor, descColor );
+            console.log( `%c MinifyEnabled: %c${ UnityEngine.Application.minifyEnabled }`, lablColor, descColor );
+            console.log( `%c ForceUncompressed: %c${ UnityEngine.Application.isForceUncompressed }`, lablColor, descColor );
+            console.log( `%c AntiAliasingEnabled: %c${ UnityEngine.Application.isAntiAliasingEnabled }`, lablColor, descColor );
+            console.log( `%c LunaCompilerV2: %c${ UnityEngine.Application.isLunaCompilerV2Used }`, lablColor, descColor );
+            console.log( '%c ---RuntimeAnalysis---', lablColor );
+            console.log( `%c CodeStrippingEnabled: %c${ UnityEngine.Application.isRuntimeAnalysisEnabledForCode }`, lablColor, descColor );
+            console.log( `%c ExcludedClassesCount: %c${ UnityEngine.Application.runtimeAnalysisExcludedClassesCount }`, lablColor, descColor );
+            console.log( `%c ExcludedMethodsCount: %c${ UnityEngine.Application.runtimeAnalysisExcludedMethodsCount }`, lablColor, descColor );
+            console.log( `%c ExcludedModules: %c${ UnityEngine.Application.runtimeAnalysisExcludedModules }`, lablColor, descColor );
+            console.log( `%c ShaderStrippingEnabled: %c${ UnityEngine.Application.isRuntimeAnalysisEnabledForShaders }`, lablColor, descColor );
+            const shadersReport = pc.UnityShader.generateReport();
+            console.log( `%c ShadersCount: %c${ shadersReport.unityShadersCount }`, lablColor, descColor );
+            console.log( `%c VariantsCount: %c${ shadersReport.totalVariantsCount }`, lablColor, descColor );
+            console.log( `%c ShaderProgramsCount: %cVertex: ${ shadersReport.vertexShadersCount } Fragment: ${ shadersReport.fragmentShadersCount }`, lablColor, descColor );
+            console.log( '%c ---TechnicalPerformance---', lablColor );
+            const frameSample = app.counters.previous;
+            const totalFrameTime = frameSample.times.frame;
+            console.log( `%c RealtimeShadowsEnabled: %c${ UnityEngine.Application.isRealtimeShadowsEnabled }`, lablColor, descColor );
+            console.log( `%c StaticBatching: %c${ pc.ProjectSettings.instance.enableStaticBatching }`, lablColor, descColor );
+            console.log( `%c StaticBatchCount: %c${ pc.StaticMeshCombiner.instance.batchCount }`, lablColor, descColor );
+            console.log( `%c DynamicBatching: %c${ pc.ProjectSettings.instance.enableDynamicBatching }`, lablColor, descColor );
+
+            const GraphicsConstraints = {
+                WebGLContext: 1,
+                WebGLShaders: 2,
+                WebGL2Context: 4,
+                WebGL2Shaders: 8,
+            };
+
+            let constraints = [
+                ( app.graphicsDevice.graphicsConstraint & GraphicsConstraints.WebGLContext ) ? 'WebGLContext' : '',
+                ( app.graphicsDevice.graphicsConstraint & GraphicsConstraints.WebGLShaders ) ? 'WebGLShaders' : '',
+                ( app.graphicsDevice.graphicsConstraint & GraphicsConstraints.WebGL2Context ) ? 'WebGL2Context' : '',
+                ( app.graphicsDevice.graphicsConstraint & GraphicsConstraints.WebGL2Shaders ) ? 'WebGL2Shaders' : '',
+            ];
+            constraints = constraints.filter( Boolean );
+
+            console.log( `%c GraphicsConstraint: %c${ constraints.join( ' + ' ) }`, lablColor, descColor );
+            console.log( `%c BakeReferenceAmbientProbe: %c${ UnityEngine.Application.isReferenceAmbientProbeBaked }`, lablColor, descColor );
+            console.log( `%c DrawCalls: %c${ frameSample.drawCalls }`, lablColor, descColor );
+            console.log( `%c FrameTime: %c${ totalFrameTime.toFixed( 2 ) }ms`, lablColor, descColor );
+            console.log( `%c RenderTime: %c${ frameSample.times.render.toFixed( 2 ) }ms ${ ( frameSample.times.render / totalFrameTime * 100 ).toFixed( 2 ) }% of frame time`, lablColor, descColor );
+            console.log( `%c ScriptsTime: %c${ frameSample.times.scripts.toFixed( 2 ) }ms ${ ( frameSample.times.scripts / totalFrameTime * 100 ).toFixed( 2 ) }% of frame time`, lablColor, descColor );
+            console.log( `%c AnimationsTime: %c${ frameSample.times.animations.toFixed( 2 ) }ms ${ ( frameSample.times.animations / totalFrameTime * 100 ).toFixed( 2 ) }% of frame time`, lablColor, descColor );
+            console.log( `%c AnimatorsTime: %c${ frameSample.times.animators.toFixed( 2 ) }ms ${ ( frameSample.times.animators / totalFrameTime * 100 ).toFixed( 2 ) }% of frame time`, lablColor, descColor );
+            console.log( `%c Physics2DTime: %c${ frameSample.times.physics2d.toFixed( 2 ) }ms ${ ( frameSample.times.physics2d / totalFrameTime * 100 ).toFixed( 2 ) }% of frame time`, lablColor, descColor );
+            console.log( `%c PhysicsTime: %c${ frameSample.times.physics.toFixed( 2 ) }ms ${ ( frameSample.times.physics / totalFrameTime * 100 ).toFixed( 2 ) }% of frame time`, lablColor, descColor );
+            console.log( '%c ---MemoryUsage---', lablColor );
+            try {
+                console.log( `%c HeapLimit: %c${ ( performance.memory.jsHeapSizeLimit / 1000000 ).toFixed( 2 ) } MB`, lablColor, descColor );
+                console.log( `%c TotalHeapSize: %c${ ( performance.memory.totalJSHeapSize / 1000000 ).toFixed( 2 ) } MB`, lablColor, descColor );
+                console.log( `%c UsedHeapSize: %c${ ( performance.memory.usedJSHeapSize / 1000000 ).toFixed( 2 ) } MB`, lablColor, descColor );
+            } catch ( error ) {
+                console.log( 'Memory measurements are supported for Chrome (v7+, v18+ android), Edge (v79+), Opera (v15+, v14+ android), Samsung Internet (v1.0+), WebView Android (v37+)' );
+            }
+            console.log( '%c ---DebugInfo---', lablColor );
+            console.log( `%c WebglVersion used: %c${ app.graphicsDevice.gl.getParameter( app.graphicsDevice.gl.VERSION ) }`, lablColor, descColor );
+            console.log( `%c Webgl supported: %c${ app.counters.webglVersion }`, lablColor, descColor );
+            const extensions = app.counters.webglExtensions.join( '\n ' );
+            console.log( `%c WebglExtensions:\n %c${ extensions }`, lablColor, descColor );
+            console.log( `%c PackagesInfo:\n%c${ UnityEngine.Application.packagesInfo }`, lablColor, descColor );
+            console.log( `%c ExternalJSLibraries:\n %c${ UnityEngine.Application.externalJsLibraries }`, lablColor, descColor );
+        };
+
+        Luna.ShaderReport = () => pc.UnityShader.generateReport();
+        Luna.StartupReport = () => console.log( app._startup_report );
+    } );
+
+script( data-startup-only )
+    include ../js/startup.js
+
+script( data-startup-only ).
+    if ( document.location.search.toLowerCase().indexOf( 'spector' ) >= 0 ) {
+        const spectorScript = document.createElement( 'script' );
+        spectorScript.setAttribute( 'src', 'https://cdn.jsdelivr.net/npm/spectorjs@0.9.30/dist/spector.bundle.js' );
+        document.head.appendChild( spectorScript );
+
+        spectorScript.addEventListener( 'load', () => {
+            window.spector = new SPECTOR.Spector();
+            window.spector.spyCanvases();
+            window.spector.displayUI();
+        } );
+    };
+
+    window.addEventListener( 'luna:started', function () {
+        // https://github.com/mrdoob/stats.js/
+        if ( document.location.search.indexOf( 'fps' ) >= 0 ) {
+            const script = document.createElement( 'script' );
+            script.onload = function () {
+                const stats = new Stats();
+                document.body.appendChild( stats.dom );
+                window.app.app.events.on( 'postrender', function loop() {
+                    stats.update();
+                }, this );
+            };
+
+            script.src = 'https://mrdoob.github.io/stats.js/build/stats.min.js';
+            document.head.appendChild( script );
+        }
+    } );
+
+    window.addEventListener( 'luna:start', function () {
+        if ( document.location.search.indexOf( 'bundles' ) >= 0) {
+            LunaUnity.Objects.Bundle.cleanup = () => {
+                console.log( 'Bundle.cleanup suppressed' )
+                window.addEventListener( 'luna:startup:bundlesLoad', () => {
+                    LunaUnity.Objects.Bundle.cleanup = () => { console.log( 'Bundle.cleanup suppressed' ) };
+                } );
+            }
+        }
+    } );
+
+    window.addEventListener( 'luna:started', function () {
+        if ( document.location.search.indexOf( 'bundles' ) >= 0) {
+            const app = pc.Application.getApplication();
+            const events = app.events || app;
+            events.once( 'postrender', () => {
+                var fn = ( totals, curGameObject ) => {
+                    for ( let i = 0; i < curGameObject.children.length; i++ ) {
+                        var child = curGameObject.children[ i ];
+                        totals.gameObjects += 1;
+                        totals.components += child.components.length;
+                        fn( totals, child );
+                    }
+                };
+                var message = '';
+                var bundles = Object.values( LunaUnity.Objects.Bundle._bundles );
+                for ( var i = 0; i < bundles.length; i++ ) {
+                    var bundle = bundles[ i ];
+                    message += `Bundle ${ bundle.manifest.id }( ${ ( bundle.blob.byteLength / 1000000 ).toFixed( 3 ) } MB ):\n`;
+
+                    var handlers = Object.values( bundle.json );
+                    var handlerNames = Object.keys( bundle.json );
+                    for ( var j = 0; j < handlers.length; j++ ) {
+                        var handler = handlers[ j ];
+                        var handlerName = handlerNames[ j ];
+                        message += `  ${ handlerName }: ${ handler.length } `;
+                        switch ( handlerName ) {
+                            case 'scriptable-objects':
+                                break;
+                            case 'textures':
+                                var totals = { size: 0 };
+                                for ( let i = 0; i < handler.length; i++ ) {
+                                    totals.size += handler[ i ].data[ 1 ] * handler[ i ].data[ 2 ] * 4;
+                                }
+                                message += `( ByteSize: ${ ( totals.size / 1000000 ).toFixed( 3 ) } MB )`;
+                                break;
+                            case 'meshes':
+                                message += ``;
+                                break;
+                            case 'scenes':
+                                var totals = { gameObjects: 0, components: 0 };
+                                var roots = handler[0].objects;
+                                for ( let i = 0; i < roots.length; i++ ) {
+                                    fn( totals, roots[ i ] );
+                                }
+                                message += `( GameObjects: ${ totals.gameObjects }, Components ${ totals.components } )`;
+                                break;
+                            case 'prefabs':
+                                var totals = { gameObjects: 0, components: 0 };
+                                for ( let i = 0; i < handler.length; i++ ) {
+                                    fn( totals, handler[ i ] );
+                                }
+                                message += `( GameObjects: ${ totals.gameObjects }, Components ${ totals.components } )`;
+                                break;
+                            case 'animation-clips':
+                                var totals = { curves: 0, keys: 0 };
+                                const ANIMATION_CLIP_FIELDS = Deserializers.fields[ 'Luna.Unity.DTO.UnityEngine.Animation.Data.AnimationClip' ];
+                                const ANIMATION_CURVE_FIELDS = Deserializers.fields[ 'Luna.Unity.DTO.UnityEngine.Animation.Data.AnimationCurve' ];
+                                const ANIMATION_EVENT_FIELDS = Deserializers.fields[ 'Luna.Unity.DTO.UnityEngine.Animation.Data.AnimationEvent' ];
+                                for ( let i = 0; i < handler.length; i++ ) {
+                                    var animationClip = handler[ i ];
+                                    var data = animationClip.data;
+                                    const curvesData = data[ ANIMATION_CLIP_FIELDS.curves ];
+                                    totals.curves += curvesData.length;
+                                    for ( let j = 0; j < curvesData.length; j++ ) {
+                                        var curveData = curvesData[ j ];
+                                        const keysBlobSize = curveData[ ANIMATION_CURVE_FIELDS.keys ];
+                                        var byteSize = keysBlobSize[ 1 ];
+                                        var keys = byteSize / ( data[ ANIMATION_CLIP_FIELDS.halfPrecision ] ? 2 : 4) / 7;
+                                        totals.keys += keys;
+                                    }
+                                }
+                                message += `( Curves: ${ totals.curves }, Keys ${ totals.keys } )`;
+                                break;
+                        }
+                        message += '\n'
+                    }
+                }
+                console.log( message );
+                window.alert( message );
+            }, this );
+        }
+    } );

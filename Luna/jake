@@ -1,0 +1,10 @@
+#!/bin/bash
+WORKING_DIR=$(dirname $0)
+if [ "$(uname)" == "Darwin" ]; then
+    NODE_BIN_PATH=$WORKING_DIR/tools/node/mac64/bin/node
+else
+    NODE_BIN_PATH=$WORKING_DIR/tools/node/win64/node.exe
+fi
+
+# 8192MB of max memory instead of default 1400 to allow to convert projects with a lot of assets.
+PROJECT_PATH=${PROJECT_PATH:-`pwd`/..} $NODE_BIN_PATH --max-old-space-size=8192 $WORKING_DIR/pipeline/jake.js -f $WORKING_DIR/pipeline/Jakefile.js --quiet $1 $2 $3 $4 $5

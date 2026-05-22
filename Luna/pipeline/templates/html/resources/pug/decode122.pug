@@ -1,0 +1,58 @@
+script.
+    ( () => {
+        function getChromeVersion() {
+            const raw = navigator.userAgent.match( /Chrom(e|ium)\/([0-9]+)\./ );
+            return raw ? parseInt( raw[ 2 ], 10 ) : false;
+        }
+
+        function getIosVersion() {
+            // Ironsource userAgent example
+            // Mozilla/5.0 (iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
+            const raw = navigator.userAgent.match( /(iPod|iPhone|iPad).*OS\s([0-9_]*)\s/ );
+            return raw ? raw[ 2 ].replaceAll( '_', '.' ) : false;
+        }
+
+        function blobToBase64( blob ) {
+            return new Promise( ( resolve ) => {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    resolve( reader.result );
+                }
+                reader.readAsDataURL( blob );
+            } );
+        }
+
+        const _decode122Promises = [];
+        for ( const element of document.querySelectorAll( '[data-src122]' ) ) {
+            const dataset = element.dataset;
+            const buffer = _base122ToArrayBuffer( dataset[ 'src122' ], true );
+            const blob = new Blob( [ buffer ], { type: dataset[ 'mime' ] } );
+            delete dataset[ 'src122' ];
+            delete dataset[ 'mime' ];
+
+            // Chrome under 52 version have a bug that do not allow to play media files that is set as a blob via create URL.
+            // https://bugs.chromium.org/p/chromium/issues/detail?id=253465
+            const chromeVersion = getChromeVersion();
+
+            // Safari on iOS 15.4 version cannot play a video from data uri. Looks like iOS 17.4 has the same issue.
+            // https://bugs.webkit.org/show_bug.cgi?id=232076
+            const iosVersion = getIosVersion();
+
+            if ( ( chromeVersion && chromeVersion < 52 ) ||
+                ( iosVersion && ( iosVersion.startsWith( '15.4' ) || iosVersion.startsWith( '17.4' ) ) )) {
+                blobToBase64( blob ).then( base64String => {
+                    element.src = base64String;
+                } );
+            } else {
+                element.src = URL.createObjectURL( blob );
+            }
+
+            if ( element instanceof HTMLImageElement && !element.complete ) {
+                // Videos does have a "is loaded" check in engine so we don't need to wait for them
+                _decode122Promises.push( new Promise( ( resolve ) => {
+                    element.onload = resolve;
+                } ) );
+            }
+        }
+        window._decode122Promise = Promise.all( _decode122Promises );
+    } )();

@@ -1,0 +1,16 @@
+if preloader && preloader.active
+    style
+        include ../css/preloader.css
+
+    #application-preloader.preloader
+        .preloader__background__color__overlay(id="parameter/preloader/color" style={background: preloader.color})
+            span.preloader__luna__logo
+                if preloader.logo
+                    img.preloader__logo(id="asset/preloader/logo", src=preloader.logo)
+
+            .preloader__wrapper(class="wrapper")
+                img.preloader__icon(id="asset/preloader/icon", src=preloader.icon, class="wrapper")
+                span.preloader__name(id="parameter/preloader/name" class="wrapper") #{ preloader.title }
+                .preloader__container(class="wrapper")
+                    .preloader__outer__bar
+                        .preloader__bar

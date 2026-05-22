@@ -1,0 +1,22 @@
+{
+    "name": "com.unity.playworks.upp",
+    "displayName": "Unity Playworks Plugin",
+    "author": {
+        "name": "Unity Playworks"
+    },
+    "version": "7.1.0",
+    "unity": "2020.3",
+    "description": "Build your ads in Unity, and convert them using the Unity Playworks Plugin.\n\nTo get started, download our tutorial project by clicking on the QuickStart button in the upper right corner, which teaches you the required knowledge to get started with ads.\n\nOr download at: https://playground.lunalabs.io/downloads",
+    "keywords": [
+        "Luna",
+        "Playworks"
+    ],
+    "_upm": {
+        "quickstart": "https://playground.lunalabs.io/downloads"
+    },
+    "dependencies": {},
+    "documentationUrl": "https://docs.lunalabs.io/docs/playable/overview",
+    "changelogUrl": "https://docs.lunalabs.io/docs/playable/release-notes",
+    "licensesUrl": "https://unity.com/legal/one-operate-services-terms-of-service",
+    "type": "feature"
+}

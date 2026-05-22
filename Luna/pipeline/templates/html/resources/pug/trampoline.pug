@@ -1,0 +1,6 @@
+script( src = trampoline.src, data-relative-src = trampoline.path )
+
+if resources
+    for resource in resources
+        if resource
+            script( src = resource.src, data-relative-src = resource.path )
