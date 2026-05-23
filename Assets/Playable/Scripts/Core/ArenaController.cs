@@ -73,6 +73,28 @@ namespace Core
             return position.x * position.x + position.y * position.y <= _arenaRadiusSqr;
         }
 
+        /// <summary>
+        /// Returns a fresh Paths64 copy of the arena polygon — the exact shape used to draw the
+        /// ground mesh. Useful for snapping a character's territory to a clean circle (e.g. when
+        /// a player wins by filling the map and we want the final mesh to match the visible arena
+        /// instead of being a high-vertex Clipper2 union).
+        /// </summary>
+        public Paths64 CreateArenaPath()
+        {
+            if (_arenaPoints == null)
+            {
+                _arenaPoints = GenerateArenaPoints();
+            }
+
+            Path64 ring = new Path64(_arenaPoints.Length);
+            for (int i = 0; i < _arenaPoints.Length; i++)
+            {
+                Vector2 point = _arenaPoints[i];
+                ring.Add(GeometryUtils.ToPoint64(new Vector3(point.x, point.y, 0f)));
+            }
+            return new Paths64 { ring };
+        }
+
         private void GenerateGroundMesh()
         {
             _arenaPoints = GenerateArenaPoints();

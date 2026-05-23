@@ -1,5 +1,42 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8800000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b262f93481c15c848b45ebafd77f7165, type: 3}
+  m_Name: UnderwaterVolume
+  m_EditorClassIdentifier: Assembly-CSharp::Paro222.UnderwaterEffects.UnderwaterVolume
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  wobbleAmount:
+    m_OverrideState: 1
+    m_Value: 0.025
+  wobbleFreq:
+    m_OverrideState: 1
+    m_Value: 20
+  wobbleSpeed:
+    m_OverrideState: 1
+    m_Value: 1.6
+  tintColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.15, g: 0.5, b: 0.7, a: 1}
+  tintStrength:
+    m_OverrideState: 1
+    m_Value: 0.22
+  vignette:
+    m_OverrideState: 1
+    m_Value: 0.55
+  chromaticAmount:
+    m_OverrideState: 1
+    m_Value: 0.005
 --- !u!114 &-6919344495166081258
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -24,7 +61,7 @@ MonoBehaviour:
     m_Value: 0.89
   scatter:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.221
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -93,3 +130,4 @@ MonoBehaviour:
   components:
   - {fileID: -6919344495166081258}
   - {fileID: -2406983749017316940}
+  - {fileID: -8800000000000000001}

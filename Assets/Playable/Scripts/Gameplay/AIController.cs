@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Clipper2Lib;
 using Core;
 using Mechanics;
 using UnityEngine;
@@ -9,20 +10,51 @@ namespace Gameplay
     [RequireComponent(typeof(CharacterMotor), typeof(Character))]
     public class AIController : MonoBehaviour, IController
     {
-        private const float TrailLookahead = 1.5f;
+        // -----------------------------------------------------------------------------------------
+        // Tuning constants
+        // -----------------------------------------------------------------------------------------
+
+        // AI tick rate. Faster than the old 0.2s so the bot can actually react before it ploughs
+        // through its own trail at full speed.
+        private const float AiTickRate = 0.1f;
+
+        // Skip this many of the most recently dropped trail points when checking self-collision —
+        // those points sit right under the bot and any forward direction would falsely "hit" them.
         private const int TrailHeadSkip = 4;
+
+        // How many candidate directions to evaluate per tick (every 360/N degrees).
+        private const int DirectionCandidates = 24;
+
+        // Look-ahead duration: predict where we'll be N seconds in the future when scoring a
+        // candidate direction. Scaled by motor speed inside the scorer.
+        private const float TrailLookAheadSeconds = 0.6f;
+
+        // Below this distance from any existing trail segment, a candidate direction starts losing
+        // score linearly. Roughly the bot's visual radius + a small buffer.
+        private const float TrailDangerDistance = 0.8f;
+
+        // Magnitude of the trail-proximity penalty per unit-of-closeness. Strong enough to clearly
+        // outrank "alignment with goal" but not so strong it overrides a hard wall-crossing veto.
+        private const float TrailProximityWeight = 60f;
+
+        // Score returned for a candidate direction whose look-ahead segment would actually CROSS
+        // an existing trail segment. Effectively a hard veto — only chosen if every other
+        // candidate is also vetoed (degenerate edge case).
+        private const float TrailCrossPenalty = 10000f;
+
+        // How close to the arena boundary the bot is allowed to plan a path before the candidate
+        // starts losing score. Keeps bots from cornering themselves against the wall.
+        private const float WallSafetyMargin = 1.5f;
+        private const float WallProximityWeight = 80f;
+
+        // Player-trail pursuit range, scaled by risk profile.
         private const float PursueRangeCowardly = 8f;
         private const float PursueRangeAggressive = 25f;
 
-        // How far ahead the bot probes its own trail when steering — slightly larger than
-        // TrailLookahead because the motor lerps its rotation, so the bot can't actually
-        // turn on a dime. ~2 units gives the lerp time to react before we collide.
-        private const float TrailAvoidLookahead = 2.0f;
-
-        // When the desired direction would hit our own trail, sweep this many ± angle
-        // steps (15° each) looking for a clear bearing. 6 steps = up to ±90°.
-        private const int TrailAvoidConeSteps = 6;
-        private const float TrailAvoidStepDeg = 15f;
+        // Score weights for the picker.
+        private const float AlignmentWeight = 2.0f;
+        private const float ContinuityWeight = 0.6f;
+        private const float ReverseDotThreshold = -0.7f;
 
         private enum State
         {
@@ -31,11 +63,13 @@ namespace Gameplay
             Returning
         }
 
+        // -----------------------------------------------------------------------------------------
+        // Runtime state
+        // -----------------------------------------------------------------------------------------
+
         private CharacterMotor _motor;
         private Character _character;
 
-        // OPTIMIZATION: AI doesn't need to think 60 times a second.
-        private readonly float _aiTickRate = 0.2f;
         private float _nextTickTime;
         private State _currentState = State.InsideBase;
 
@@ -43,275 +77,298 @@ namespace Gameplay
         private float _timeOutside;
         private Vector3 _currentMoveDir;
 
-        // Dynamic thresholds mapped from riskTaker
+        // Dynamic thresholds mapped from _riskTaker
         private float _maxTimeOutside;
         private float _maxDistOutside;
 
-        [FormerlySerializedAs("riskTaker")] [Tooltip("0 = Cowardly (stays close), 1 = Aggressive (takes huge areas)")]
+        [FormerlySerializedAs("riskTaker")]
+        [Tooltip("0 = Cowardly (stays close), 1 = Aggressive (takes huge areas)")]
         public float _riskTaker = 0.5f;
+
+        // -----------------------------------------------------------------------------------------
+        // Unity lifecycle
+        // -----------------------------------------------------------------------------------------
 
         private void Update()
         {
-            if (_motor != null && !_motor.IsEnabled)
+            if (_motor == null || !_motor.IsEnabled)
             {
                 return;
             }
 
-            // Safety check: wait until the Game Manager initializes the territory
             if (_character._area == null || _character._area.CurrentTerritory == null)
             {
                 return;
             }
 
-            // Throttle AI calculations
             if (Time.time < _nextTickTime)
             {
                 return;
             }
 
-            _nextTickTime = Time.time + _aiTickRate;
-
+            _nextTickTime = Time.time + AiTickRate;
             Think();
         }
 
         public void Init(CharacterSpawnConfig config)
         {
             _riskTaker = Mathf.Clamp01(config.RiskTaker);
-
-            // Map the risk (0 to 1) to actual game values
-            // High risk = can stay out for 7 seconds, up to 18 units away.
             _maxTimeOutside = Mathf.Lerp(1.5f, 7.0f, _riskTaker);
             _maxDistOutside = Mathf.Lerp(8.0f, 35.0f, _riskTaker);
 
             _motor = GetComponent<CharacterMotor>();
             _character = GetComponent<Character>();
 
-            _currentMoveDir = GetRandomDirection();
+            _currentMoveDir = RandomUnit2D();
             _motor.SetLastMovement(_currentMoveDir);
         }
 
+        // -----------------------------------------------------------------------------------------
+        // Core think loop
+        // -----------------------------------------------------------------------------------------
+
         private void Think()
         {
-            bool isInside = _character._area.IsPointInside(transform.position);
+            Vector3 selfPos = transform.position;
+            bool isInside = _character._area.IsPointInside(selfPos);
+
+            Vector3 goalDir;
+            bool checkTrail;
 
             if (isInside)
             {
                 if (_currentState != State.InsideBase)
                 {
-                    // Just successfully returned and captured territory!
                     _currentState = State.InsideBase;
                     _timeOutside = 0f;
-                    _currentMoveDir = GetRandomDirection(); // Head out in a new direction
                 }
-                else
-                {
-                    // Wandering safely inside base.
-                    // 10% chance per tick to adjust direction so they don't get stuck in a corner.
-                    if (Random.value < 0.1f)
-                    {
-                        _currentMoveDir = GetRandomDirection();
-                    }
-                }
+
+                // Aim outward toward a fresh exit on a random tangent of our territory. No
+                // self-trail check needed — we just cleared it on entry.
+                goalDir = ChooseExploreOutwardDir(selfPos);
+                checkTrail = false;
             }
-            else // OUTSIDE TERRITORY
+            else
             {
                 if (_currentState == State.InsideBase)
                 {
-                    // Just stepped outside
                     _currentState = State.Exploring;
-                    _exitPoint = transform.position;
-
-                    // Human simulation: Players usually run parallel to their border right after exiting
-                    Turn90Degrees();
+                    _exitPoint = selfPos;
+                    _timeOutside = 0f;
                 }
 
-                _timeOutside += _aiTickRate;
-                float distFromExit = Vector3.Distance(transform.position, _exitPoint);
+                _timeOutside += AiTickRate;
+                float distFromExit = Vector3.Distance(selfPos, _exitPoint);
 
-                if (_currentState == State.Exploring)
+                bool mustReturn = _timeOutside > _maxTimeOutside
+                                  || distFromExit > _maxDistOutside
+                                  || _currentState == State.Returning;
+
+                if (mustReturn)
                 {
-                    // Panic Condition: We've been out too long, or went too far
-                    if (_timeOutside > _maxTimeOutside || distFromExit > _maxDistOutside)
+                    _currentState = State.Returning;
+                    Vector3 returnTarget = GetBestReturnPoint(selfPos);
+                    goalDir = (returnTarget - selfPos).normalized;
+                }
+                else if (TryGetPlayerTrailTarget(selfPos, out Vector3 pursueTarget))
+                {
+                    goalDir = (pursueTarget - selfPos).normalized;
+                }
+                else
+                {
+                    // Keep heading; let the scorer punish anything that would hit the trail or
+                    // wall. Occasional intentional perpendicular turns help bots draw square /
+                    // U-shaped pockets like real players do, instead of arcs.
+                    goalDir = _currentMoveDir;
+                    if (Random.value < 0.12f)
                     {
-                        _currentState = State.Returning;
-                    }
-                    else if (!TryPursuePlayerTrail())
-                    {
-                        // 15% chance per tick to make a 90-degree turn.
-                        // This causes them to draw "Boxes" and "U-shapes" like real players.
-                        if (Random.value < 0.15f)
-                        {
-                            Turn90Degrees();
-                        }
+                        float sign = Random.value > 0.5f ? 1f : -1f;
+                        goalDir = Quaternion.Euler(0, 0, sign * 90f) * _currentMoveDir;
                     }
                 }
 
-                if (_currentState == State.Returning)
-                {
-                    // Head straight for the mathematical center of their territory.
-                    Vector3 safeTarget = GetTerritoryCenter();
-                    _currentMoveDir = (safeTarget - transform.position).normalized;
-                }
+                checkTrail = true;
             }
 
-            // Final safety pass — no matter how _currentMoveDir was decided above
-            // (random wander, player pursuit, returning home), refuse to walk it
-            // straight through our own trail. If we'd cross it, swing outward
-            // until a clear bearing is found.
-            _currentMoveDir = AvoidOwnTrail(_currentMoveDir);
+            if (goalDir.sqrMagnitude < 0.0001f)
+            {
+                goalDir = _currentMoveDir;
+            }
 
+            _currentMoveDir = PickBestDirection(selfPos, goalDir.normalized, checkTrail);
             _motor.SetLastMovement(_currentMoveDir);
         }
 
-        /// <summary>
-        /// Returns a direction close to <paramref name="desiredDir"/> that does NOT
-        /// cause the bot to plough through its own active trail in the next
-        /// <see cref="TrailAvoidLookahead"/> units. Returns the original direction
-        /// if every candidate would still hit (rare; preferable to stalling).
-        /// </summary>
-        private Vector3 AvoidOwnTrail(Vector3 desiredDir)
+        // -----------------------------------------------------------------------------------------
+        // Direction selection — score every candidate, pick the best
+        // -----------------------------------------------------------------------------------------
+
+        private Vector3 PickBestDirection(Vector3 selfPos, Vector3 desired, bool checkTrail)
         {
-            if (desiredDir.sqrMagnitude < 0.0001f)
-            {
-                return desiredDir;
-            }
+            float bestScore = float.MinValue;
+            Vector3 bestDir = desired;
 
-            Vector3 selfPos = transform.position;
-            if (!WouldHitOwnTrail(selfPos, desiredDir))
+            for (int i = 0; i < DirectionCandidates; i++)
             {
-                return desiredDir;
-            }
+                float angleDeg = i * (360f / DirectionCandidates);
+                float angleRad = angleDeg * Mathf.Deg2Rad;
+                Vector3 candidate = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
 
-            for (int step = 1; step <= TrailAvoidConeSteps; step++)
-            {
-                float angle = step * TrailAvoidStepDeg;
-
-                Vector3 left = Quaternion.Euler(0, 0, angle) * desiredDir;
-                if (!WouldHitOwnTrail(selfPos, left))
+                // Reject a near-reverse direction outright — bots that flip 180° per tick look
+                // broken on screen and stall their own progress.
+                if (Vector3.Dot(candidate, _currentMoveDir) < ReverseDotThreshold)
                 {
-                    return left.normalized;
+                    continue;
                 }
 
-                Vector3 right = Quaternion.Euler(0, 0, -angle) * desiredDir;
-                if (!WouldHitOwnTrail(selfPos, right))
+                float alignment = Vector3.Dot(candidate, desired);            // -1 .. 1
+                float continuity = Vector3.Dot(candidate, _currentMoveDir);    // -1 .. 1
+                float score = alignment * AlignmentWeight + continuity * ContinuityWeight;
+
+                if (checkTrail)
                 {
-                    return right.normalized;
+                    score -= TrailDangerScore(selfPos, candidate);
+                }
+                score -= WallDangerScore(selfPos, candidate);
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestDir = candidate;
                 }
             }
 
-            // Whole 180° forward arc is blocked — just plough on and accept the cross
-            // (rare edge case; bot would otherwise freeze in place).
-            return desiredDir;
+            return bestDir.normalized;
         }
 
-        /// <summary>
-        /// Segment-vs-segment test: would a step of length TrailAvoidLookahead from
-        /// <paramref name="selfPos"/> in <paramref name="dir"/> cross any of our own
-        /// recorded trail edges (excluding the last few points which sit right under
-        /// the bot)?
-        /// </summary>
-        private bool WouldHitOwnTrail(Vector3 selfPos, Vector3 dir)
+        // Returns 0 if the candidate is safe, TrailCrossPenalty if it would cross an existing
+        // trail segment in the next look-ahead window, or a linear proximity penalty otherwise.
+        private float TrailDangerScore(Vector3 selfPos, Vector3 dir)
         {
             List<Vector3> points = _character._trail._logicPoints;
             if (points == null || points.Count <= TrailHeadSkip + 1)
             {
-                return false;
+                return 0f;
             }
 
-            Vector3 dirN = dir.normalized;
+            float lookAhead = Mathf.Max(1.5f, _motor.Speed * TrailLookAheadSeconds);
             Vector2 a = new Vector2(selfPos.x, selfPos.y);
-            Vector2 b = a + new Vector2(dirN.x, dirN.y) * TrailAvoidLookahead;
+            Vector2 b = a + new Vector2(dir.x, dir.y) * lookAhead;
 
-            // Compare against every trail segment except the few right under us.
-            // points[i] -> points[i+1] is one segment.
+            // Also sample a midpoint so we catch the case where the trail is parallel to our
+            // path and never crosses it but sits dangerously close along the whole stretch.
+            Vector2 mid = (a + b) * 0.5f;
+
+            float maxProximity = 0f;
             int endIndex = points.Count - TrailHeadSkip - 1;
             for (int i = 0; i < endIndex; i++)
             {
                 Vector2 p = new Vector2(points[i].x, points[i].y);
                 Vector2 q = new Vector2(points[i + 1].x, points[i + 1].y);
+
                 if (SegmentsIntersect(a, b, p, q))
                 {
-                    return true;
+                    return TrailCrossPenalty;
                 }
-            }
 
-            return false;
-        }
-
-        private static bool SegmentsIntersect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
-        {
-            float d1 = Cross2D(p4 - p3, p1 - p3);
-            float d2 = Cross2D(p4 - p3, p2 - p3);
-            float d3 = Cross2D(p2 - p1, p3 - p1);
-            float d4 = Cross2D(p2 - p1, p4 - p1);
-
-            // Strictly opposite signs on both pairs = proper crossing.
-            return ((d1 > 0f && d2 < 0f) || (d1 < 0f && d2 > 0f))
-                && ((d3 > 0f && d4 < 0f) || (d3 < 0f && d4 > 0f));
-        }
-
-        private static float Cross2D(Vector2 a, Vector2 b)
-        {
-            return a.x * b.y - a.y * b.x;
-        }
-
-        private void Turn90Degrees()
-        {
-            // Tiny bit of random noise so it isn't perfectly robotic
-            float noise = Random.Range(-10f, 10f);
-            Vector3 candidateLeft = Quaternion.Euler(0, 0, 90f + noise) * _currentMoveDir;
-            Vector3 candidateRight = Quaternion.Euler(0, 0, -90f + noise) * _currentMoveDir;
-
-            // Pick the rotation that keeps us furthest from our own recent trail, so the AI
-            // doesn't visually walk back along the line it just drew.
-            float distLeft = MinSqrDistanceFromTrailAlong(candidateLeft);
-            float distRight = MinSqrDistanceFromTrailAlong(candidateRight);
-
-            if (Mathf.Approximately(distLeft, distRight))
-            {
-                _currentMoveDir = Random.value > 0.5f ? candidateLeft : candidateRight;
-            }
-            else
-            {
-                _currentMoveDir = distLeft >= distRight ? candidateLeft : candidateRight;
-            }
-        }
-
-        private float MinSqrDistanceFromTrailAlong(Vector3 dir)
-        {
-            List<Vector3> points = _character._trail._logicPoints;
-            if (points == null || points.Count <= TrailHeadSkip)
-            {
-                return float.MaxValue;
-            }
-
-            Vector3 probe = transform.position + dir.normalized * TrailLookahead;
-            float minSqr = float.MaxValue;
-
-            // Skip the most recent points — they sit right under the AI, so every candidate
-            // direction would otherwise score "close" against them.
-            int endIndex = points.Count - TrailHeadSkip;
-            for (int i = 0; i < endIndex; i++)
-            {
-                float sqr = (probe - points[i]).sqrMagnitude;
-                if (sqr < minSqr)
+                float d1 = PointToSegmentDistance(b, p, q);
+                float d2 = PointToSegmentDistance(mid, p, q);
+                float closest = d1 < d2 ? d1 : d2;
+                if (closest < TrailDangerDistance)
                 {
-                    minSqr = sqr;
+                    float prox = (TrailDangerDistance - closest);
+                    if (prox > maxProximity)
+                    {
+                        maxProximity = prox;
+                    }
                 }
             }
 
-            return minSqr;
+            return maxProximity * TrailProximityWeight;
         }
 
-        private Vector3 GetRandomDirection()
+        private float WallDangerScore(Vector3 selfPos, Vector3 dir)
         {
-            return new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
+            ArenaController arena = ArenaController.Instance;
+            if (arena == null)
+            {
+                return 0f;
+            }
+
+            float lookAhead = Mathf.Max(1.5f, _motor.Speed * TrailLookAheadSeconds) + WallSafetyMargin;
+            Vector2 future = new Vector2(selfPos.x + dir.x * lookAhead, selfPos.y + dir.y * lookAhead);
+            float distFromCenter = future.magnitude;
+            float safeRadius = arena.Radius - WallSafetyMargin;
+            if (distFromCenter > safeRadius)
+            {
+                return (distFromCenter - safeRadius) * WallProximityWeight;
+            }
+            return 0f;
         }
 
-        private bool TryPursuePlayerTrail()
+        // -----------------------------------------------------------------------------------------
+        // Goal-direction helpers
+        // -----------------------------------------------------------------------------------------
+
+        // Pick a direction that aims outward from our territory center but with a tangential
+        // bias so successive expeditions don't keep re-tracing the same line. Pure outward radial
+        // would make the bot leave from the same point every time.
+        private Vector3 ChooseExploreOutwardDir(Vector3 selfPos)
         {
-            // Only the AI pursues — and only when a live player exists with an active trail outside
-            // their own zone. If the player is safe inside their territory, there's no trail to cut.
+            Vector3 center = GetTerritoryCenter();
+            Vector3 radial = selfPos - center;
+            if (radial.sqrMagnitude < 0.0001f)
+            {
+                return RandomUnit2D();
+            }
+            radial.Normalize();
+            // Add a tangent component with a per-tick random sign / magnitude.
+            Vector3 tangent = new Vector3(-radial.y, radial.x, 0f);
+            float tangentBias = Random.Range(-0.6f, 0.6f);
+            return (radial + tangent * tangentBias).normalized;
+        }
+
+        // Find the closest point on the outer border of our own territory. Returning there gives
+        // the shortest path back that doesn't have to slice through the captured area — and
+        // critically, the candidate scorer will reject any direction that would cross the trail
+        // along the way, so the bot naturally loops around the explored area instead of cutting it.
+        private Vector3 GetBestReturnPoint(Vector3 selfPos)
+        {
+            Paths64 territory = _character._area.CurrentTerritory;
+            if (territory == null || territory.Count == 0)
+            {
+                return GetTerritoryCenter();
+            }
+
+            Vector3 best = selfPos;
+            float bestSqr = float.MaxValue;
+            const double invScale = 1.0 / GeometryUtils.Scale;
+
+            for (int pi = 0; pi < territory.Count; pi++)
+            {
+                Path64 path = territory[pi];
+                for (int i = 0; i < path.Count; i++)
+                {
+                    Point64 pt = path[i];
+                    float wx = (float)(pt.X * invScale);
+                    float wy = (float)(pt.Y * invScale);
+                    float dx = wx - selfPos.x;
+                    float dy = wy - selfPos.y;
+                    float sqr = dx * dx + dy * dy;
+                    if (sqr < bestSqr)
+                    {
+                        bestSqr = sqr;
+                        best = new Vector3(wx, wy, 0f);
+                    }
+                }
+            }
+
+            return best;
+        }
+
+        private bool TryGetPlayerTrailTarget(Vector3 selfPos, out Vector3 target)
+        {
+            target = Vector3.zero;
             if (CollisionManager.Instance == null
                 || !CollisionManager.Instance.TryGetPlayer(out Character player)
                 || player == null
@@ -327,7 +384,6 @@ namespace Gameplay
                 return false;
             }
 
-            Vector3 selfPos = transform.position;
             float minSqr = float.MaxValue;
             Vector3 closest = Vector3.zero;
             for (int i = 0; i < playerTrail.Count; i++)
@@ -340,31 +396,64 @@ namespace Gameplay
                 }
             }
 
-            // Range scales with the bot's risk profile so cowardly bots ignore distant prey while
-            // aggressive bots will commit to a chase from across the arena.
             float chaseRange = Mathf.Lerp(PursueRangeCowardly, PursueRangeAggressive, _riskTaker);
             if (minSqr > chaseRange * chaseRange)
             {
                 return false;
             }
 
-            Vector3 toTrail = closest - selfPos;
-            if (toTrail.sqrMagnitude < 0.0001f)
-            {
-                return false;
-            }
-
-            _currentMoveDir = toTrail.normalized;
+            target = closest;
             return true;
         }
 
         private Vector3 GetTerritoryCenter()
         {
-            // O(1) way to find the center using Clipper2's pre-calculated bounds.
-            double centerX = (_character._area.TerritoryBounds.left + _character._area.TerritoryBounds.right) / 2.0;
-            double centerY = (_character._area.TerritoryBounds.top + _character._area.TerritoryBounds.bottom) / 2.0;
+            Rect64 b = _character._area.TerritoryBounds;
+            double cx = (b.left + b.right) / 2.0;
+            double cy = (b.top + b.bottom) / 2.0;
+            return new Vector3(
+                (float)(cx / GeometryUtils.Scale),
+                (float)(cy / GeometryUtils.Scale),
+                0f);
+        }
 
-            return new Vector3((float)(centerX / GeometryUtils.Scale), (float)(centerY / GeometryUtils.Scale), 0);
+        // -----------------------------------------------------------------------------------------
+        // Geometry primitives
+        // -----------------------------------------------------------------------------------------
+
+        private static bool SegmentsIntersect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
+        {
+            float d1 = Cross2D(p4 - p3, p1 - p3);
+            float d2 = Cross2D(p4 - p3, p2 - p3);
+            float d3 = Cross2D(p2 - p1, p3 - p1);
+            float d4 = Cross2D(p2 - p1, p4 - p1);
+            return ((d1 > 0f && d2 < 0f) || (d1 < 0f && d2 > 0f))
+                && ((d3 > 0f && d4 < 0f) || (d3 < 0f && d4 > 0f));
+        }
+
+        private static float Cross2D(Vector2 a, Vector2 b)
+        {
+            return a.x * b.y - a.y * b.x;
+        }
+
+        private static float PointToSegmentDistance(Vector2 p, Vector2 a, Vector2 b)
+        {
+            Vector2 ab = b - a;
+            float lenSqr = ab.x * ab.x + ab.y * ab.y;
+            if (lenSqr < 0.000001f)
+            {
+                return (p - a).magnitude;
+            }
+            float t = Vector2.Dot(p - a, ab) / lenSqr;
+            t = Mathf.Clamp01(t);
+            Vector2 proj = a + ab * t;
+            return (p - proj).magnitude;
+        }
+
+        private static Vector3 RandomUnit2D()
+        {
+            float angle = Random.value * Mathf.PI * 2f;
+            return new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f);
         }
     }
 }

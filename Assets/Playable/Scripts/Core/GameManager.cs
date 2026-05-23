@@ -249,6 +249,7 @@ namespace Core
                         float fillPct = CollisionManager.Instance.GetPlayerFillPercent(_player);
                         if (fillPct >= _winFillThreshold)
                         {
+                            SnapPlayerTerritoryToArena();
                             SetState(GameState.Win);
                         }
                     }
@@ -261,6 +262,19 @@ namespace Core
                     }
                     break;
             }
+        }
+
+        // Replace the player's union-of-captures territory with the exact arena polygon so the
+        // win-card renders a clean circle instead of the ragged shape Clipper produced as zones
+        // were stitched together. Threshold-based win only — kill-all-enemies wins skip this.
+        private void SnapPlayerTerritoryToArena()
+        {
+            if (_player == null || _player._area == null || _arenaController == null)
+            {
+                return;
+            }
+            Paths64 arenaShape = _arenaController.CreateArenaPath();
+            _player._area.SetTerritory(arenaShape);
         }
 
         private void CachePlayer()
