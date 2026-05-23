@@ -14,6 +14,16 @@ namespace Gameplay
         private const float PursueRangeCowardly = 8f;
         private const float PursueRangeAggressive = 25f;
 
+        // How far ahead the bot probes its own trail when steering — slightly larger than
+        // TrailLookahead because the motor lerps its rotation, so the bot can't actually
+        // turn on a dime. ~2 units gives the lerp time to react before we collide.
+        private const float TrailAvoidLookahead = 2.0f;
+
+        // When the desired direction would hit our own trail, sweep this many ± angle
+        // steps (15° each) looking for a clear bearing. 6 steps = up to ±90°.
+        private const int TrailAvoidConeSteps = 6;
+        private const float TrailAvoidStepDeg = 15f;
+
         private enum State
         {
             InsideBase,
@@ -144,7 +154,105 @@ namespace Gameplay
                 }
             }
 
+            // Final safety pass — no matter how _currentMoveDir was decided above
+            // (random wander, player pursuit, returning home), refuse to walk it
+            // straight through our own trail. If we'd cross it, swing outward
+            // until a clear bearing is found.
+            _currentMoveDir = AvoidOwnTrail(_currentMoveDir);
+
             _motor.SetLastMovement(_currentMoveDir);
+        }
+
+        /// <summary>
+        /// Returns a direction close to <paramref name="desiredDir"/> that does NOT
+        /// cause the bot to plough through its own active trail in the next
+        /// <see cref="TrailAvoidLookahead"/> units. Returns the original direction
+        /// if every candidate would still hit (rare; preferable to stalling).
+        /// </summary>
+        private Vector3 AvoidOwnTrail(Vector3 desiredDir)
+        {
+            if (desiredDir.sqrMagnitude < 0.0001f)
+            {
+                return desiredDir;
+            }
+
+            Vector3 selfPos = transform.position;
+            if (!WouldHitOwnTrail(selfPos, desiredDir))
+            {
+                return desiredDir;
+            }
+
+            for (int step = 1; step <= TrailAvoidConeSteps; step++)
+            {
+                float angle = step * TrailAvoidStepDeg;
+
+                Vector3 left = Quaternion.Euler(0, 0, angle) * desiredDir;
+                if (!WouldHitOwnTrail(selfPos, left))
+                {
+                    return left.normalized;
+                }
+
+                Vector3 right = Quaternion.Euler(0, 0, -angle) * desiredDir;
+                if (!WouldHitOwnTrail(selfPos, right))
+                {
+                    return right.normalized;
+                }
+            }
+
+            // Whole 180° forward arc is blocked — just plough on and accept the cross
+            // (rare edge case; bot would otherwise freeze in place).
+            return desiredDir;
+        }
+
+        /// <summary>
+        /// Segment-vs-segment test: would a step of length TrailAvoidLookahead from
+        /// <paramref name="selfPos"/> in <paramref name="dir"/> cross any of our own
+        /// recorded trail edges (excluding the last few points which sit right under
+        /// the bot)?
+        /// </summary>
+        private bool WouldHitOwnTrail(Vector3 selfPos, Vector3 dir)
+        {
+            List<Vector3> points = _character._trail._logicPoints;
+            if (points == null || points.Count <= TrailHeadSkip + 1)
+            {
+                return false;
+            }
+
+            Vector3 dirN = dir.normalized;
+            Vector2 a = new Vector2(selfPos.x, selfPos.y);
+            Vector2 b = a + new Vector2(dirN.x, dirN.y) * TrailAvoidLookahead;
+
+            // Compare against every trail segment except the few right under us.
+            // points[i] -> points[i+1] is one segment.
+            int endIndex = points.Count - TrailHeadSkip - 1;
+            for (int i = 0; i < endIndex; i++)
+            {
+                Vector2 p = new Vector2(points[i].x, points[i].y);
+                Vector2 q = new Vector2(points[i + 1].x, points[i + 1].y);
+                if (SegmentsIntersect(a, b, p, q))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool SegmentsIntersect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
+        {
+            float d1 = Cross2D(p4 - p3, p1 - p3);
+            float d2 = Cross2D(p4 - p3, p2 - p3);
+            float d3 = Cross2D(p2 - p1, p3 - p1);
+            float d4 = Cross2D(p2 - p1, p4 - p1);
+
+            // Strictly opposite signs on both pairs = proper crossing.
+            return ((d1 > 0f && d2 < 0f) || (d1 < 0f && d2 > 0f))
+                && ((d3 > 0f && d4 < 0f) || (d3 < 0f && d4 > 0f));
+        }
+
+        private static float Cross2D(Vector2 a, Vector2 b)
+        {
+            return a.x * b.y - a.y * b.x;
         }
 
         private void Turn90Degrees()

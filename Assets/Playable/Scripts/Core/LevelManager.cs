@@ -38,6 +38,10 @@ namespace Core
         [LunaPlaygroundField("Bot Skins", 2, "Characters")]
         [SerializeField] private int[] _botSkinIndices = { 1, 2, 3, 3 };
 
+        // Tracks which bot slots have already been spawned so that re-pressing
+        // the same number key does not produce a duplicate. Cleared each Init().
+        private bool[] _botSpawned;
+
         public void Init()
         {
             InitializeLevel();
@@ -52,8 +56,51 @@ namespace Core
                 return;
             }
 
+            _botSpawned = new bool[_botCount];
+
             SpawnPlayer();
-            SpawnBots();
+            // Bots are no longer spawned here. Press 1, 2, 3 or 4 at runtime
+            // to spawn the corresponding bot — see Update().
+        }
+
+        private void Update()
+        {
+            // Number row 1..4 → spawn bot index 0..3
+            if (Input.GetKeyDown(KeyCode.Alpha1)) TrySpawnBot(0);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) TrySpawnBot(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) TrySpawnBot(2);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) TrySpawnBot(3);
+        }
+
+        private void TrySpawnBot(int index)
+        {
+            if (_botSpawned == null)
+            {
+                // Init() hasn't run yet — ignore key presses on the title screen, etc.
+                return;
+            }
+
+            if (index < 0 || index >= _botCount)
+            {
+                Debug.LogWarning($"LevelManager: bot index {index} is outside _botCount ({_botCount}).");
+                return;
+            }
+
+            if (_botSpawnPositions == null || index >= _botSpawnPositions.Length ||
+                _botSkinIndices == null || index >= _botSkinIndices.Length)
+            {
+                Debug.LogWarning($"LevelManager: bot index {index} has no spawn position or skin assigned.");
+                return;
+            }
+
+            if (_botSpawned[index])
+            {
+                // Already spawned this slot — ignore.
+                return;
+            }
+
+            SpawnBot(index);
+            _botSpawned[index] = true;
         }
 
         private void SpawnPlayer()
@@ -78,34 +125,25 @@ namespace Core
             SpawnCharacter(config, skin);
         }
 
-        private void SpawnBots()
+        private void SpawnBot(int i)
         {
-            if (_botSpawnPositions == null || _botSkinIndices == null)
+            var config = new CharacterSpawnConfig
             {
-                return;
-            }
+                IsPlayer = false,
+                Id = $"bot{i + 1}",
+                SpawnPosX = _botSpawnPositions[i].x,
+                SpawnPosZ = _botSpawnPositions[i].y,
+                Speed = _botSpeed,
+                TurnSpeed = _botTurnSpeed,
+                CharacterRadius = _botCharacterRadius,
+                RiskTaker = _botRiskTaker,
+                CanKillSelfWithTrail = false,
+                CanBeKilledIfTrailCut = true,
+                CanBeKilledByAreaCapture = true
+            };
 
-            int count = Mathf.Min(_botCount, Mathf.Min(_botSpawnPositions.Length, _botSkinIndices.Length));
-            for (int i = 0; i < count; i++)
-            {
-                var config = new CharacterSpawnConfig
-                {
-                    IsPlayer = false,
-                    Id = $"bot{i + 1}",
-                    SpawnPosX = _botSpawnPositions[i].x,
-                    SpawnPosZ = _botSpawnPositions[i].y,
-                    Speed = _botSpeed,
-                    TurnSpeed = _botTurnSpeed,
-                    CharacterRadius = _botCharacterRadius,
-                    RiskTaker = _botRiskTaker,
-                    CanKillSelfWithTrail = false,
-                    CanBeKilledIfTrailCut = true,
-                    CanBeKilledByAreaCapture = true
-                };
-
-                SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
-                SpawnCharacter(config, skin);
-            }
+            SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
+            SpawnCharacter(config, skin);
         }
 
         private void SpawnCharacter(CharacterSpawnConfig config, SkinConfig skin)
