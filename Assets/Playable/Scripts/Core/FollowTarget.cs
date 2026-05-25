@@ -42,12 +42,12 @@ namespace Core
         private Sequence _rotationSequence;
         private bool _isAnimating;
 
-        // TEMP CAMERA FOCUS
         private Coroutine _focusRoutine;
 
         public event Action CameraMovedCallback;
 
-        [SerializeField] public EditorReferences references =
+        [SerializeField]
+        public EditorReferences references =
             new EditorReferences();
 
         public FollowTargetUpdateMode updateMode =
@@ -131,7 +131,7 @@ namespace Core
         }
 
         // =====================================================
-        // TEMP FOCUS FUNCTION
+        // TEMP FOCUS
         // =====================================================
 
         public void FocusTemporary(
@@ -162,11 +162,9 @@ namespace Core
 
             _isAnimating = true;
 
-            // SAVE START STATE
             Vector3 startPos = transform.position;
             Quaternion startRot = transform.rotation;
 
-            // TARGET CAMERA POSITION
             Vector3 targetPos =
                 tempTarget.position +
                 references.offset;
@@ -178,7 +176,7 @@ namespace Core
 
             float time = 0f;
 
-            // MOVE TO BOT
+            // MOVE TO TARGET
             while (time < moveDuration)
             {
                 time += Time.deltaTime;
@@ -207,8 +205,15 @@ namespace Core
             yield return new WaitForSeconds(focusTime);
 
             // RETURN TO PLAYER
+            float returnSmoothTime = 0.18f;
+
+            Vector3 velocity = Vector3.zero;
+
             while (true)
             {
+                if (references.target == null)
+                    break;
+
                 Vector3 livePlayerPos =
                     references.target.position +
                     references.offset;
@@ -219,10 +224,11 @@ namespace Core
                         references.offsetRotation);
 
                 transform.position =
-                    Vector3.Lerp(
+                    Vector3.SmoothDamp(
                         transform.position,
                         livePlayerPos,
-                        Time.deltaTime * 7f);
+                        ref velocity,
+                        returnSmoothTime);
 
                 if (followRotation)
                 {
@@ -230,36 +236,39 @@ namespace Core
                         Quaternion.Slerp(
                             transform.rotation,
                             livePlayerRot,
-                            Time.deltaTime * 7f);
+                            Time.deltaTime * 8f);
                 }
 
-                // SNAP FIX
-                float distance =
-                    Vector3.Distance(
+                if (Vector3.Distance(
                         transform.position,
-                        livePlayerPos);
-
-                if (distance < 0.05f)
+                        livePlayerPos) < 0.01f)
                 {
-                    transform.position =
-                        livePlayerPos;
-
-                    if (followRotation)
-                    {
-                        transform.rotation =
-                            livePlayerRot;
-                    }
-
                     break;
                 }
 
                 yield return null;
             }
 
-            // WAIT ONE FRAME
-            yield return null;
+            // PRELOAD HISTORY
+            Vector3 currentTargetPos =
+                references.target.position +
+                references.offset;
 
-            // RESUME FOLLOW
+            _lastTargetPosition =
+                currentTargetPos;
+
+            _lastTargetVelocity =
+                Vector3.zero;
+
+            _filteredTargetVelocity =
+                Vector3.zero;
+
+            _lastSpeed = 0f;
+
+            _filteredSpeed = 0f;
+
+            _hasTargetHistory = true;
+
             _isAnimating = false;
         }
 
@@ -523,12 +532,6 @@ namespace Core
             if (references.target != null &&
                 !_isAnimating)
             {
-                float origX =
-                    transform.position.x;
-
-                float origY =
-                    transform.position.y;
-
                 float deltaTime =
                     updateMode ==
                     FollowTargetUpdateMode.FixedUpdate
@@ -586,8 +589,10 @@ namespace Core
                     }
 
                     transform.position =
-                        targetPosition +
-                        _springOffset;
+                        Vector3.Lerp(
+                            transform.position,
+                            targetPosition + _springOffset,
+                            12f * deltaTime);
                 }
 
                 CameraMovedCallback?.Invoke();

@@ -68,7 +68,19 @@ namespace Gameplay
 
         public void Init(CharacterSpawnConfig config)
         {
-           StartCoroutine(WaitForInIt(config));
+             _riskTaker = Mathf.Clamp01(config.RiskTaker);
+
+            // Map the risk (0 to 1) to actual game values
+            // High risk = can stay out for 7 seconds, up to 18 units away.
+            _maxTimeOutside = Mathf.Lerp(1.5f, 7.0f, _riskTaker);
+            _maxDistOutside = Mathf.Lerp(8.0f, 35.0f, _riskTaker);
+
+            _motor = GetComponent<CharacterMotor>();
+            _character = GetComponent<Character>();
+
+            _currentMoveDir = GetRandomDirection();
+            _motor.SetLastMovement(_currentMoveDir);
+          // StartCoroutine(WaitForInIt(config));
         }
 
            private IEnumerator WaitForInIt(CharacterSpawnConfig config)

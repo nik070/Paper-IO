@@ -80,7 +80,7 @@ MonoBehaviour:
   followRotation: 0
   smoothRotation: 0
   minSmoothAngle: 10
-  useCameraDamping: 0
+  useCameraDamping: 1
   decelerationThreshold: 0.75
   decelerationSensitivity: 0.2
   springReturnTime: 0.25
@@ -103,6 +103,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -1073474317
@@ -253,7 +254,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1073474317
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
