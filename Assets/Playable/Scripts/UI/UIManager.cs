@@ -214,6 +214,11 @@ namespace UI
         private void ShowWinScreen()
         {
             AudioManager.Instance.Play(AudioClips.WinCard);
+            // Snap the HUD progress to exactly 100% on win: GameManager.SnapPlayerTerritoryToArena
+            // has already replaced the player's union-of-captures with the exact arena polygon,
+            // but the discretized circle's polygon area is only ~1.0 — animate it up to 1.0
+            // so the bar visibly reads 100% during the win celebration.
+            UpdateProgressBar(1f);
             FadeGroup(_winGroup, true);
             _winScreenView.Show();
 

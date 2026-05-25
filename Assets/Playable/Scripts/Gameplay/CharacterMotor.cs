@@ -1,5 +1,6 @@
 using Core;
 using UnityEngine;
+using System.Collections;
 
 namespace Gameplay
 {
@@ -9,8 +10,9 @@ namespace Gameplay
         private Vector3 _lastMovement;
         private Quaternion _quaternion;
 
-        public float Speed { get; private set; } = 10f;
+        public float Speed  = 10f;
         public bool IsEnabled { get; private set; } = true;
+        public GameObject speedEffect;
 
         private void FixedUpdate()
         {
@@ -31,6 +33,10 @@ namespace Gameplay
         {
             Speed = config.Speed;
             _turnSpeed = config.TurnSpeed;
+            if(!GetComponent<Character>().IsPlayer)
+            {
+                Speed = 5;
+            }
         }
 
         public void SetLastMovement(Vector3 lastMovement)
@@ -62,5 +68,33 @@ namespace Gameplay
         {
             transform.Translate(Vector3.forward * (Speed * deltaTime));
         }
+
+         void OnTriggerEnter(Collider other)
+        {
+            if(other.tag == "Pp")
+            {
+                if(GetComponent<Character>().IsPlayer)
+                {
+                      StartCoroutine(SpeedEffect());
+                      other.GetComponent<PowerUpAnimation>().exp.gameObject.SetActive(true)  ;
+                     Destroy(other.gameObject);
+                }
+              
+            }
+        }
+
+          IEnumerator SpeedEffect()
+         {
+            Speed = 20f;
+            speedEffect.SetActive(true);
+            yield return new WaitForSeconds(1.5f);
+            Speed = 10f;
+            speedEffect.SetActive(false);
+         }
+
+        
     }
+
 }
+
+   

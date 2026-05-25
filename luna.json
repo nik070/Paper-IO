@@ -8,7 +8,7 @@
         "‐⁙": true
     },
     "unity": {
-        "environmentID": 586116848,
+        "environmentID": -839119514,
         "scripts": {
             "excludes": [
                 "**/Editor/",
@@ -75,13 +75,13 @@
                 "Stubs/AnimationBaker/",
                 "Stubs/SupersonicWisdom/"
             ],
-            "msbuildMac64": "/Library/Frameworks/Mono.framework/Versions/Current/bin/msbuild",
+            "msbuildMac64": "/Library/Frameworks/Mono.framework//Versions/Current/bin/msbuild",
             "msbuildWin64": "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/MSBuild.exe",
             "externalSources": [],
             "externalJSLibraries": [],
             "scriptingDefines": [],
             "msbuildVersion": "4.8",
-            "monoVersion": "8.0.21",
+            "monoVersion": "10.0.2",
             "dotnetVersion": ""
         },
         "assets": {

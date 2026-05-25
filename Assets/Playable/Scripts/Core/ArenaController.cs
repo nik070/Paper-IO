@@ -136,6 +136,7 @@ namespace Core
             _borderLineRenderer.useWorldSpace = false;
             _borderLineRenderer.loop = true;
             _borderLineRenderer.positionCount = _arenaPoints.Length;
+            _borderLineRenderer.enabled = false;
 
             if (_borderMaterial != null)
             {

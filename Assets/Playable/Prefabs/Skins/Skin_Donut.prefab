@@ -109,6 +109,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BubbleRisingUnderwater
       objectReference: {fileID: 0}
+    - target: {fileID: 130730, guid: 640ef30391bac3645a1cb5d8a5d8cf77, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 436724, guid: 640ef30391bac3645a1cb5d8a5d8cf77, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

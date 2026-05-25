@@ -11,13 +11,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -777816280, guid: f6ae9ea3f45f6479f973b7d40fc4c23f, type: 3}
   m_Name: SVC_Luna
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: EditorScripts.dll::Luna.Unity.Utils.Shaders.LunaSVC
   _svcLunaVersion: 3
   _shaderVariants: []
   _usedByLunaBuild: []
   _includedShaderVariants: []
   _excludedShaderVariants: []
-  version: 23
+  version: 19
   _shaderParsedShaders: []
   _modifiedShaders: []
   invalidShaders: 1

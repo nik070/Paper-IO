@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Core
 {
-    /// <summary>
+   /// <summary>
     /// Plain C# class owning collision detection, character registry, and territory capture.
     /// Created and owned by GameManager — no MonoBehaviour lifecycle.
     /// </summary>
@@ -184,7 +184,10 @@ namespace Core
 
             double area = Math.Abs(Clipper.Area(player._area.CurrentTerritory));
             double scaledArenaArea = _totalArenaArea * GeometryUtils.Scale * GeometryUtils.Scale;
-            return (float)(area / scaledArenaArea);
+            // Clamp to [0, 1]: the captured-polygon area can drift slightly above 1.0 due to
+            // Clipper geometry vs. the discretized circular arena, which would push the HUD
+            // progress bar past 100%.
+            return Mathf.Clamp01((float)(area / scaledArenaArea));
         }
 
         public void FreezeAllEnemies()
