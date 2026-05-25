@@ -1,3 +1,4 @@
+using System.Collections;
 using Clipper2Lib;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -34,11 +35,17 @@ namespace Core
         [LunaPlaygroundField("Show Tutorial", 3, "Game")]
         [SerializeField] private bool _isTutorial = true;
 
+        [Header("Enemy Spawn Cinematic")]
+        [SerializeField] private float _enemyFocusDuration = 1.5f;
+        [SerializeField] private float _enemyFocusReturnDuration = 1f;
+        [SerializeField] private float _enemyFocusLerpSpeed = 2f;
+
         private Character _player;
         private int _killCount;
         private int _totalEnemyCount;
         private bool _isReady;
         private bool _isPaused;
+        private bool _enemySpawnCinematicInProgress;
 
         public GameState CurrentState { get; private set; }
         public GameMode CurrentGameMode => _gameMode;
@@ -275,6 +282,59 @@ namespace Core
             }
             Paths64 arenaShape = _arenaController.CreateArenaPath();
             _player._area.SetTerritory(arenaShape);
+        }
+
+        // Pans the camera over to a freshly spawned enemy, freezes the player while the
+        // bot's first moves play out, then pans back and hands control to the player again.
+        // Skipped if another cinematic is already running or the game isn't in a playable state.
+        public void PlayEnemySpawnCinematic(Character enemy)
+        {
+            if (_enemySpawnCinematicInProgress || enemy == null || _player == null || _cameraController == null)
+            {
+                return;
+            }
+
+            if (CurrentState != GameState.Playing && CurrentState != GameState.Tutorial)
+            {
+                return;
+            }
+
+            StartCoroutine(EnemySpawnCinematicRoutine(enemy));
+        }
+
+        private IEnumerator EnemySpawnCinematicRoutine(Character enemy)
+        {
+            _enemySpawnCinematicInProgress = true;
+
+            FollowTarget follow = _cameraController.FollowTarget;
+            bool prevLerping = follow.lerping;
+            float prevLerpSpeed = follow.lerpSpeed;
+
+            follow.lerping = true;
+            follow.lerpSpeed = _enemyFocusLerpSpeed;
+
+            _player.Motor.SetEnabled(false);
+
+            follow.Target = enemy.transform;
+            yield return new WaitForSeconds(_enemyFocusDuration);
+
+            // Enemy may have died during the focus window (e.g. ran into its own trail).
+            // The Character reference and its transform are destroyed in Die(), so guard before reading.
+            if (_player != null)
+            {
+                follow.Target = _player.transform;
+            }
+            yield return new WaitForSeconds(_enemyFocusReturnDuration);
+
+            follow.lerping = prevLerping;
+            follow.lerpSpeed = prevLerpSpeed;
+
+            if (_player != null)
+            {
+                _player.Motor.SetEnabled(true);
+            }
+
+            _enemySpawnCinematicInProgress = false;
         }
 
         private void CachePlayer()

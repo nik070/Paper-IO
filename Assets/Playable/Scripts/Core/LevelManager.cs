@@ -99,8 +99,15 @@ namespace Core
                 return;
             }
 
-            SpawnBot(index);
+            Character bot = SpawnBot(index);
             _botSpawned[index] = true;
+
+            // Cinematic: pan camera to the new bot's spawn, freeze the player while the
+            // bot starts moving, then pan back and resume player control.
+            if (bot != null && GameManager.Instance != null)
+            {
+                GameManager.Instance.PlayEnemySpawnCinematic(bot);
+            }
         }
 
         private void SpawnPlayer()
@@ -125,7 +132,7 @@ namespace Core
             SpawnCharacter(config, skin);
         }
 
-        private void SpawnBot(int i)
+        private Character SpawnBot(int i)
         {
             var config = new CharacterSpawnConfig
             {
@@ -143,14 +150,15 @@ namespace Core
             };
 
             SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
-            SpawnCharacter(config, skin);
+            return SpawnCharacter(config, skin);
         }
 
-        private void SpawnCharacter(CharacterSpawnConfig config, SkinConfig skin)
+        private Character SpawnCharacter(CharacterSpawnConfig config, SkinConfig skin)
         {
             Character character = Instantiate(_baseCharacterPrefab);
             character.gameObject.name = config.IsPlayer ? "Player" : $"Bot_{config.Id}";
             character.Init(config, skin, _paintParticlesPool);
+            return character;
         }
 
         private SkinConfig ResolveSkin(int index)
