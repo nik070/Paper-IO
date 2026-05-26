@@ -270,7 +270,12 @@ namespace Gameplay
         {
             if (isImmediate)
             {
-                _visual.SkinRoot.gameObject.SetActive(true);
+                // Only force SkinRoot on if it's an AI or if there's no Hook intro.
+                // If there is a Hook intro, the player's SkinRoot stays off until the hook lands.
+                if (!_character.IsPlayer || UnityEngine.Object.FindObjectOfType<HookController>() == null)
+                {
+                    _visual.SkinRoot.gameObject.SetActive(true);
+                }
                 ShowGameplayShadow(true, false);
             }
             else

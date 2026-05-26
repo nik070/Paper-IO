@@ -12,12 +12,10 @@ namespace Core
 {
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        [FormerlySerializedAs("levelManager")] [SerializeField]
+        [FormerlySerializedAs("levelManager")]
+        [SerializeField]
         private LevelManager _levelManager;
         [SerializeField] private UIManager _uiManager;
-
-        [FormerlySerializedAs("gameCamera")] [SerializeField]
-        private CameraController _cameraController;
 
         [SerializeField] private ArenaController _arenaController;
         [SerializeField] private float _gridCellSize = 10f;
@@ -221,7 +219,7 @@ namespace Core
             {
                 SetState(GameState.Death);
             }
-            else if(deathInfo.Killer.IsPlayer)
+            else if (deathInfo.Killer.IsPlayer)
             {
                 _killCount++;
             }
@@ -271,11 +269,11 @@ namespace Core
 
         private void SetupCam()
         {
-            if (_player != null)
+            if (_player != null && CinemachineController.Instance != null)
             {
-                _cameraController.FollowTarget.Target = _player.transform;
-                _cameraController.FollowTarget.SetInstantly();
+                CinemachineController.Instance.SetCameraTarget(CmCameraType.Game, _player.transform);
             }
         }
     }
 }
+

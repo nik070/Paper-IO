@@ -23,6 +23,8 @@ namespace Gameplay
         [SerializeField] private SkinView _visual;
         [SerializeField] private CharacterFeedback _feedback;
         [SerializeField] private PlayerHudView _hud;
+        [SerializeField] public GameObject skinRoot;
+        private GameObject hookModel;
 
         private bool _isInsideArea = true;
         private bool _isCaptureInFlight;
@@ -30,10 +32,12 @@ namespace Gameplay
         public CharacterArea _area;
         public CharacterTrail _trail;
 
-        [Tooltip("Must roughly match the visual width of your character cube/trail")] [HideInInspector]
+        [Tooltip("Must roughly match the visual width of your character cube/trail")]
+        [HideInInspector]
         public float _characterRadius = 0.5f;
 
         public CharacterMotor Motor => _motor;
+        public SkinView Visual => _visual;
         public bool IsPlayer { get; private set; }
         public CharacterSpawnConfig Config { get; private set; }
         public Vector3 PreviousPosition { get; private set; }
@@ -66,6 +70,10 @@ namespace Gameplay
             _feedback.Init(this, skin, _area, _visual, paintParticlesPool);
 
             _hud.Setup(transform, skin.DisplayName, skin.HudNameColor);
+            if (config.IsPlayer)
+            {
+                skinRoot.SetActive(false);
+            }
         }
 
         public void UpdatePreviousPosition()

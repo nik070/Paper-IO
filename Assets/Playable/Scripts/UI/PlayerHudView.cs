@@ -1,4 +1,3 @@
-using Core;
 using TMPro;
 using UnityEngine;
 
@@ -10,9 +9,9 @@ namespace UI
         private Transform _cameraTransform;
 
         [SerializeField] private TMP_Text _nameText;
-        [SerializeField] private FollowTarget _followTarget;
+        [SerializeField] private Vector3 _followOffset;
 
-        public FollowTarget FollowTarget => _followTarget;
+        private Transform _followTarget;
 
         private void Awake()
         {
@@ -24,6 +23,11 @@ namespace UI
             if (_cameraTransform != null)
             {
                 transform.forward = _cameraTransform.forward;
+            }
+
+            if (_followTarget != null)
+            {
+                transform.position = _followTarget.position + _followOffset;
             }
         }
 
@@ -41,8 +45,8 @@ namespace UI
             _nameText.color = nameColor;
 
             transform.SetParent(null, true);
-            _followTarget.references.target = target;
-            transform.position = target.position + _followTarget.references.offset;
+            _followTarget = target;
+            transform.position = target.position + _followOffset;
         }
     }
 }

@@ -1106,6 +1106,7 @@ MonoBehaviour:
   _visual: {fileID: 6684147479410293925}
   _feedback: {fileID: 7541447214465184970}
   _hud: {fileID: 6259378553318186106}
+  skinRoot: {fileID: 1111111111111111110}
   _area: {fileID: 5670094282490738342}
   _trail: {fileID: 25288124974504129}
   _characterRadius: 0.5

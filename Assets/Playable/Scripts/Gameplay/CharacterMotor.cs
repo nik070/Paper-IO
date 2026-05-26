@@ -40,16 +40,20 @@ namespace Gameplay
 
         private void UpdateMovement()
         {
-            Vector3 targetPosition = transform.position + _lastMovement;
-            Vector3 vectorToTarget = targetPosition - transform.position;
-            if (vectorToTarget.magnitude >= 0.00001f)
+            if (_lastMovement.sqrMagnitude >= 0.00001f)
             {
-                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90f;
-                _quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _quaternion, Time.fixedDeltaTime * _turnSpeed);
+                Vector3 targetPosition = transform.position + _lastMovement;
+                Vector3 vectorToTarget = targetPosition - transform.position;
+                if (vectorToTarget.magnitude >= 0.00001f)
+                {
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90f;
+                    _quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, _quaternion, Time.fixedDeltaTime * _turnSpeed);
+                }
+
+                transform.Translate(Vector3.up * (Speed * Time.fixedDeltaTime));
             }
 
-            transform.Translate(Vector3.up * (Speed * Time.fixedDeltaTime));
             transform.position = ArenaController.Instance.ClampToArena(transform.position);
         }
 

@@ -53,7 +53,7 @@ namespace Core
             }
 
             SpawnPlayer();
-            SpawnBots();
+            // SpawnBots(); // Disabled automatic spawning to allow manual key-press spawning
         }
 
         private void SpawnPlayer()
@@ -78,34 +78,49 @@ namespace Core
             SpawnCharacter(config, skin);
         }
 
-        private void SpawnBots()
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) SpawnBot(0);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) SpawnBot(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) SpawnBot(2);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) SpawnBot(3);
+            if (Input.GetKeyDown(KeyCode.Alpha5)) SpawnBot(4);
+            if (Input.GetKeyDown(KeyCode.Alpha6)) SpawnBot(5);
+            if (Input.GetKeyDown(KeyCode.Alpha7)) SpawnBot(6);
+            if (Input.GetKeyDown(KeyCode.Alpha8)) SpawnBot(7);
+            if (Input.GetKeyDown(KeyCode.Alpha9)) SpawnBot(8);
+        }
+
+        private void SpawnBot(int index)
         {
             if (_botSpawnPositions == null || _botSkinIndices == null)
             {
                 return;
             }
 
-            int count = Mathf.Min(_botCount, Mathf.Min(_botSpawnPositions.Length, _botSkinIndices.Length));
-            for (int i = 0; i < count; i++)
+            if (index >= _botSpawnPositions.Length || index >= _botSkinIndices.Length)
             {
-                var config = new CharacterSpawnConfig
-                {
-                    IsPlayer = false,
-                    Id = $"bot{i + 1}",
-                    SpawnPosX = _botSpawnPositions[i].x,
-                    SpawnPosZ = _botSpawnPositions[i].y,
-                    Speed = _botSpeed,
-                    TurnSpeed = _botTurnSpeed,
-                    CharacterRadius = _botCharacterRadius,
-                    RiskTaker = _botRiskTaker,
-                    CanKillSelfWithTrail = false,
-                    CanBeKilledIfTrailCut = true,
-                    CanBeKilledByAreaCapture = true
-                };
-
-                SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
-                SpawnCharacter(config, skin);
+                Debug.LogWarning($"Cannot spawn bot {index + 1}: Not enough spawn positions or skin indices configured in LevelManager.");
+                return;
             }
+
+            var config = new CharacterSpawnConfig
+            {
+                IsPlayer = false,
+                Id = $"bot{index + 1}",
+                SpawnPosX = _botSpawnPositions[index].x,
+                SpawnPosZ = _botSpawnPositions[index].y,
+                Speed = _botSpeed,
+                TurnSpeed = _botTurnSpeed,
+                CharacterRadius = _botCharacterRadius,
+                RiskTaker = _botRiskTaker,
+                CanKillSelfWithTrail = false,
+                CanBeKilledIfTrailCut = true,
+                CanBeKilledByAreaCapture = true
+            };
+
+            SkinConfig skin = ResolveSkin(_botSkinIndices[index]);
+            SpawnCharacter(config, skin);
         }
 
         private void SpawnCharacter(CharacterSpawnConfig config, SkinConfig skin)

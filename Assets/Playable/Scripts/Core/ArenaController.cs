@@ -8,7 +8,8 @@ namespace Core
     public class ArenaController : SingletonBehaviour<ArenaController>
     {
 
-        [LunaPlaygroundField("Arena Radius", 0, "Arena")] [SerializeField]
+        [LunaPlaygroundField("Arena Radius", 0, "Arena")]
+        [SerializeField]
         private float _arenaRadius = 30f;
 
         private const float ArenaShadowZOffset = 0.8f;
