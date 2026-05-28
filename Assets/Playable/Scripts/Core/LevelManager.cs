@@ -37,6 +37,11 @@ namespace Core
         [SerializeField] private int _botCount = 4;
         [SerializeField] private Vector2[] _botSpawnPositions;
 
+        [Tooltip("Visualised radius around every bot spawn point.\n" +
+                 "Overlapping circles mean two bots will start with touching or intersecting territories.\n" +
+                 "Increase spacing until all circles are separate.")]
+        [SerializeField] private float _botSpawnRadius = 3f;
+
         [LunaPlaygroundFieldArrayLength(1, 8)]
         [LunaPlaygroundField("Bot Skins", 2, "Characters")]
         [SerializeField] private int[] _botSkinIndices = { 1, 2, 3, 3 };
@@ -201,6 +206,60 @@ namespace Core
         {
             int clamped = Mathf.Clamp(index, 0, _skinConfigs.Length - 1);
             return _skinConfigs[clamped];
+        }
+
+        // ── Gizmos ───────────────────────────────────────────────────────────
+        private void OnDrawGizmos()
+        {
+            // Player spawn — blue
+            Vector3 playerWorld = new Vector3(_playerSpawnPos.x, _playerSpawnPos.y, 0f);
+            Gizmos.color = new Color(0.25f, 0.65f, 1f, 0.95f);
+            Gizmos.DrawSphere(playerWorld, 0.45f);
+            Gizmos.color = new Color(0.25f, 0.65f, 1f, 0.4f);
+            Gizmos.DrawWireSphere(playerWorld, 0.9f);
+
+            if (_botSpawnPositions == null) return;
+
+            float diameter = _botSpawnRadius * 2f;
+
+            for (int i = 0; i < _botSpawnPositions.Length; i++)
+            {
+                Vector3 pos = new Vector3(_botSpawnPositions[i].x, _botSpawnPositions[i].y, 0f);
+
+                // Check if this position overlaps any other bot or the player
+                bool overlaps = IsOverlappingOthers(i);
+
+                // Centre dot
+                Gizmos.color = overlaps
+                    ? new Color(1f, 0.15f, 0.15f, 0.95f)   // red — overlapping
+                    : new Color(1f, 0.35f, 0.15f, 0.95f);   // orange — clear
+                Gizmos.DrawSphere(pos, 0.45f);
+
+                // Territory radius ring
+                Gizmos.color = overlaps
+                    ? new Color(1f, 0.1f, 0.1f, 0.55f)      // red ring
+                    : new Color(1f, 0.75f, 0f, 0.45f);       // yellow ring
+                Gizmos.DrawWireSphere(pos, _botSpawnRadius);
+            }
+        }
+
+        private bool IsOverlappingOthers(int index)
+        {
+            if (_botSpawnPositions == null) return false;
+            Vector2 a = _botSpawnPositions[index];
+            float minDist = _botSpawnRadius * 2f;
+
+            // Check against every other bot
+            for (int j = 0; j < _botSpawnPositions.Length; j++)
+            {
+                if (j == index) continue;
+                if (Vector2.Distance(a, _botSpawnPositions[j]) < minDist) return true;
+            }
+
+            // Check against player spawn
+            if (Vector2.Distance(a, _playerSpawnPos) < minDist) return true;
+
+            return false;
         }
 
         private void ApplyGameModeOverrides(CharacterSpawnConfig config)

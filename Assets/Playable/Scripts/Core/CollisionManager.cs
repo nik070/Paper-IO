@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Clipper2Lib;
 using Gameplay;
@@ -574,6 +575,98 @@ namespace Core
             // Analogous to Paper2's ISignalOnZoneDecreased. Territory bounds are already updated,
             // so this sweep catches both the capturer (zone grew over a stationary enemy) and the
             // victims (zone shrank beneath them).
+            UpdateZoneOccupancy();
+        }
+
+        /// <summary>
+        /// Async version of <see cref="ProcessTerritoryCapture"/> that spreads the heavy
+        /// Clipper work across two frames to avoid a frame spike on large territories.
+        ///
+        /// Frame A  — Clipper.Union + RDP (the bottleneck).
+        /// yield return null
+        /// Frame B  — SetTerritory, ShowCreatedTerritory, victim steal/kill loop, events.
+        ///
+        /// Must be started as a coroutine from a MonoBehaviour (Character calls it via
+        /// <c>yield return CollisionManager.Instance.ProcessTerritoryCaptureAsync(...)</c>).
+        /// </summary>
+        public IEnumerator ProcessTerritoryCaptureAsync(Character capturer, Paths64 captureShape)
+        {
+            // ── Frame A: expensive Clipper work ───────────────────────────────
+            Rect64 captureBounds = Clipper.GetBounds(captureShape);
+            float capturedArea   = (float)(Math.Abs(Clipper.Area(captureShape)) / (GeometryUtils.Scale * GeometryUtils.Scale));
+
+            Paths64 newCapturerTerritory = Clipper.Union(capturer._area.CurrentTerritory, captureShape, FillRule.NonZero);
+            newCapturerTerritory = Clipper.RamerDouglasPeucker(newCapturerTerritory, 0.05 * GeometryUtils.Scale);
+
+            yield return null;
+
+            // ── Frame B: apply + victim processing ────────────────────────────
+            // Capturer may have been killed during the yield (trail cut by another character).
+            if (!_allCharacters.Contains(capturer))
+                yield break;
+
+            capturer._area.SetTerritory(newCapturerTerritory);
+            capturer._area.ShowCreatedTerritory(captureShape);
+
+            // Process steals and area-capture kills
+            for (int i = _allCharacters.Count - 1; i >= 0; i--)
+            {
+                Character victim = _allCharacters[i];
+                if (victim == capturer)
+                    continue;
+
+                if (!victim._area.TerritoryBounds.Intersects(captureBounds))
+                    continue;
+
+                // Area Capture Kill (Point-in-Polygon Check)
+                var victimPt = new Point64(
+                    victim.transform.position.x * GeometryUtils.Scale,
+                    victim.transform.position.y * GeometryUtils.Scale);
+                bool isInsideCapture = false;
+                foreach (Path64 path in captureShape)
+                {
+                    if (Clipper.PointInPolygon(victimPt, path) != PointInPolygonResult.IsOutside)
+                    {
+                        isInsideCapture = true;
+                        break;
+                    }
+                }
+
+                if (isInsideCapture && victim.Config.CanBeKilledByAreaCapture)
+                {
+                    if (TryApplyPlayerTerritoryTakeover(capturer, victim, victim.transform.position, -1, false, out float stolenAreaKill))
+                        capturedArea += stolenAreaKill;
+
+                    GameEvents.FireCharacterDied(new DeathInfo(capturer, victim));
+                    victim.Die();
+                    continue;
+                }
+
+                // Normal Territory Steal
+                Paths64 newVictimTerritory = Clipper.Difference(victim._area.CurrentTerritory, captureShape, FillRule.NonZero);
+
+                if (newVictimTerritory.Count == 0)
+                {
+                    if (TryApplyPlayerTerritoryTakeover(capturer, victim, victim.transform.position, -1, false, out float stolenAreaSteal))
+                        capturedArea += stolenAreaSteal;
+
+                    GameEvents.FireCharacterDied(new DeathInfo(capturer, victim));
+                    victim.Die();
+                }
+                else
+                {
+                    newVictimTerritory = Clipper.RamerDouglasPeucker(newVictimTerritory, 0.05 * GeometryUtils.Scale);
+                    victim._area.SetTerritory(newVictimTerritory);
+                }
+            }
+
+            // Fire territory captured event with current player fill %
+            if (TryGetPlayer(out Character player))
+            {
+                float fillPct = GetPlayerFillPercent(player);
+                GameEvents.FireTerritoryCaptured(capturer, fillPct, capturedArea);
+            }
+
             UpdateZoneOccupancy();
         }
 

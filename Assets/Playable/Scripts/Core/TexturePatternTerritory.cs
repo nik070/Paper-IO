@@ -66,6 +66,16 @@ namespace Core
         [Tooltip("Clip the generated territory to the arena circle.")]
         [SerializeField] private bool _clipToArena = true;
 
+        [Header("Performance")]
+        [Tooltip("Maximum total polygon vertices kept in the baked territory.\n" +
+                 "Directly controls how fast every subsequent capture is:\n" +
+                 "  400  = fastest captures, noticeably simplified shape.\n" +
+                 "  800  = good balance (recommended).\n" +
+                 "  1500 = most faithful to the texture, slightly slower captures.\n" +
+                 "  0    = no limit (shape is exact, use only if captures feel instant).\n" +
+                 "Re-bake after changing this value.")]
+        [Range(0, 2000)] [SerializeField] private int _maxVertexCount = 800;
+
         // ── Bake cache (hidden from inspector to prevent accidental edits) ────
         [SerializeField, HideInInspector] private BakedPath[] _bakedPaths;
 
@@ -83,8 +93,15 @@ namespace Core
 #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
 #endif
-            Debug.Log($"TexturePatternTerritory: baked {(_bakedPaths == null ? 0 : _bakedPaths.Length)} " +
-                      $"paths in {sw.ElapsedMilliseconds}ms. Runtime will now load instantly.");
+            int pathCount  = _bakedPaths == null ? 0 : _bakedPaths.Length;
+            int vertCount  = 0;
+            if (_bakedPaths != null)
+                foreach (var bp in _bakedPaths)
+                    if (bp.points != null) vertCount += bp.points.Length;
+
+            Debug.Log($"TexturePatternTerritory: baked {pathCount} path(s), " +
+                      $"{vertCount} total vertices in {sw.ElapsedMilliseconds}ms. " +
+                      $"Runtime will now load instantly.");
         }
 
         [ContextMenu("Clear Bake")]
@@ -277,6 +294,11 @@ namespace Core
                 unioned = Clipper.Intersect(unioned, arena, FillRule.NonZero);
             }
 
+            // Reduce vertex count so every subsequent capture Union is fast.
+            // SimplifyPaths is called with doubling epsilon until total vertices
+            // are within budget. This is only done at bake time, so it's free at runtime.
+            unioned = CapVertexCount(unioned, _maxVertexCount);
+
             return GeometryUtils.RemoveHoles(unioned);
         }
 
@@ -362,6 +384,61 @@ namespace Core
                 path = smooth;
             }
             return path;
+        }
+
+        // ── Vertex-count budget ───────────────────────────────────────────────
+
+        /// <summary>
+        /// Reduces total polygon vertices to at most <paramref name="maxTotal"/> using
+        /// RamerDouglasPeucker with a progressively larger tolerance.
+        /// • <paramref name="maxTotal"/> == 0  → returns paths unchanged (no limit).
+        /// • Already under budget             → returns paths unchanged.
+        /// The tolerance is capped at 3 world units so the shape is never badly distorted
+        /// even when the budget can't be fully met; in that case the method returns the
+        /// best result it achieved.
+        /// </summary>
+        private static Paths64 CapVertexCount(Paths64 paths, int maxTotal)
+        {
+            if (maxTotal <= 0) return paths;              // 0 = unlimited
+            int before = CountVertices(paths);
+            if (before <= maxTotal) return paths;         // already fits
+
+            // RDP preserves the overall shape far better than SimplifyPaths at large
+            // tolerances. Start at 0.01 world units and double; hard-cap at 3 world
+            // units to avoid visible distortion.
+            double epsilon    = GeometryUtils.Scale * 0.01;
+            double maxEpsilon = GeometryUtils.Scale * 3.0;
+            Paths64 best      = paths;
+
+            while (epsilon <= maxEpsilon)
+            {
+                Paths64 candidate = Clipper.RamerDouglasPeucker(paths, epsilon);
+
+                // Guard: RDP can produce degenerate paths; skip if result is empty or
+                // suspiciously shrank below 3 vertices on any path (handled by RemoveHoles).
+                if (candidate == null || candidate.Count == 0) break;
+
+                int candidateVerts = CountVertices(candidate);
+                if (candidateVerts < CountVertices(best))
+                    best = candidate;
+
+                if (candidateVerts <= maxTotal) break;   // budget met
+                epsilon *= 2.0;
+            }
+
+            int after = CountVertices(best);
+            if (after != before)
+                Debug.Log($"TexturePatternTerritory: vertex cap {maxTotal} → reduced {before} → {after} vertices.");
+
+            return best;
+        }
+
+        private static int CountVertices(Paths64 paths)
+        {
+            int total = 0;
+            for (int i = 0; i < paths.Count; i++)
+                total += paths[i].Count;
+            return total;
         }
 
         // ── Geometry helpers ──────────────────────────────────────────────────

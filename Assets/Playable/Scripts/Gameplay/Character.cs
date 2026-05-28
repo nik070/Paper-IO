@@ -163,15 +163,20 @@ namespace Gameplay
                 result => captureShape = result);
 
             _captureTrailBuffer.Clear();
-            _isCaptureInFlight = false;
 
             if (captureShape != null && captureShape.Count > 0)
             {
-                CollisionManager.Instance.ProcessTerritoryCapture(this, captureShape);
+                // ProcessTerritoryCaptureAsync spreads the heavy Clipper.Union across two frames
+                // so large pattern territories don't cause a frame spike on capture.
+                // _isCaptureInFlight stays true throughout both frames, which keeps
+                // HandleAreaState() suppressed until the full capture is committed.
+                yield return CollisionManager.Instance.ProcessTerritoryCaptureAsync(this, captureShape);
             }
 
-            // The player may have moved out of their area while the union was running. Re-evaluate
-            // immediately so we don't miss a leave transition (and can start a new trail this frame).
+            _isCaptureInFlight = false;
+
+            // The player may have moved out of their area while the coroutines were running.
+            // Re-evaluate immediately so we don't miss a leave transition.
             HandleAreaState();
         }
 
