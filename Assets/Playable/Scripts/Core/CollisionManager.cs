@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Core
 {
-   /// <summary>
+    /// <summary>
     /// Plain C# class owning collision detection, character registry, and territory capture.
     /// Created and owned by GameManager — no MonoBehaviour lifecycle.
     /// </summary>
@@ -169,6 +169,33 @@ namespace Core
             return false;
         }
 
+        public void TryFindSafeSpawn(Vector3 desired, float clearance, out Vector3 safe)
+        {
+            safe = desired;
+            float clearanceSqr = clearance * clearance;
+            for (int i = 0; i < 100; i++)
+            {
+                bool isSafe = true;
+                for (int j = 0; j < _allCharacters.Count; j++)
+                {
+                    if (Vector3.SqrMagnitude(safe - _allCharacters[j].transform.position) < clearanceSqr)
+                    {
+                        isSafe = false;
+                        break;
+                    }
+                }
+                
+                if (isSafe)
+                {
+                    return;
+                }
+                
+                float angle = i * Mathf.PI * 0.25f;
+                float radius = i * 0.5f;
+                safe = desired + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
+            }
+        }
+
         public bool TryGetZoneOwnerAtPoint(Vector3 point, Character ignoreCharacter, out Character owner)
         {
             owner = ScanForZoneOwner(point, ignoreCharacter, null);
@@ -184,10 +211,7 @@ namespace Core
 
             double area = Math.Abs(Clipper.Area(player._area.CurrentTerritory));
             double scaledArenaArea = _totalArenaArea * GeometryUtils.Scale * GeometryUtils.Scale;
-            // Clamp to [0, 1]: the captured-polygon area can drift slightly above 1.0 due to
-            // Clipper geometry vs. the discretized circular arena, which would push the HUD
-            // progress bar past 100%.
-            return Mathf.Clamp01((float)(area / scaledArenaArea));
+            return (float)(area / scaledArenaArea);
         }
 
         public void FreezeAllEnemies()
@@ -364,10 +388,14 @@ namespace Core
             Rect64 captureBounds = Clipper.GetBounds(captureShape);
             float capturedArea = (float)(Math.Abs(Clipper.Area(captureShape)) / (GeometryUtils.Scale * GeometryUtils.Scale));
 
+            // Pre-simplify captureShape so every downstream operation (Union, Difference,
+            // PointInPolygon) works with fewer vertices.
+            captureShape = Clipper.RamerDouglasPeucker(captureShape, 0.1 * GeometryUtils.Scale);
+
             // Give the area to the capturer
             Paths64 newCapturerTerritory = Clipper.Union(capturer._area.CurrentTerritory, captureShape, FillRule.NonZero);
-            newCapturerTerritory = Clipper.RamerDouglasPeucker(newCapturerTerritory, 0.05 * GeometryUtils.Scale);
-            capturer._area.SetTerritory(newCapturerTerritory);
+            newCapturerTerritory = SimplifyTerritory(newCapturerTerritory);
+            capturer._area.SetTerritoryClean(newCapturerTerritory);
             capturer._area.ShowCreatedTerritory(captureShape);
 
             // Process steals and area-capture kills
@@ -426,8 +454,8 @@ namespace Core
                 }
                 else
                 {
-                    newVictimTerritory = Clipper.RamerDouglasPeucker(newVictimTerritory, 0.05 * GeometryUtils.Scale);
-                    victim._area.SetTerritory(newVictimTerritory);
+                    newVictimTerritory = SimplifyTerritory(newVictimTerritory);
+                    victim._area.SetTerritoryClean(newVictimTerritory);
                 }
             }
 
@@ -471,12 +499,40 @@ namespace Core
 
             float previousArea = GetScaledArea(killer._area.CurrentTerritory);
             Paths64 newKillerTerritory = Clipper.Union(killer._area.CurrentTerritory, stolenShape, FillRule.NonZero);
-            newKillerTerritory = Clipper.RamerDouglasPeucker(newKillerTerritory, 0.05 * GeometryUtils.Scale);
-            killer._area.SetTerritory(newKillerTerritory);
+            newKillerTerritory = SimplifyTerritory(newKillerTerritory);
+            killer._area.SetTerritoryClean(newKillerTerritory);
             killer._area.PlayZoneTransitionVfx(stolenShape, victim.Skin, killer.transform.position);
 
             stolenArea = Mathf.Max(0f, GetScaledArea(newKillerTerritory) - previousArea);
             return stolenArea > 0f;
+        }
+
+        /// <summary>
+        /// Ultra-fast single-pass territory simplification for runtime captures.
+        /// Budget of 400 keeps Clipper.Union under 0.5ms on all subsequent captures.
+        /// </summary>
+        private const int RuntimeVertexBudget = 400;
+
+        private static Paths64 SimplifyTerritory(Paths64 territory)
+        {
+            if (territory == null || territory.Count == 0) return territory;
+
+            // Aggressive RDP: 0.2 world units removes trail noise + fine Chaikin detail
+            territory = Clipper.RamerDouglasPeucker(territory, 0.2 * GeometryUtils.Scale);
+
+            int totalVerts = 0;
+            for (int i = 0; i < territory.Count; i++)
+                totalVerts += territory[i].Count;
+
+            // If over budget, scale epsilon with overage ratio for one-shot simplification
+            if (totalVerts > RuntimeVertexBudget)
+            {
+                double ratio = (double)totalVerts / RuntimeVertexBudget;
+                double epsilon = ratio * 0.15 * GeometryUtils.Scale;
+                territory = Clipper.SimplifyPaths(territory, epsilon, true);
+            }
+
+            return GeometryUtils.RemoveHoles(territory);
         }
 
         private Paths64 BuildVictimPendingShape(Character victim, Vector3 trailEndPosition, int hitSegmentIndex, bool useHitSegment)

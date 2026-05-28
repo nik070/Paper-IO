@@ -53,6 +53,7 @@ namespace Core
         public int KillCount => _killCount;
         public bool IsPaused => _isPaused;
         public bool IsTutorial => _isTutorial;
+        public GameObject confitii;
 
         protected override void Awake()
         {
@@ -137,6 +138,7 @@ namespace Core
 
         public void SetState(GameState newState)
         {
+          
             CurrentState = newState;
 
             switch (newState)
@@ -162,6 +164,7 @@ namespace Core
                     break;
 
                 case GameState.Win:
+                    confitii.SetActive(true);
                     CollisionManager.Instance.FreezeAllPlayers();
                     break;
 

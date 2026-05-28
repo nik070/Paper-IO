@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0c268766aad3840a8c3bff790f7c15, type: 3}
+  m_Name: Car
+  m_EditorClassIdentifier: 
+  _displayName: Car
+  _characterPrefab: {fileID: 3427702027417854938, guid: c70bc77dafc114c2ba89e6bdd79eeec0,
+    type: 3}
+  _characterColor: {r: 1, g: 0.0141509175, b: 0.38529408, a: 1}
+  _vfxAdditiveColor: {r: 0.7169812, g: 0.037201855, b: 0.15716302, a: 1}
+  _vfxAdditiveTrailColor: {r: 0.6226415, g: 0, b: 0.11436267, a: 1}
+  _vfxAdditiveSkinColor: {r: 0.5943396, g: 0.008410451, b: 0.11603004, a: 1}
+  _skinHeight: 0.405
+  _shadowSize: 1.9
+  _zoneColor: {r: 1, g: 0, b: 0.1361872, a: 1}
+  _zoneShadowColor: {r: 0.9245283, g: 0.100302614, b: 0.10806086, a: 1}
+  _zoneMaterial: {fileID: 2100000, guid: ca1783fce298a40d5b300fcd05112d9f, type: 2}
+  _trailColor: {r: 0.990566, g: 0.019010296, b: 0, a: 0.7254902}
+  _trailMaterial: {fileID: 2100000, guid: 6eb2362f935628543a4ac18c512e58a9, type: 2}
+  _overrideHudSpecularColor: 1
+  _hudSpecularColor: {r: 1, g: 0.9372549, b: 0.95686275, a: 1}
+  _hudNameColor: {r: 1, g: 0, b: 0.010321498, a: 1}
