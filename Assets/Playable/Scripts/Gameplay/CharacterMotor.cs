@@ -77,6 +77,7 @@ namespace Gameplay
                 {
                       StartCoroutine(SpeedEffect());
                       other.GetComponent<PowerUpAnimation>().exp.gameObject.SetActive(true)  ;
+                      other.GetComponent<PowerUpAnimation>().exp.transform.parent = null ;
                      Destroy(other.gameObject);
                 }
               
@@ -87,7 +88,7 @@ namespace Gameplay
          {
             Speed = 20f;
             speedEffect.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
             Speed = 10f;
             speedEffect.SetActive(false);
          }

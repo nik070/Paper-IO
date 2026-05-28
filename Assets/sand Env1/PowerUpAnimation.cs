@@ -36,6 +36,8 @@ public class PowerUpAnimation : MonoBehaviour
         float scale = 1 + Mathf.Sin(Time.time * scaleSpeed) * scaleAmount;
         visual.localScale = startScale * scale;
 
+    
+
         // Rotate
         if (rotate)
         {

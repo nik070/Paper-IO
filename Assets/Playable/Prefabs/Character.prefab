@@ -1425,6 +1425,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1963550301323327076, guid: 067ab1f3f0b0e40e79a8beb7b04a18e8,
         type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1963550301323327076, guid: 067ab1f3f0b0e40e79a8beb7b04a18e8,
+        type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 2.5
       objectReference: {fileID: 0}
@@ -1436,12 +1441,12 @@ PrefabInstance:
     - target: {fileID: 1963550301323327076, guid: 067ab1f3f0b0e40e79a8beb7b04a18e8,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 10000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1963550301323327076, guid: 067ab1f3f0b0e40e79a8beb7b04a18e8,
         type: 3}
       propertyPath: InitialModule.startLifetime.minScalar
-      value: 15
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1963550301323327076, guid: 067ab1f3f0b0e40e79a8beb7b04a18e8,
         type: 3}

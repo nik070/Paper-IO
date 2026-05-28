@@ -39,7 +39,7 @@ namespace UI
         public Vector3 PostTextPosition => _particlePosition.position;
         public Vector2Int BestMinMaxVisibleRange => _bestMinMaxVisibleRange;
         public float GetValue() => _currentValue;
-
+        
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
@@ -53,6 +53,14 @@ namespace UI
             Hide(true);
         }
 
+
+        void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                _fillTopImage.fillAmount = 1f;
+            }
+        }
         public void Show(bool instantly = false)
         {
             if (_isShowing)

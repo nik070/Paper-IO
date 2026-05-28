@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0c268766aad3840a8c3bff790f7c15, type: 3}
+  m_Name: Skin_Donut 1
+  m_EditorClassIdentifier: 
+  _displayName: You
+  _characterPrefab: {fileID: 3427702027417854938, guid: ab151b79bddf84b4c81d9b9c05bd147b,
+    type: 3}
+  _characterColor: {r: 1, g: 0.667, b: 0.792, a: 1}
+  _vfxAdditiveColor: {r: 0.6313726, g: 0.23137255, b: 0.3019608, a: 1}
+  _vfxAdditiveTrailColor: {r: 0.6313726, g: 0.24705882, b: 0.31764707, a: 1}
+  _vfxAdditiveSkinColor: {r: 0.6039216, g: 0.21960784, b: 0.2901961, a: 1}
+  _skinHeight: 0.405
+  _shadowSize: 1.9
+  _zoneColor: {r: 1, g: 0.682, b: 0.8, a: 1}
+  _zoneShadowColor: {r: 0.978, g: 0.467, b: 0.624, a: 1}
+  _zoneMaterial: {fileID: 2100000, guid: 310869bf6bc5a9e4382ca1c6e2633c06, type: 2}
+  _trailColor: {r: 1, g: 0.682, b: 0.8, a: 0.7254902}
+  _trailMaterial: {fileID: 2100000, guid: 6eb2362f935628543a4ac18c512e58a9, type: 2}
+  _overrideHudSpecularColor: 1
+  _hudSpecularColor: {r: 1, g: 0.9372549, b: 0.95686275, a: 1}
+  _hudNameColor: {r: 0.98039216, g: 0.7921569, b: 0.8627451, a: 1}
