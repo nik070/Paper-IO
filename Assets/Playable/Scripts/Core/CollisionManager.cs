@@ -19,7 +19,12 @@ namespace Core
         private readonly List<TrailHitInfo> _trailHitsThisFrame = new List<TrailHitInfo>();
         private readonly HashSet<DeathInfo> _deathsThisFrame = new HashSet<DeathInfo>();
         private readonly List<Vector3> _takeoverTrail = new List<Vector3>(256);
-        private float _totalArenaArea;
+        // Scaled (Clipper-units, i.e. world_area * Scale²) area of the arena polygon.
+        // Computed from the same polygonal approximation used to draw the ground mesh so a
+        // player whose territory equals the arena polygon reaches exactly 1.0 fill.
+        // Using π·r² here instead would leave a small deficit (polygon < circle) and cap
+        // the HUD progress bar below 100% even at visually-full fill.
+        private double _scaledArenaArea;
 
         // Zone occupancy tracking — one current zone owner per character. Mirrors Paper2's
         // PlayerZoneInfo.InsideZone. Enter/exit events fire exclusively when this reference
@@ -49,7 +54,9 @@ namespace Core
         {
             float diameter = arenaRadius * 2f;
             _grid = new SpatialHashGrid(diameter, diameter, gridCellSize);
-            _totalArenaArea = Mathf.PI * arenaRadius * arenaRadius;
+            // ArenaController.Init() runs before this in GameManager.Start(), so the arena
+            // polygon is already generated and CreateArenaPath() is safe to call here.
+            _scaledArenaArea = Math.Abs(Clipper.Area(ArenaController.Instance.CreateArenaPath()));
 
             // Ordering contract: GameManager.Start() calls Init() BEFORE LevelManager.Init() spawns
             // characters and BEFORE SetState(Tutorial) fires the first OnGameStateChanged event, so
@@ -175,16 +182,145 @@ namespace Core
             return owner != null;
         }
 
+        /// <summary>
+        /// Finds a spawn position whose <paramref name="clearance"/>-radius starting circle does
+        /// not overlap any existing territory or trail. Walks outward from <paramref name="desired"/>
+        /// in angular rings, returning the first free candidate. Falls back to <paramref name="desired"/>
+        /// (with <c>false</c>) if no safe spot is found inside the arena.
+        /// </summary>
+        public bool TryFindSafeSpawn(Vector3 desired, float clearance, out Vector3 safePosition)
+        {
+            if (IsSpawnSafe(desired, clearance))
+            {
+                safePosition = desired;
+                return true;
+            }
+
+            float arenaRadius = ArenaController.Instance.Radius;
+            float maxOffsetFromCenter = Mathf.Max(0f, arenaRadius - clearance - 0.5f);
+            float maxOffsetSqr = maxOffsetFromCenter * maxOffsetFromCenter;
+            const int angularSamples = 16;
+            float angleStep = Mathf.PI * 2f / angularSamples;
+            float radiusStep = Mathf.Max(0.5f, clearance * 0.75f);
+            float maxSearchRadius = arenaRadius * 2f;
+
+            for (float r = radiusStep; r <= maxSearchRadius; r += radiusStep)
+            {
+                for (int a = 0; a < angularSamples; a++)
+                {
+                    float angle = a * angleStep;
+                    Vector3 candidate = new Vector3(
+                        desired.x + Mathf.Cos(angle) * r,
+                        desired.y + Mathf.Sin(angle) * r,
+                        desired.z);
+
+                    if (candidate.x * candidate.x + candidate.y * candidate.y > maxOffsetSqr)
+                    {
+                        continue;
+                    }
+
+                    if (IsSpawnSafe(candidate, clearance))
+                    {
+                        safePosition = candidate;
+                        return true;
+                    }
+                }
+            }
+
+            safePosition = desired;
+            return false;
+        }
+
+        private bool IsSpawnSafe(Vector3 position, float clearance)
+        {
+            const int perimeterSamples = 8;
+            float angleStep = Mathf.PI * 2f / perimeterSamples;
+            float clearanceSqr = clearance * clearance;
+
+            for (int i = 0; i < _allCharacters.Count; i++)
+            {
+                Character c = _allCharacters[i];
+                if (c == null || c._area == null)
+                {
+                    continue;
+                }
+
+                // Reject if the candidate centre or any perimeter point lands inside an existing zone.
+                if (c._area.IsPointInside(position))
+                {
+                    return false;
+                }
+                for (int p = 0; p < perimeterSamples; p++)
+                {
+                    float angle = p * angleStep;
+                    Vector3 perimeter = new Vector3(
+                        position.x + Mathf.Cos(angle) * clearance,
+                        position.y + Mathf.Sin(angle) * clearance,
+                        position.z);
+                    if (c._area.IsPointInside(perimeter))
+                    {
+                        return false;
+                    }
+                }
+
+                Vector2 candidate2 = new Vector2(position.x, position.y);
+
+                // Reject if the candidate circle clips a recorded trail segment or the live head segment.
+                List<Vector3> trail = c._trail._logicPoints;
+                for (int j = 0; j < trail.Count - 1; j++)
+                {
+                    if (SqrDistanceToSegment(candidate2, trail[j], trail[j + 1]) < clearanceSqr)
+                    {
+                        return false;
+                    }
+                }
+                if (trail.Count > 0)
+                {
+                    if (SqrDistanceToSegment(candidate2, trail[trail.Count - 1], c.transform.position) < clearanceSqr)
+                    {
+                        return false;
+                    }
+                }
+
+                // Reject if another character is too close to the spawn centre.
+                Vector2 charPos = new Vector2(c.transform.position.x, c.transform.position.y);
+                if ((candidate2 - charPos).sqrMagnitude < clearanceSqr)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static float SqrDistanceToSegment(Vector2 p, Vector3 a3, Vector3 b3)
+        {
+            Vector2 a = new Vector2(a3.x, a3.y);
+            Vector2 b = new Vector2(b3.x, b3.y);
+            Vector2 ab = b - a;
+            float abSqr = ab.x * ab.x + ab.y * ab.y;
+            if (abSqr < 1e-6f)
+            {
+                return (p - a).sqrMagnitude;
+            }
+            float t = Mathf.Clamp01(Vector2.Dot(p - a, ab) / abSqr);
+            Vector2 closest = a + ab * t;
+            return (p - closest).sqrMagnitude;
+        }
+
         public float GetPlayerFillPercent(Character player)
         {
-            if (player == null || player._area == null || player._area.CurrentTerritory == null)
+            if (player == null || player._area == null || player._area.CurrentTerritory == null || _scaledArenaArea <= 0)
             {
                 return 0f;
             }
 
             double area = Math.Abs(Clipper.Area(player._area.CurrentTerritory));
-            double scaledArenaArea = _totalArenaArea * GeometryUtils.Scale * GeometryUtils.Scale;
-            return (float)(area / scaledArenaArea);
+            // Clamp to [0, 1]: the player's union polygon can slightly overshoot the arena
+            // polygon's bounds (capture shapes are clipped per-step, but Clipper union of
+            // many polygons can drift a hair past the arena boundary on the scaled grid),
+            // which would push the HUD progress bar past 100%.
+            return Mathf.Clamp01((float)(area / _scaledArenaArea));
         }
 
         public void FreezeAllEnemies()

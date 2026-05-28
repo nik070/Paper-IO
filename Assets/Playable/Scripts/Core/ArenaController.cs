@@ -17,10 +17,25 @@ namespace Core
         [SerializeField] private Material _borderMaterial;
         [SerializeField] private MeshFilter _shadowMeshFilter;
 
+        [Header("Starfish Border")]
+        [Tooltip("Arc distance between starfish centres in world units. Smaller = denser ring with no gaps. Set 0 to fall back to _starfishCount.")]
+        [SerializeField] private float _starfishSpacing = 2.2f;
+        [Tooltip("Used only when _starfishSpacing <= 0.")]
+        [SerializeField] private int _starfishCount = 80;
+        [SerializeField] private float _starfishRadiusOffset = 0.5f;
+        [SerializeField] private float _starfishZ = 0f;
+        [SerializeField] private bool _faceOutward = true;
+        [SerializeField] private float _starfishRandomRadiusJitter = 0f;
+        [Tooltip("Random yaw spin in degrees to break up repetition.")]
+        [SerializeField] private float _starfishYawJitter = 25f;
+
+        private const string StarfishCollectionResourcePath = "StartFishCollection";
+
         private MeshFilter _meshFilter;
         private LineRenderer _borderLineRenderer;
         private Mesh _generatedMesh;
         private Vector2[] _arenaPoints;
+        private Transform _starfishCollection;
 
         private float _arenaRadiusSqr;
 
@@ -34,6 +49,7 @@ namespace Core
 
             GenerateGroundMesh();
             SetupBorder();
+            SetupStarfishBorder();
         }
 
         public Vector3 ClampToArena(Vector3 position)
@@ -150,6 +166,91 @@ namespace Core
             {
                 Vector2 borderPoint = _arenaPoints[i].normalized * borderRadius;
                 _borderLineRenderer.SetPosition(i, new Vector3(borderPoint.x, borderPoint.y, -0.01f));
+            }
+        }
+
+        private void SetupStarfishBorder()
+        {
+            var prefab = Resources.Load<GameObject>(StarfishCollectionResourcePath);
+            if (prefab == null)
+            {
+                Debug.LogWarning($"ArenaController: missing Resources/{StarfishCollectionResourcePath}.prefab — skipping starfish border.");
+                return;
+            }
+
+            if (_starfishCollection != null)
+            {
+                Destroy(_starfishCollection.gameObject);
+            }
+
+            var instance = Instantiate(prefab, transform, false);
+            instance.name = "StartFishCollection";
+            instance.transform.localPosition = Vector3.zero;
+            instance.transform.localRotation = Quaternion.identity;
+            instance.transform.localScale = Vector3.one;
+            _starfishCollection = instance.transform;
+
+            int childCount = _starfishCollection.childCount;
+            if (childCount == 0)
+            {
+                return;
+            }
+
+            float ringRadius = _arenaRadius + _borderWidth + _starfishRadiusOffset;
+
+            // Decide how many starfish fit. Spacing > 0 means "fill the ring at this arc-distance";
+            // otherwise fall back to the explicit count.
+            int targetCount;
+            if (_starfishSpacing > 0.01f)
+            {
+                float circumference = 2f * Mathf.PI * ringRadius;
+                targetCount = Mathf.Max(3, Mathf.RoundToInt(circumference / _starfishSpacing));
+            }
+            else
+            {
+                targetCount = Mathf.Max(3, _starfishCount);
+            }
+
+            // Grow the pool by cloning the first child as a template if we need more than the
+            // prefab provides. Cheaper than mutating the prefab itself.
+            Transform template = _starfishCollection.GetChild(0);
+            while (_starfishCollection.childCount < targetCount)
+            {
+                Instantiate(template.gameObject, _starfishCollection);
+            }
+
+            // Deactivate any leftover children if targetCount shrunk below what we have.
+            for (int i = targetCount; i < _starfishCollection.childCount; i++)
+            {
+                _starfishCollection.GetChild(i).gameObject.SetActive(false);
+            }
+
+            float angleStep = Mathf.PI * 2f / targetCount;
+            Quaternion lieFlat = Quaternion.Euler(-90f, 0f, 0f);
+
+            for (int i = 0; i < targetCount; i++)
+            {
+                Transform child = _starfishCollection.GetChild(i);
+                child.gameObject.SetActive(true);
+
+                float angle = i * angleStep;
+
+                float radius = ringRadius;
+                if (_starfishRandomRadiusJitter > 0f)
+                {
+                    radius += Random.Range(-_starfishRandomRadiusJitter, _starfishRandomRadiusJitter);
+                }
+
+                float x = Mathf.Cos(angle) * radius;
+                float y = Mathf.Sin(angle) * radius;
+                child.localPosition = new Vector3(x, y, _starfishZ);
+
+                float baseYaw = _faceOutward ? angle * Mathf.Rad2Deg : Random.Range(0f, 360f);
+                if (_starfishYawJitter > 0f)
+                {
+                    baseYaw += Random.Range(-_starfishYawJitter, _starfishYawJitter);
+                }
+                child.localRotation = lieFlat * Quaternion.Euler(0f, baseYaw, 0f);
             }
         }
 

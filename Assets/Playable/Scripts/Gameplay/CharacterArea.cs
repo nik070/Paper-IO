@@ -44,6 +44,7 @@ namespace Gameplay
         [NonSerialized] public Rect64 CreatedTerritoryBounds;
 
         public int StencilID { get; private set; }
+        public float StartingAreaRadius => _startingAreaRadius;
         public MeshRenderer ZoneRenderer { get; private set; }
         public MeshRenderer CreatedMeshRenderer => _createdMeshRenderer;
         public MeshRenderer ShadowRenderer { get; private set; }

@@ -1,0 +1,393 @@
+using Clipper2Lib;
+using Gameplay;
+using Mechanics;
+using UnityEngine;
+
+namespace Core
+{
+    /// <summary>
+    /// Generates a Paths64 polygon from the black pixels of a B&W texture.
+    /// LevelManager calls ApplyTo(player._area) right after the player spawns, so the
+    /// pattern IS the player's starting territory — no extra mesh, nothing decorative.
+    ///
+    /// Key settings:
+    ///   _generationResolution — how many pixels are sampled per axis (independent of
+    ///     texture size). Low values = fast bake + blocky; high values = slower + detailed.
+    ///     256 is the sweet spot. Fixes both the "pixelated at 225px" and "full arena at 4096px" issues.
+    ///   _edgeSmoothing — inflate + deflate pass that rounds pixel-stair edges into curves.
+    ///
+    /// For zero runtime cost, right-click → "Bake Pattern". Polygons are serialized into
+    /// the scene so ApplyTo just deserializes them instantly on Play.
+    ///
+    /// Texture must have Read/Write Enabled in its import settings.
+    /// </summary>
+    public class TexturePatternTerritory : MonoBehaviour
+    {
+        [System.Serializable]
+        private struct BakedPath
+        {
+            public Vector2[] points;
+        }
+
+        // ── Pattern ──────────────────────────────────────────────────────────
+        [Header("Pattern")]
+        [Tooltip("Black & white texture. Black pixels become territory. Must have Read/Write Enabled.")]
+        [SerializeField] private Texture2D _patternTexture;
+
+        [Tooltip("Pixels darker than this become territory. 0 = pure black only, 1 = everything.")]
+        [Range(0f, 1f)] [SerializeField] private float _blackThreshold = 0.5f;
+
+        [Tooltip("Treat transparent pixels as non-territory regardless of colour.")]
+        [SerializeField] private bool _ignoreTransparent = true;
+
+        // ── Quality ───────────────────────────────────────────────────────────
+        [Header("Quality")]
+        [Tooltip("How many pixels are sampled per axis when building polygons.\n" +
+                 "The texture is resampled to this resolution using area-averaging (not nearest-neighbour)\n" +
+                 "so edges get proper sub-pixel coverage at any source size.\n" +
+                 "• 256  — fast bake, good quality for most patterns.\n" +
+                 "• 512  — recommended for 2048+ textures, smooth curves, ~2× slower bake.\n" +
+                 "• 1024 — maximum detail, slow bake, use for very intricate designs.")]
+        [Range(64, 1024)] [SerializeField] private int _generationResolution = 512;
+
+        [Tooltip("Chaikin subdivision passes applied to the polygon outline.\n" +
+                 "Each pass halves the staircase sharpness and doubles vertex count (then SimplifyPaths trims it back).\n" +
+                 "0 = raw pixel blocks.  3 = soft curves.  5 = very smooth.  6 = maximum.")]
+        [Range(0, 6)] [SerializeField] private int _smoothingIterations = 5;
+
+        // ── Placement ─────────────────────────────────────────────────────────
+        [Header("Placement")]
+        [Tooltip("World-space centre of the pattern square.")]
+        [SerializeField] private Vector2 _worldCenter = Vector2.zero;
+
+        [Tooltip("World-space size of the pattern square. Set to 0 to auto-fit the arena diameter.")]
+        [SerializeField] private float _worldSize = 0f;
+
+        [Tooltip("Clip the generated territory to the arena circle.")]
+        [SerializeField] private bool _clipToArena = true;
+
+        // ── Bake cache (hidden from inspector to prevent accidental edits) ────
+        [SerializeField, HideInInspector] private BakedPath[] _bakedPaths;
+
+        public bool HasBake => _bakedPaths != null && _bakedPaths.Length > 0;
+
+        // ── Context-menu actions ──────────────────────────────────────────────
+
+        [ContextMenu("Bake Pattern")]
+        private void BakePattern()
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            Paths64 paths = GeneratePathsLive();
+            _bakedPaths = ToBaked(paths);
+            sw.Stop();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+            Debug.Log($"TexturePatternTerritory: baked {(_bakedPaths == null ? 0 : _bakedPaths.Length)} " +
+                      $"paths in {sw.ElapsedMilliseconds}ms. Runtime will now load instantly.");
+        }
+
+        [ContextMenu("Clear Bake")]
+        private void ClearBake()
+        {
+            _bakedPaths = null;
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+            Debug.Log("TexturePatternTerritory: bake cleared — will regenerate live on next Play.");
+        }
+
+        [ContextMenu("Generate (debug log)")]
+        private void DebugGenerate()
+        {
+            Paths64 paths = GeneratePaths();
+            Debug.Log($"TexturePatternTerritory: {(paths == null ? 0 : paths.Count)} polygons (baked={HasBake}).");
+        }
+
+        // ── Public API ────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Overwrite a CharacterArea's territory with the texture pattern.
+        /// Pass <paramref name="spawnPosition"/> to union a starter circle in so the
+        /// player always has a round safe zone at their spawn point.
+        /// </summary>
+        public void ApplyTo(CharacterArea area, Vector3? spawnPosition = null)
+        {
+            if (area == null) return;
+            Paths64 paths = GeneratePaths();
+
+            if (spawnPosition.HasValue)
+            {
+                Paths64 circle = GeometryUtils.CreateCirclePath64(
+                    area.StartingAreaRadius, spawnPosition.Value);
+
+                paths = (paths == null || paths.Count == 0)
+                    ? circle
+                    : Clipper.Union(paths, circle, FillRule.NonZero);
+            }
+
+            if (paths == null || paths.Count == 0)
+            {
+                Debug.LogWarning("TexturePatternTerritory: generated no polygons — nothing applied.");
+                return;
+            }
+            area.SetTerritory(paths);
+        }
+
+        /// <summary>
+        /// Returns the Paths64 polygon set, using the baked cache when available (instant).
+        /// Falls back to live generation with a reminder to bake.
+        /// </summary>
+        public Paths64 GeneratePaths()
+        {
+            if (HasBake)
+                return FromBaked(_bakedPaths);
+
+            Debug.LogWarning("TexturePatternTerritory: running live generation. " +
+                             "Right-click → 'Bake Pattern' to cache for instant startup.");
+            return GeneratePathsLive();
+        }
+
+        // ── Internal generation ───────────────────────────────────────────────
+
+        private Paths64 GeneratePathsLive()
+        {
+            if (_patternTexture == null)
+            {
+                Debug.LogWarning("TexturePatternTerritory: no texture assigned.");
+                return new Paths64();
+            }
+
+            // Read the source texture once at full resolution.
+            Color32[] srcPixels;
+            try
+            {
+                srcPixels = _patternTexture.GetPixels32();
+            }
+            catch (UnityException e)
+            {
+                Debug.LogError($"TexturePatternTerritory: texture '{_patternTexture.name}' is not readable. " +
+                               $"Enable Read/Write in its import settings. ({e.Message})");
+                return new Paths64();
+            }
+
+            int srcW = _patternTexture.width;
+            int srcH = _patternTexture.height;
+
+            // Resample to _generationResolution × _generationResolution.
+            // This decouples polygon quality from the actual texture pixel count:
+            //   • 225×225 src → 256×256 sample → no more tiny per-pixel quads
+            //   • 4096×4096 src → 256×256 sample → no more arena flood-fill
+            int res = _generationResolution;
+            int threshold = Mathf.Clamp(Mathf.RoundToInt(_blackThreshold * 255f), 0, 255);
+
+            GetWorldRect(out Vector2 rectMin, out Vector2 rectSize);
+            float pxWorld = rectSize.x / res;
+            float pyWorld = rectSize.y / res;
+
+            // Area-average sampling via per-band column sums.
+            // For each output row we sum the source pixel brightnesses column-by-column
+            // across the corresponding band of source rows, build a 1-D prefix sum, then
+            // query any x-range in O(1).  This is O(srcW × srcH) total — one pass through
+            // the source pixels — and uses only O(srcW) working memory (no large SAT array,
+            // no int overflow even for 4096×4096 textures since per-column sums stay in int
+            // and the prefix uses long).
+            int[]  colSums   = new int [srcW];
+            long[] colPrefix = new long[srcW + 1];
+
+            Paths64 rects = new Paths64();
+
+            for (int y = 0; y < res; y++)
+            {
+                int srcY0 = y * srcH / res;
+                int srcY1 = Mathf.Min((y + 1) * srcH / res, srcH);
+                if (srcY1 <= srcY0) srcY1 = srcY0 + 1;
+                int numSrcRows = srcY1 - srcY0;
+
+                // Accumulate brightness for every source column across this y-band
+                System.Array.Clear(colSums, 0, srcW);
+                for (int sy = srcY0; sy < srcY1; sy++)
+                {
+                    int rowBase = sy * srcW;
+                    for (int sx = 0; sx < srcW; sx++)
+                    {
+                        Color32 c = srcPixels[rowBase + sx];
+                        int bright = (_ignoreTransparent && c.a < 128)
+                            ? 255
+                            : (c.r + c.g + c.b) / 3;
+                        colSums[sx] += bright;
+                    }
+                }
+
+                // 1-D prefix sum over column sums (long to avoid overflow on large textures)
+                colPrefix[0] = 0;
+                for (int sx = 0; sx < srcW; sx++)
+                    colPrefix[sx + 1] = colPrefix[sx] + colSums[sx];
+
+                int runStart = -1;
+
+                for (int x = 0; x < res; x++)
+                {
+                    int srcX0 = x * srcW / res;
+                    int srcX1 = Mathf.Min((x + 1) * srcW / res, srcW);
+                    if (srcX1 <= srcX0) srcX1 = srcX0 + 1;
+
+                    long   sumBright  = colPrefix[srcX1] - colPrefix[srcX0];
+                    int    pixelCount = (srcX1 - srcX0) * numSrcRows;
+                    float  avgBright  = (float)sumBright / pixelCount;
+                    bool   isBlack    = avgBright <= threshold;
+
+                    if (isBlack)
+                    {
+                        if (runStart < 0) runStart = x;
+                    }
+                    else if (runStart >= 0)
+                    {
+                        rects.Add(MakeRect(runStart, x, y, rectMin, pxWorld, pyWorld));
+                        runStart = -1;
+                    }
+                }
+
+                if (runStart >= 0)
+                    rects.Add(MakeRect(runStart, res, y, rectMin, pxWorld, pyWorld));
+            }
+
+            if (rects.Count == 0)
+                return new Paths64();
+
+            Paths64 unioned = Clipper.Union(rects, FillRule.NonZero);
+
+            // Chaikin curve subdivision: smooths pixel-stair edges into organic curves.
+            // Each iteration cuts every corner to a smooth arc (Q = ¾p0+¼p1, R = ¼p0+¾p1).
+            // SimplifyPaths then trims the vertex bloat Chaikin introduces, keeping the
+            // smooth shape without inflating polygon complexity.
+            if (_smoothingIterations > 0)
+            {
+                unioned = ApplyChaikin(unioned, _smoothingIterations);
+
+                // epsilon ≈ quarter of one sample-pixel in world space → removes redundant
+                // vertices while preserving the smooth curve shape.
+                double epsilon = (rectSize.x / res) * 0.25 * GeometryUtils.Scale;
+                unioned = Clipper.SimplifyPaths(unioned, epsilon, true);
+            }
+
+            if (_clipToArena && ArenaController.Instance != null)
+            {
+                Paths64 arena = ArenaController.Instance.CreateArenaPath();
+                unioned = Clipper.Intersect(unioned, arena, FillRule.NonZero);
+            }
+
+            return GeometryUtils.RemoveHoles(unioned);
+        }
+
+        private void GetWorldRect(out Vector2 min, out Vector2 size)
+        {
+            float worldSize = _worldSize > 0.01f
+                ? _worldSize
+                : (ArenaController.Instance != null ? ArenaController.Instance.Radius * 2f : 60f);
+
+            size = new Vector2(worldSize, worldSize);
+            min  = _worldCenter - size * 0.5f;
+        }
+
+        // ── Bake serialisation helpers ────────────────────────────────────────
+
+        private static BakedPath[] ToBaked(Paths64 paths)
+        {
+            if (paths == null || paths.Count == 0) return new BakedPath[0];
+
+            var baked = new BakedPath[paths.Count];
+            for (int i = 0; i < paths.Count; i++)
+            {
+                Path64 p = paths[i];
+                var pts = new Vector2[p.Count];
+                for (int j = 0; j < p.Count; j++)
+                    pts[j] = new Vector2((float)(p[j].X / GeometryUtils.Scale),
+                                         (float)(p[j].Y / GeometryUtils.Scale));
+                baked[i] = new BakedPath { points = pts };
+            }
+            return baked;
+        }
+
+        private static Paths64 FromBaked(BakedPath[] baked)
+        {
+            Paths64 result = new Paths64();
+            if (baked == null) return result;
+
+            for (int i = 0; i < baked.Length; i++)
+            {
+                Vector2[] pts = baked[i].points;
+                if (pts == null || pts.Length < 3) continue;
+
+                Path64 path = new Path64(pts.Length);
+                for (int j = 0; j < pts.Length; j++)
+                    path.Add(GeometryUtils.ToPoint64(new Vector3(pts[j].x, pts[j].y, 0f)));
+                result.Add(path);
+            }
+            return result;
+        }
+
+        // ── Smoothing ─────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Chaikin curve subdivision applied to every path in a Paths64 set.
+        /// Each iteration replaces every edge (p0→p1) with two new points:
+        ///   Q = ¾·p0 + ¼·p1   (near start)
+        ///   R = ¼·p0 + ¾·p1   (near end)
+        /// This converts staircase pixel edges into smooth B-spline-like curves.
+        /// </summary>
+        private static Paths64 ApplyChaikin(Paths64 paths, int iterations)
+        {
+            Paths64 result = new Paths64(paths.Count);
+            for (int i = 0; i < paths.Count; i++)
+                result.Add(ChaikinPath(paths[i], iterations));
+            return result;
+        }
+
+        private static Path64 ChaikinPath(Path64 path, int iterations)
+        {
+            for (int iter = 0; iter < iterations; iter++)
+            {
+                int n = path.Count;
+                Path64 smooth = new Path64(n * 2);
+                for (int i = 0; i < n; i++)
+                {
+                    Point64 p0 = path[i];
+                    Point64 p1 = path[(i + 1) % n];
+                    // Q = 3/4 * p0 + 1/4 * p1
+                    smooth.Add(new Point64((3 * p0.X + p1.X) / 4, (3 * p0.Y + p1.Y) / 4));
+                    // R = 1/4 * p0 + 3/4 * p1
+                    smooth.Add(new Point64((p0.X + 3 * p1.X) / 4, (p0.Y + 3 * p1.Y) / 4));
+                }
+                path = smooth;
+            }
+            return path;
+        }
+
+        // ── Geometry helpers ──────────────────────────────────────────────────
+
+        private static Path64 MakeRect(int xStart, int xEnd, int y,
+                                        Vector2 rectMin, float pxW, float pyH)
+        {
+            float x0 = rectMin.x + xStart * pxW;
+            float x1 = rectMin.x + xEnd   * pxW;
+            float y0 = rectMin.y + y       * pyH;
+            float y1 = rectMin.y + (y + 1) * pyH;
+
+            Path64 r = new Path64(4);
+            r.Add(GeometryUtils.ToPoint64(new Vector3(x0, y0, 0f)));
+            r.Add(GeometryUtils.ToPoint64(new Vector3(x1, y0, 0f)));
+            r.Add(GeometryUtils.ToPoint64(new Vector3(x1, y1, 0f)));
+            r.Add(GeometryUtils.ToPoint64(new Vector3(x0, y1, 0f)));
+            return r;
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            GetWorldRect(out Vector2 min, out Vector2 size);
+            Vector3 centre = new Vector3(min.x + size.x * 0.5f, min.y + size.y * 0.5f, 0f);
+            Gizmos.color = new Color(1f, 0.45f, 0f, 0.7f);
+            Gizmos.DrawWireCube(centre, new Vector3(size.x, size.y, 0.01f));
+        }
+    }
+}

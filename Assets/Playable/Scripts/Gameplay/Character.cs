@@ -46,6 +46,7 @@ namespace Gameplay
 
         public void Init(CharacterSpawnConfig config, SkinConfig skin, PaintParticlesPool paintParticlesPool)
         {
+
             Config = config;
             IsPlayer = config.IsPlayer;
             _skin = skin;

@@ -24,6 +24,9 @@ namespace Core
         [SerializeField] private float _playerCharacterRadius = 0.5f;
         [SerializeField] private Vector2 _playerSpawnPos;
 
+        [Tooltip("Optional: overrides the player's default circular starting zone with a shape generated from a B&W texture.")]
+        [SerializeField] private TexturePatternTerritory _playerStartingPattern;
+
         [Header("Bot Gameplay")]
         [SerializeField] private float _botSpeed = 10f;
         [SerializeField] private float _botTurnSpeed = 8f;
@@ -129,17 +132,28 @@ namespace Core
             ApplyGameModeOverrides(config);
 
             SkinConfig skin = ResolveSkin(_playerSkinIndex);
-            SpawnCharacter(config, skin);
+            Character player = SpawnCharacter(config, skin);
+
+            // Replace the default circular starting zone with the preset texture pattern.
+            // Runs after CharacterArea.Init so we overwrite — not race — the initial circle.
+            // Passing the spawn position unions a starting-radius circle in so the player is
+            // guaranteed a round safe zone at spawn even when the pattern is thin/empty there.
+            if (_playerStartingPattern != null && player != null && player._area != null)
+            {
+                _playerStartingPattern.ApplyTo(player._area, player.transform.position);
+            }
         }
 
         private Character SpawnBot(int i)
         {
+            Vector2 spawnPos = ResolveBotSpawnPosition(_botSpawnPositions[i]);
+
             var config = new CharacterSpawnConfig
             {
                 IsPlayer = false,
                 Id = $"bot{i + 1}",
-                SpawnPosX = _botSpawnPositions[i].x,
-                SpawnPosZ = _botSpawnPositions[i].y,
+                SpawnPosX = spawnPos.x,
+                SpawnPosZ = spawnPos.y,
                 Speed = _botSpeed,
                 TurnSpeed = _botTurnSpeed,
                 CharacterRadius = _botCharacterRadius,
@@ -151,6 +165,28 @@ namespace Core
 
             SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
             return SpawnCharacter(config, skin);
+        }
+
+        /// <summary>
+        /// Picks an open spot near the configured spawn so a late-spawn bot can't materialise
+        /// inside the player's expanded territory or sitting on their trail (the new bot's
+        /// starting zone would otherwise render on top of an existing one).
+        /// </summary>
+        private Vector2 ResolveBotSpawnPosition(Vector2 desired)
+        {
+            CharacterArea areaPrefab = _baseCharacterPrefab != null
+                ? _baseCharacterPrefab.GetComponentInChildren<CharacterArea>(true)
+                : null;
+            float clearance = areaPrefab != null ? areaPrefab.StartingAreaRadius : 3f;
+
+            Vector3 desired3 = new Vector3(desired.x, desired.y, 0f);
+            if (CollisionManager.Instance == null)
+            {
+                return desired;
+            }
+
+            CollisionManager.Instance.TryFindSafeSpawn(desired3, clearance, out Vector3 safe);
+            return new Vector2(safe.x, safe.y);
         }
 
         private Character SpawnCharacter(CharacterSpawnConfig config, SkinConfig skin)
