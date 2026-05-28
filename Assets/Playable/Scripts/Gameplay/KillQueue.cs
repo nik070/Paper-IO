@@ -20,7 +20,7 @@ public class KillQueue : MonoBehaviour
 
     [Tooltip("Should followers rotate to look at their target?")]
     public bool lookAtTarget = true;
-    
+
     [Tooltip("An extra rotation offset to apply (useful if the model faces sideways natively).")]
     public Vector3 rotationOffset = Vector3.zero;
 
@@ -66,7 +66,7 @@ public class KillQueue : MonoBehaviour
             if (info.Victim.skinRoot != null)
             {
                 GameObject pet = Instantiate(info.Victim.skinRoot, info.Victim.transform.position, info.Victim.transform.rotation);
-                
+
                 pet.SetActive(true);
                 AddToQueue(pet.transform);
             }
@@ -114,24 +114,38 @@ public class KillQueue : MonoBehaviour
 
                 // Smoothly move towards the desired position
                 follower.position = Vector3.Lerp(follower.position, desiredPosition, Time.deltaTime * followSpeed);
+            }
 
-                // Smoothly rotate towards the target
-                if (lookAtTarget && directionToTarget != Vector3.zero)
-                {
-                    Quaternion lookRot = Quaternion.LookRotation(directionToTarget);
-                    Quaternion desiredRotation = lookRot * Quaternion.Euler(rotationOffset);
-                    follower.rotation = Quaternion.Slerp(follower.rotation, desiredRotation, Time.deltaTime * followSpeed);
-                }
-                else if (rotationOffset != Vector3.zero && spinSpeed == Vector3.zero)
-                {
-                    follower.localRotation = Quaternion.Euler(rotationOffset);
-                }
-                
-                // Apply continuous spinning if configured
-                if (spinSpeed != Vector3.zero)
-                {
-                    follower.Rotate(spinSpeed * Time.deltaTime, Space.Self);
-                }
+            // Always calculate and apply rotation to ensure smoothness, even when not moving.
+            // Flatten the direction (y = 0) to prevent the follower from flipping downwards on slopes or Y differences.
+            Vector3 lookDirection = directionToTarget;
+            lookDirection.y = 0;
+
+            if (lookAtTarget && lookDirection.sqrMagnitude > 0.001f)
+            {
+                // Isolate the Y-axis rotation (yaw) to guarantee the model never pitches/tumbles when turning 180 degrees.
+                float targetYaw = Mathf.Atan2(lookDirection.x, lookDirection.z) * Mathf.Rad2Deg;
+
+                // Extract current yaw by removing the rotation offset
+                Quaternion currentHeading = follower.rotation * Quaternion.Inverse(Quaternion.Euler(rotationOffset));
+                Vector3 currentForward = currentHeading * Vector3.forward;
+                float currentYaw = Mathf.Atan2(currentForward.x, currentForward.z) * Mathf.Rad2Deg;
+
+                // Interpolate only the yaw angle smoothly
+                float newYaw = Mathf.LerpAngle(currentYaw, targetYaw, Time.deltaTime * followSpeed);
+
+                // Construct the final rotation: pure yaw + fixed offset
+                follower.rotation = Quaternion.Euler(0, newYaw, 0) * Quaternion.Euler(rotationOffset);
+            }
+            else if (rotationOffset != Vector3.zero && spinSpeed == Vector3.zero)
+            {
+                follower.localRotation = Quaternion.Euler(rotationOffset);
+            }
+
+            // Apply continuous spinning if configured
+            if (spinSpeed != Vector3.zero)
+            {
+                follower.Rotate(spinSpeed * Time.deltaTime, Space.Self);
             }
         }
     }

@@ -267,6 +267,31 @@ namespace Core
             _totalEnemyCount = CollisionManager.Instance.EnemyCount;
         }
 
+        public void PlayEnemySpawnCinematic(Character bot)
+        {
+            StartCoroutine(SpawnCinematicRoutine(bot));
+        }
+
+        private System.Collections.IEnumerator SpawnCinematicRoutine(Character bot)
+        {
+            if (_player != null && _player.Motor != null)
+            {
+                _player.Motor.SetEnabled(false);
+            }
+
+            if (CinemachineController.Instance != null && bot != null)
+            {
+                CinemachineController.Instance.FocusTemporarily(CmCameraType.Game, bot.transform, 0.8f);
+            }
+
+            yield return new WaitForSeconds(0.8f);
+
+            if (_player != null && _player.Motor != null)
+            {
+                _player.Motor.SetEnabled(true);
+            }
+        }
+
         private void SetupCam()
         {
             if (_player != null && CinemachineController.Instance != null)

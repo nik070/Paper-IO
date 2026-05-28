@@ -112,15 +112,52 @@ public class CinemachineController : SingletonBehaviour<CinemachineController>
         }
     }
 
+    private Coroutine tempFocusCoroutine;
+    private Transform defaultAimTarget;
+
     public void SetCameraTarget(CmCameraType cameraType, Transform aimTarget)
     {
         CmCameraVariable cameraVariable = cmCameraVariables.FirstOrDefault(cmVar => cmVar.type == cameraType);
 
         if (cameraVariable != null && cameraVariable.cmCamera != null)
         {
-            cameraVariable.cmCamera.Follow = aimTarget;
-            cameraVariable.cmCamera.LookAt = aimTarget;
+            defaultAimTarget = aimTarget;
+            
+            // Only update immediately if not currently in a temporary focus
+            if (tempFocusCoroutine == null)
+            {
+                cameraVariable.cmCamera.Follow = aimTarget;
+                cameraVariable.cmCamera.LookAt = aimTarget;
+            }
         }
+    }
+
+    public void FocusTemporarily(CmCameraType cameraType, Transform tempTarget, float duration)
+    {
+        CmCameraVariable cameraVariable = cmCameraVariables.FirstOrDefault(cmVar => cmVar.type == cameraType);
+        if (cameraVariable != null && cameraVariable.cmCamera != null)
+        {
+            if (tempFocusCoroutine != null) StopCoroutine(tempFocusCoroutine);
+            tempFocusCoroutine = StartCoroutine(FocusTemporarilyCoroutine(cameraVariable.cmCamera, tempTarget, duration));
+        }
+    }
+
+    private IEnumerator FocusTemporarilyCoroutine(CinemachineCamera cmCam, Transform tempTarget, float duration)
+    {
+        // Capture the original target if we haven't already
+        if (defaultAimTarget == null) defaultAimTarget = (Transform)cmCam.Follow;
+
+        cmCam.Follow = tempTarget;
+        cmCam.LookAt = tempTarget;
+
+        yield return new WaitForSeconds(duration);
+
+        if (defaultAimTarget != null)
+        {
+            cmCam.Follow = defaultAimTarget;
+            cmCam.LookAt = defaultAimTarget;
+        }
+        tempFocusCoroutine = null;
     }
 
     public void StopCameraFollow(CmCameraType cameraType)

@@ -24,6 +24,7 @@ namespace Gameplay
         private static readonly int ZTestHash = Shader.PropertyToID("_ZTest");
 
         [SerializeField] private float _startingAreaRadius = 3f;
+        public float StartingAreaRadius => _startingAreaRadius;
 
         [SerializeField] private MeshFilter _createdMeshFilter;
         [SerializeField] private MeshFilter _maskedMeshFilter;
@@ -129,6 +130,18 @@ namespace Gameplay
             // EvenOdd would carve the hole out of the mesh and IsPointInside would report it
             // as outside — both visible in the C-shaped territory bug.
             CurrentTerritory = GeometryUtils.RemoveHoles(newTerritory);
+            TerritoryBounds = Clipper.GetBounds(CurrentTerritory);
+            GeometryUtils.UpdateMeshWithPaths(_mesh, CurrentTerritory, transform.position.z);
+            _mesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1000000f);
+        }
+
+        /// <summary>
+        /// Fast path: sets territory without running RemoveHoles.
+        /// Use ONLY when the caller has already cleaned holes (e.g. CollisionManager.SimplifyTerritory).
+        /// </summary>
+        public void SetTerritoryClean(Paths64 cleanedTerritory)
+        {
+            CurrentTerritory = cleanedTerritory;
             TerritoryBounds = Clipper.GetBounds(CurrentTerritory);
             GeometryUtils.UpdateMeshWithPaths(_mesh, CurrentTerritory, transform.position.z);
             _mesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1000000f);

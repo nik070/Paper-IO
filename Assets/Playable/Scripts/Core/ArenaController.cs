@@ -74,19 +74,20 @@ namespace Core
             return position.x * position.x + position.y * position.y <= _arenaRadiusSqr;
         }
 
-        private void GenerateGroundMesh()
+        public Paths64 CreateArenaPath()
         {
-            _arenaPoints = GenerateArenaPoints();
-            Paths64 arenaPath = new Paths64
-            {
-                new Path64(_arenaPoints.Length)
-            };
-
+            if (_arenaPoints == null) _arenaPoints = GenerateArenaPoints();
+            Paths64 arenaPath = new Paths64 { new Path64(_arenaPoints.Length) };
             for (int i = 0; i < _arenaPoints.Length; i++)
             {
-                Vector2 point = _arenaPoints[i];
-                arenaPath[0].Add(GeometryUtils.ToPoint64(new Vector3(point.x, point.y, 0f)));
+                arenaPath[0].Add(GeometryUtils.ToPoint64(new Vector3(_arenaPoints[i].x, _arenaPoints[i].y, 0f)));
             }
+            return arenaPath;
+        }
+
+        private void GenerateGroundMesh()
+        {
+            Paths64 arenaPath = CreateArenaPath();
 
             if (_generatedMesh == null)
             {
