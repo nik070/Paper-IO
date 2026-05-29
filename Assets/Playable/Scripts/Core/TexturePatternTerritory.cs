@@ -35,7 +35,7 @@ namespace Core
         [SerializeField] private Texture2D _patternTexture;
 
         [Tooltip("Pixels darker than this become territory. 0 = pure black only, 1 = everything.")]
-        [Range(0f, 1f)] [SerializeField] private float _blackThreshold = 0.5f;
+        [Range(0f, 1f)][SerializeField] private float _blackThreshold = 0.5f;
 
         [Tooltip("Treat transparent pixels as non-territory regardless of colour.")]
         [SerializeField] private bool _ignoreTransparent = true;
@@ -48,12 +48,12 @@ namespace Core
                  "• 256  — fast bake, good quality for most patterns.\n" +
                  "• 512  — recommended for 2048+ textures, smooth curves, ~2× slower bake.\n" +
                  "• 1024 — maximum detail, slow bake, use for very intricate designs.")]
-        [Range(64, 1024)] [SerializeField] private int _generationResolution = 512;
+        [Range(64, 1024)][SerializeField] private int _generationResolution = 512;
 
         [Tooltip("Chaikin subdivision passes applied to the polygon outline.\n" +
                  "Each pass halves the staircase sharpness and doubles vertex count (then SimplifyPaths trims it back).\n" +
                  "0 = raw pixel blocks.  3 = soft curves.  5 = very smooth.  6 = maximum.")]
-        [Range(0, 6)] [SerializeField] private int _smoothingIterations = 5;
+        [Range(0, 6)][SerializeField] private int _smoothingIterations = 5;
 
         // ── Placement ─────────────────────────────────────────────────────────
         [Header("Placement")]
@@ -74,7 +74,22 @@ namespace Core
                  "  1500 = most faithful to the texture, slightly slower captures.\n" +
                  "  0    = no limit (shape is exact, use only if captures feel instant).\n" +
                  "Re-bake after changing this value.")]
-        [Range(0, 2000)] [SerializeField] private int _maxVertexCount = 800;
+        [Range(0, 2000)][SerializeField] private int _maxVertexCount = 800;
+
+        // ── Solid Fill ────────────────────────────────────────────────────────
+        [Header("Solid Fill")]
+        [Tooltip("Merge the pattern into ONE solid region with no internal gaps so the player " +
+                 "starts on a single fillable island.\n" +
+                 "Leave this ON for normal play: a fragmented pattern (separate petals/holes) makes " +
+                 "capture loops land on different islands, which CaptureSolver can only outline — not " +
+                 "fill — leaving the unfilled lattice.\n" +
+                 "Turn OFF only if you deliberately want the decorative holey pattern.")]
+        [SerializeField] private bool _fillSolid = true;
+
+        [Tooltip("Largest gap (in world units) bridged when solidifying the pattern. Must exceed the " +
+                 "spacing between pattern pieces to weld them into one island. Larger = more reliably " +
+                 "solid but rounds away fine detail.")]
+        [Range(0f, 10f)][SerializeField] private float _solidFillGapBridge = 3f;
 
         // ── Bake cache (hidden from inspector to prevent accidental edits) ────
         [SerializeField, HideInInspector] private BakedPath[] _bakedPaths;
@@ -93,8 +108,8 @@ namespace Core
 #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
 #endif
-            int pathCount  = _bakedPaths == null ? 0 : _bakedPaths.Length;
-            int vertCount  = 0;
+            int pathCount = _bakedPaths == null ? 0 : _bakedPaths.Length;
+            int vertCount = 0;
             if (_bakedPaths != null)
                 foreach (var bp in _bakedPaths)
                     if (bp.points != null) vertCount += bp.points.Length;
@@ -148,7 +163,48 @@ namespace Core
                 Debug.LogWarning("TexturePatternTerritory: generated no polygons — nothing applied.");
                 return;
             }
-            area.SetTerritory(paths);
+
+            if (_fillSolid)
+            {
+                // Weld the (often fragmented) pattern into one solid, gap-free island so capture
+                // loops always close against a single boundary and get filled — see _fillSolid tooltip.
+                paths = MakeSolid(paths);
+            }
+
+            // SetTerritoryClean skips RemoveHoles. When _fillSolid is on, MakeSolid has already
+            // removed holes; when it's off, the pattern's white gaps are kept intentionally.
+            area.SetTerritoryClean(paths);
+        }
+
+        /// <summary>
+        /// Turns a possibly fragmented / holey pattern into a single solid region.
+        /// A morphological "close" (inflate then deflate by the same radius) bridges the gaps
+        /// between separate pattern pieces and seals enclosed cells; RemoveHoles then drops any
+        /// remaining negative rings so the whole footprint is owned. Mirrors the inflate/deflate
+        /// idiom already used in CharacterArea.GetMorphologicallyRoundedPaths.
+        /// </summary>
+        private Paths64 MakeSolid(Paths64 paths)
+        {
+            if (paths == null || paths.Count == 0)
+            {
+                return paths;
+            }
+
+            double delta = _solidFillGapBridge * 0.5 * GeometryUtils.Scale;
+            if (delta > 0)
+            {
+                Paths64 inflated = Clipper.InflatePaths(paths, delta, JoinType.Round, EndType.Polygon);
+                if (inflated != null && inflated.Count > 0)
+                {
+                    Paths64 closed = Clipper.InflatePaths(inflated, -delta, JoinType.Round, EndType.Polygon);
+                    if (closed != null && closed.Count > 0)
+                    {
+                        paths = closed;
+                    }
+                }
+            }
+
+            return GeometryUtils.RemoveHoles(paths);
         }
 
         /// <summary>
@@ -209,7 +265,7 @@ namespace Core
             // the source pixels — and uses only O(srcW) working memory (no large SAT array,
             // no int overflow even for 4096×4096 textures since per-column sums stay in int
             // and the prefix uses long).
-            int[]  colSums   = new int [srcW];
+            int[] colSums = new int[srcW];
             long[] colPrefix = new long[srcW + 1];
 
             Paths64 rects = new Paths64();
@@ -249,10 +305,10 @@ namespace Core
                     int srcX1 = Mathf.Min((x + 1) * srcW / res, srcW);
                     if (srcX1 <= srcX0) srcX1 = srcX0 + 1;
 
-                    long   sumBright  = colPrefix[srcX1] - colPrefix[srcX0];
-                    int    pixelCount = (srcX1 - srcX0) * numSrcRows;
-                    float  avgBright  = (float)sumBright / pixelCount;
-                    bool   isBlack    = avgBright <= threshold;
+                    long sumBright = colPrefix[srcX1] - colPrefix[srcX0];
+                    int pixelCount = (srcX1 - srcX0) * numSrcRows;
+                    float avgBright = (float)sumBright / pixelCount;
+                    bool isBlack = avgBright <= threshold;
 
                     if (isBlack)
                     {
@@ -276,14 +332,14 @@ namespace Core
 
             // Chaikin curve subdivision: smooths pixel-stair edges into organic curves.
             // Each iteration cuts every corner to a smooth arc (Q = ¾p0+¼p1, R = ¼p0+¾p1).
-            // SimplifyPaths then trims the vertex bloat Chaikin introduces, keeping the
-            // smooth shape without inflating polygon complexity.
+            // Use ALL requested iterations for maximum shape fidelity — the user said
+            // they don't mind generation taking time, only runtime captures must be fast.
             if (_smoothingIterations > 0)
             {
                 unioned = ApplyChaikin(unioned, _smoothingIterations);
 
-                // epsilon ≈ quarter of one sample-pixel in world space → removes redundant
-                // vertices while preserving the smooth curve shape.
+                // Light simplify to remove co-linear points Chaikin left behind,
+                // but keep all the smooth curve detail intact.
                 double epsilon = (rectSize.x / res) * 0.25 * GeometryUtils.Scale;
                 unioned = Clipper.SimplifyPaths(unioned, epsilon, true);
             }
@@ -294,12 +350,17 @@ namespace Core
                 unioned = Clipper.Intersect(unioned, arena, FillRule.NonZero);
             }
 
+            // NOTE: Do NOT call RemoveHoles here!
+            // The white gaps in the texture pattern are legitimate design holes that must be
+            // preserved for the pattern to render correctly. RemoveHoles would fill them in
+            // and turn the intricate design into a solid blob.
+
             // Reduce vertex count so every subsequent capture Union is fast.
-            // SimplifyPaths is called with doubling epsilon until total vertices
-            // are within budget. This is only done at bake time, so it's free at runtime.
+            // This is the critical step: the pattern can have 10k+ verts after
+            // full-quality generation, but runtime captures need ~800 to stay instant.
             unioned = CapVertexCount(unioned, _maxVertexCount);
 
-            return GeometryUtils.RemoveHoles(unioned);
+            return unioned;
         }
 
         private void GetWorldRect(out Vector2 min, out Vector2 size)
@@ -309,7 +370,7 @@ namespace Core
                 : (ArenaController.Instance != null ? ArenaController.Instance.Radius * 2f : 60f);
 
             size = new Vector2(worldSize, worldSize);
-            min  = _worldCenter - size * 0.5f;
+            min = _worldCenter - size * 0.5f;
         }
 
         // ── Bake serialisation helpers ────────────────────────────────────────
@@ -386,16 +447,15 @@ namespace Core
             return path;
         }
 
-        // ── Vertex-count budget ───────────────────────────────────────────────
+        // ── Vertex-count budget ───────────────────────────────────────────────────
 
         /// <summary>
         /// Reduces total polygon vertices to at most <paramref name="maxTotal"/> using
-        /// RamerDouglasPeucker with a progressively larger tolerance.
-        /// • <paramref name="maxTotal"/> == 0  → returns paths unchanged (no limit).
-        /// • Already under budget             → returns paths unchanged.
-        /// The tolerance is capped at 3 world units so the shape is never badly distorted
-        /// even when the budget can't be fully met; in that case the method returns the
-        /// best result it achieved.
+        /// Clipper.SimplifyPaths with a binary-search over epsilon.
+        /// • maxTotal == 0  → returns paths unchanged (no limit).
+        /// • Already under budget → returns paths unchanged.
+        /// Binary search finds the smallest epsilon that meets the budget,
+        /// giving maximum shape fidelity within the vertex limit.
         /// </summary>
         private static Paths64 CapVertexCount(Paths64 paths, int maxTotal)
         {
@@ -403,32 +463,47 @@ namespace Core
             int before = CountVertices(paths);
             if (before <= maxTotal) return paths;         // already fits
 
-            // RDP preserves the overall shape far better than SimplifyPaths at large
-            // tolerances. Start at 0.01 world units and double; hard-cap at 3 world
-            // units to avoid visible distortion.
-            double epsilon    = GeometryUtils.Scale * 0.01;
-            double maxEpsilon = GeometryUtils.Scale * 3.0;
-            Paths64 best      = paths;
+            // Binary search for the smallest SimplifyPaths epsilon that brings
+            // total vertices at or below maxTotal. This gives the best possible
+            // shape quality that fits the budget.
+            double lo = 0;
+            double hi = GeometryUtils.Scale * 5.0; // 5 world units max tolerance
+            Paths64 best = paths;
+            int bestVerts = before;
 
-            while (epsilon <= maxEpsilon)
+            // 20 iterations of binary search gives ~1e-6 precision — more than enough.
+            for (int i = 0; i < 20; i++)
             {
-                Paths64 candidate = Clipper.RamerDouglasPeucker(paths, epsilon);
+                double mid = (lo + hi) * 0.5;
+                Paths64 candidate = Clipper.SimplifyPaths(paths, mid, true);
 
-                // Guard: RDP can produce degenerate paths; skip if result is empty or
-                // suspiciously shrank below 3 vertices on any path (handled by RemoveHoles).
-                if (candidate == null || candidate.Count == 0) break;
+                // Clean up: fix any self-intersections but KEEP holes (they are part of the pattern design)
+                candidate = Clipper.Union(candidate, FillRule.NonZero);
 
-                int candidateVerts = CountVertices(candidate);
-                if (candidateVerts < CountVertices(best))
+                if (candidate == null || candidate.Count == 0)
+                {
+                    hi = mid; // too aggressive, back off
+                    continue;
+                }
+
+                int verts = CountVertices(candidate);
+
+                if (verts <= maxTotal)
+                {
+                    // Fits budget — save it and try for better quality (smaller epsilon)
                     best = candidate;
-
-                if (candidateVerts <= maxTotal) break;   // budget met
-                epsilon *= 2.0;
+                    bestVerts = verts;
+                    hi = mid;
+                }
+                else
+                {
+                    // Too many vertices — need more simplification
+                    lo = mid;
+                }
             }
 
-            int after = CountVertices(best);
-            if (after != before)
-                Debug.Log($"TexturePatternTerritory: vertex cap {maxTotal} → reduced {before} → {after} vertices.");
+            if (bestVerts != before)
+                Debug.Log($"TexturePatternTerritory: vertex cap {maxTotal} → reduced {before} → {bestVerts} vertices.");
 
             return best;
         }
@@ -447,8 +522,8 @@ namespace Core
                                         Vector2 rectMin, float pxW, float pyH)
         {
             float x0 = rectMin.x + xStart * pxW;
-            float x1 = rectMin.x + xEnd   * pxW;
-            float y0 = rectMin.y + y       * pyH;
+            float x1 = rectMin.x + xEnd * pxW;
+            float y0 = rectMin.y + y * pyH;
             float y1 = rectMin.y + (y + 1) * pyH;
 
             Path64 r = new Path64(4);

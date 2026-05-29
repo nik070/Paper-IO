@@ -24,6 +24,7 @@ namespace Gameplay
         private static readonly int ZTestHash = Shader.PropertyToID("_ZTest");
 
         [SerializeField] private float _startingAreaRadius = 3f;
+        public float StartingAreaRadius => _startingAreaRadius;
 
         [SerializeField] private MeshFilter _createdMeshFilter;
         [SerializeField] private MeshFilter _maskedMeshFilter;
@@ -42,9 +43,9 @@ namespace Gameplay
         [NonSerialized] public Paths64 CurrentTerritory;
         [NonSerialized] public Rect64 TerritoryBounds;
         [NonSerialized] public Rect64 CreatedTerritoryBounds;
+        private Rect64[] _pathBounds;  // Per-path AABB cache for fast IsPointInside
 
         public int StencilID { get; private set; }
-        public float StartingAreaRadius => _startingAreaRadius;
         public MeshRenderer ZoneRenderer { get; private set; }
         public MeshRenderer CreatedMeshRenderer => _createdMeshRenderer;
         public MeshRenderer ShadowRenderer { get; private set; }
@@ -85,7 +86,6 @@ namespace Gameplay
 
             _shadowTransparentMeshFilter.mesh = _mesh;
             _shadowTransparentMeshFilter.transform.localPosition = new Vector3(0f, 0f, ShadowTransparentMeshZ);
-            ShadowTransparentRenderer = _shadowTransparentMeshFilter.GetComponent<MeshRenderer>();
 
             CurrentTerritory = GeometryUtils.CreateCirclePath64(_startingAreaRadius, character.transform.position);
             SetTerritory(CurrentTerritory);
@@ -126,13 +126,104 @@ namespace Gameplay
 
         public void SetTerritory(Paths64 newTerritory)
         {
-            // Strip hole rings so an enclosed empty region (e.g. trail looped around free space)
-            // becomes fully owned, matching Paper.io capture semantics. Without this, LibTess
-            // EvenOdd would carve the hole out of the mesh and IsPointInside would report it
-            // as outside — both visible in the C-shaped territory bug.
             CurrentTerritory = GeometryUtils.RemoveHoles(newTerritory);
             TerritoryBounds = Clipper.GetBounds(CurrentTerritory);
-            GeometryUtils.UpdateMeshWithPaths(_mesh, CurrentTerritory, transform.position.z);
+            RebuildPathBounds();
+            UpdateMeshSmooth(CurrentTerritory);
+        }
+
+        /// <summary>
+        /// Fast path: sets territory without running RemoveHoles.
+        /// Use when the caller has already cleaned holes or when holes are intentional (pattern).
+        /// </summary>
+        public void SetTerritoryClean(Paths64 cleanedTerritory)
+        {
+            CurrentTerritory = cleanedTerritory;
+            TerritoryBounds = Clipper.GetBounds(CurrentTerritory);
+            RebuildPathBounds();
+            UpdateMeshSmooth(CurrentTerritory);
+        }
+
+        /// <summary>
+        /// Rebuilds the per-path AABB cache used by IsPointInside for fast early-out.
+        /// </summary>
+        private void RebuildPathBounds()
+        {
+            if (CurrentTerritory == null || CurrentTerritory.Count == 0)
+            {
+                _pathBounds = null;
+                return;
+            }
+            _pathBounds = new Rect64[CurrentTerritory.Count];
+            for (int i = 0; i < CurrentTerritory.Count; i++)
+            {
+                _pathBounds[i] = Clipper.GetBounds(new Paths64 { CurrentTerritory[i] });
+            }
+        }
+
+        /// <summary>
+        /// Rounds sharp corners into smooth circular arcs before generating the mesh.
+        /// Uses inflate(+R, Round) → deflate(-R, Round) which smooths outer corners
+        /// without ever eroding thin features. The net displacement on straight edges
+        /// is zero (inflate pushes out, deflate pulls back). Only sharp corners gain
+        /// a circular arc of radius ~SmoothRadius.
+        /// Smoothed paths are used ONLY for rendering — CurrentTerritory retains
+        /// original vertices for accurate game logic.
+        /// </summary>
+        private const double SmoothRadius = 0.35 * GeometryUtils.Scale;
+
+        /// <summary>
+        /// Applies visual-only smoothing that rounds corners without destroying thin features.
+        /// For complex territories (pattern with many holes), skips the expensive inflate/deflate
+        /// and just does light RDP — the pattern is already smooth from Chaikin subdivision.
+        /// </summary>
+        private Paths64 GetMorphologicallyRoundedPaths(Paths64 territory)
+        {
+            if (territory == null || territory.Count == 0)
+            {
+                return territory;
+            }
+
+            // Fast path: skip expensive inflate/deflate for complex territories.
+            // Inflate/deflate is O(n²) and cripples framerate on pattern territories
+            // with many paths and hundreds of vertices. The pattern is already smooth
+            // from Chaikin subdivision so rounding adds no visual benefit.
+            int totalVerts = 0;
+            for (int i = 0; i < territory.Count; i++)
+                totalVerts += territory[i].Count;
+
+            if (territory.Count > 8 || totalVerts > 600)
+            {
+                return Clipper.RamerDouglasPeucker(territory, 0.01 * GeometryUtils.Scale);
+            }
+
+            // Full rounding for simple territories (regular captures, circles, etc.)
+            Paths64 inflated = Clipper.InflatePaths(territory, SmoothRadius, JoinType.Round, EndType.Polygon);
+            if (inflated == null || inflated.Count == 0)
+            {
+                return territory;
+            }
+
+            Paths64 smoothed = Clipper.InflatePaths(inflated, -SmoothRadius, JoinType.Round, EndType.Polygon);
+            if (smoothed == null || smoothed.Count == 0)
+            {
+                smoothed = territory;
+            }
+
+            return Clipper.RamerDouglasPeucker(smoothed, 0.002 * GeometryUtils.Scale);
+        }
+
+        private void UpdateMeshSmooth(Paths64 territory)
+        {
+            if (territory == null || territory.Count == 0)
+            {
+                _mesh.Clear();
+                return;
+            }
+
+            Paths64 smoothed = GetMorphologicallyRoundedPaths(territory);
+
+            GeometryUtils.UpdateMeshWithPaths(_mesh, smoothed, transform.position.z);
             _mesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1000000f);
         }
 
@@ -145,7 +236,11 @@ namespace Gameplay
             }
 
             CreatedTerritoryBounds = Clipper.GetBounds(createdTerritory);
-            GeometryUtils.UpdateMeshWithPaths(_createdMesh, createdTerritory, 0f);
+
+            // Perform the exact same morphological rounding for the visual transition mesh
+            Paths64 smoothedCreated = GetMorphologicallyRoundedPaths(createdTerritory);
+
+            GeometryUtils.UpdateMeshWithPaths(_createdMesh, smoothedCreated, 0f);
             _createdMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1000000f);
 
             _createdMeshFilter.sharedMesh = _createdMesh;
@@ -188,15 +283,29 @@ namespace Gameplay
                 return false;
             }
 
+            // EvenOdd containment with per-path bounding box early-out.
+            // Skip expensive O(V) PointInPolygon for paths whose AABB doesn't contain the point.
+            int containCount = 0;
             for (int i = 0; i < CurrentTerritory.Count; i++)
             {
+                // Per-path AABB check — O(1) to skip non-containing paths
+                if (_pathBounds != null && i < _pathBounds.Length)
+                {
+                    Rect64 b = _pathBounds[i];
+                    if (targetPt.X < b.left || targetPt.X > b.right ||
+                        targetPt.Y < b.top || targetPt.Y > b.bottom)
+                    {
+                        continue;
+                    }
+                }
+
                 if (Clipper.PointInPolygon(targetPt, CurrentTerritory[i]) != PointInPolygonResult.IsOutside)
                 {
-                    return true;
+                    containCount++;
                 }
             }
 
-            return false;
+            return (containCount % 2) != 0;
         }
 
         private void OnDestroy()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0c268766aad3840a8c3bff790f7c15, type: 3}
   m_Name: Skin_Burger
   m_EditorClassIdentifier: 
-  _displayName: IronMike
+  _displayName: You
   _characterPrefab: {fileID: 7132147120589691305, guid: d9b964ee493667a47afeb78bc89cdc69,
     type: 3}
   _characterColor: {r: 0.965, g: 0.651, b: 0.365, a: 1}

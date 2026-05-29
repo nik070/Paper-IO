@@ -13,11 +13,7 @@ namespace Mechanics
             if (trail.Count < 2 || currentTerritory.Count == 0) return new Paths64();
 
             Path64 rawTrail = GeometryUtils.ToPath64(trail);
-
-            // OPTIMIZATION 1: Ramer-Douglas-Peucker Simplification
-            // Removes unnecessary vertices along straight lines.
-            // 0.1f is the error tolerance. This cuts the math workload by 80%+ instantly.
-            Path64 simplifiedTrail = Clipper.RamerDouglasPeucker(rawTrail, 0.1 * GeometryUtils.Scale);
+            Path64 simplifiedTrail = Clipper.RamerDouglasPeucker(rawTrail, 0.02 * GeometryUtils.Scale);
 
             Point64 startPt = simplifiedTrail[0];
             Point64 endPt = simplifiedTrail[simplifiedTrail.Count - 1];
@@ -25,23 +21,34 @@ namespace Mechanics
             GetClosestVertex(currentTerritory, startPt, out int startIsland, out int startIdx);
             GetClosestVertex(currentTerritory, endPt, out int endIsland, out int endIdx);
 
-            // OPTIMIZATION 2: JoinType.Square
-            // We still inflate the trail to fix the Figure-8 pinch point, but 'Square'
-            // prevents the catastrophic "vertex explosion" caused by 'Round' arcs.
-            Paths64 thickTrail = Clipper.InflatePaths(
-                new Paths64 { simplifiedTrail },
-                playerRadius * GeometryUtils.Scale,
-                JoinType.Square,
-                EndType.Square);
-
-            // ISLAND BRIDGE CASE
+            // ISLAND BRIDGE CASE — no boundary walk possible
             if (startIsland != endIsland || startIsland == -1)
             {
-                return thickTrail; // Return the simplified, thickened bridge
+                Paths64 bridgeTrail = Clipper.InflatePaths(
+                    new Paths64 { simplifiedTrail },
+                    playerRadius * GeometryUtils.Scale,
+                    JoinType.Miter,
+                    EndType.Square);
+                return bridgeTrail;
             }
 
             // STANDARD CAPTURE
             Path64 island = currentTerritory[startIsland];
+
+            // *** KEY FIX: Snap trail endpoints to the actual boundary vertices ***
+            // The trail starts/ends at the player's center, which is slightly offset from the
+            // territory boundary. This offset creates triangular gap slivers at the junction.
+            // By snapping the endpoints directly onto the boundary vertices, the capture polygon
+            // becomes a perfectly closed loop with zero gaps.
+            simplifiedTrail[0] = island[startIdx];
+            simplifiedTrail[simplifiedTrail.Count - 1] = island[endIdx];
+
+            // Inflate the snapped trail so the thick trail also covers the snapped endpoints
+            Paths64 thickTrail = Clipper.InflatePaths(
+                new Paths64 { simplifiedTrail },
+                playerRadius * GeometryUtils.Scale,
+                JoinType.Miter,
+                EndType.Square);
 
             Path64 pathForward = GetBoundaryPath(island, endIdx, startIdx, true);
             Path64 pathBackward = GetBoundaryPath(island, endIdx, startIdx, false);
@@ -51,16 +58,16 @@ namespace Mechanics
             capturePolygon.AddRange(simplifiedTrail);
             capturePolygon.AddRange(shortestBoundary);
 
-            // OPTIMIZATION 3: Single-Pass Merge
             // NonZero natively keeps both the +1 and -1 loops of a Figure-8.
             // Unioning the Lasso with the ThickTrail perfectly welds the crossover pinch point.
             return Clipper.Union(new Paths64 { capturePolygon }, thickTrail, FillRule.NonZero);
         }
 
         /// <summary>
-        /// Non-blocking version of SolveCapture.
-        /// All Clipper work (RDP, Inflate, boundary walk, Union) runs on the thread-pool
-        /// so the main thread never blocks. WaitUntil polls the task every frame.
+        /// Same result as SolveCapture, but yields between expensive Clipper2 steps so the work
+        /// spans multiple frames instead of stalling one frame for ~150 ms on throttled mobile.
+        /// Caller must keep the input lists/territory stable for the lifetime of the coroutine
+        /// (snapshot before yielding control to other code).
         /// </summary>
         public static IEnumerator SolveCaptureAsync(
             List<Vector3> trail,
@@ -74,65 +81,52 @@ namespace Mechanics
                 yield break;
             }
 
-            // Take a snapshot of the trail list so the background thread has a stable
-            // copy even if the caller clears the list after starting the coroutine.
-            var trailSnapshot = new System.Collections.Generic.List<Vector3>(trail);
+            // ---- Frame 1: prep (RDP + closest-vertex + snap + Inflate + boundary walk) ----
+            Path64 rawTrail = GeometryUtils.ToPath64(trail);
+            Path64 simplifiedTrail = Clipper.RamerDouglasPeucker(rawTrail, 0.02 * GeometryUtils.Scale);
 
-            Paths64   result      = null;
-            Exception bgException = null;
+            Point64 startPt = simplifiedTrail[0];
+            Point64 endPt = simplifiedTrail[simplifiedTrail.Count - 1];
+            GetClosestVertex(currentTerritory, startPt, out int startIsland, out int startIdx);
+            GetClosestVertex(currentTerritory, endPt, out int endIsland, out int endIdx);
 
-            var task = System.Threading.Tasks.Task.Run(() =>
+            if (startIsland != endIsland || startIsland == -1)
             {
-                try
-                {
-                    Path64 rawTrail        = GeometryUtils.ToPath64(trailSnapshot);
-                    Path64 simplifiedTrail = Clipper.RamerDouglasPeucker(rawTrail, 0.1 * GeometryUtils.Scale);
-
-                    Point64 startPt = simplifiedTrail[0];
-                    Point64 endPt   = simplifiedTrail[simplifiedTrail.Count - 1];
-                    GetClosestVertex(currentTerritory, startPt, out int startIsland, out int startIdx);
-                    GetClosestVertex(currentTerritory, endPt,   out int endIsland,   out int endIdx);
-
-                    Paths64 thickTrail = Clipper.InflatePaths(
-                        new Paths64 { simplifiedTrail },
-                        playerRadius * GeometryUtils.Scale,
-                        JoinType.Square,
-                        EndType.Square);
-
-                    if (startIsland != endIsland || startIsland == -1)
-                    {
-                        result = thickTrail;
-                        return;
-                    }
-
-                    Path64 island          = currentTerritory[startIsland];
-                    Path64 pathForward     = GetBoundaryPath(island, endIdx, startIdx, true);
-                    Path64 pathBackward    = GetBoundaryPath(island, endIdx, startIdx, false);
-                    Path64 shortestBoundary = GetPathLength(pathForward) <= GetPathLength(pathBackward)
-                        ? pathForward : pathBackward;
-
-                    Path64 capturePolygon = new Path64();
-                    capturePolygon.AddRange(simplifiedTrail);
-                    capturePolygon.AddRange(shortestBoundary);
-
-                    result = Clipper.Union(new Paths64 { capturePolygon }, thickTrail, FillRule.NonZero);
-                }
-                catch (Exception ex)
-                {
-                    bgException = ex;
-                }
-            });
-
-            yield return new WaitUntil(() => task.IsCompleted);
-
-            if (bgException != null)
-            {
-                Debug.LogError($"CaptureSolver.SolveCaptureAsync: background task failed — {bgException.Message}");
-                onComplete?.Invoke(new Paths64());
+                Paths64 bridgeTrail = Clipper.InflatePaths(
+                    new Paths64 { simplifiedTrail },
+                    playerRadius * GeometryUtils.Scale,
+                    JoinType.Miter,
+                    EndType.Square);
+                onComplete?.Invoke(bridgeTrail);
                 yield break;
             }
 
-            onComplete?.Invoke(result ?? new Paths64());
+            Path64 island = currentTerritory[startIsland];
+
+            // *** KEY FIX: Snap trail endpoints to the actual boundary vertices ***
+            simplifiedTrail[0] = island[startIdx];
+            simplifiedTrail[simplifiedTrail.Count - 1] = island[endIdx];
+
+            // Inflate the snapped trail
+            Paths64 thickTrail = Clipper.InflatePaths(
+                new Paths64 { simplifiedTrail },
+                playerRadius * GeometryUtils.Scale,
+                JoinType.Miter,
+                EndType.Square);
+
+            Path64 pathForward = GetBoundaryPath(island, endIdx, startIdx, true);
+            Path64 pathBackward = GetBoundaryPath(island, endIdx, startIdx, false);
+            Path64 shortestBoundary = (GetPathLength(pathForward) <= GetPathLength(pathBackward)) ? pathForward : pathBackward;
+
+            Path64 capturePolygon = new Path64();
+            capturePolygon.AddRange(simplifiedTrail);
+            capturePolygon.AddRange(shortestBoundary);
+
+            yield return null;
+
+            // ---- Frame 2: the heavy Clipper.Union ----
+            Paths64 result = Clipper.Union(new Paths64 { capturePolygon }, thickTrail, FillRule.NonZero);
+            onComplete?.Invoke(result);
         }
 
         private static void GetClosestVertex(Paths64 territory, Point64 target, out int islandIdx, out int vertexIdx)

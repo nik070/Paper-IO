@@ -622,13 +622,13 @@ namespace Core
             // CurrentTerritory is immutable during the computation because
             // _isCaptureInFlight blocks HandleAreaState from starting a second capture.
             Paths64 currentTerritory = capturer._area.CurrentTerritory;
-            Rect64  captureBounds    = Clipper.GetBounds(captureShape);
-            float   capturedArea     = (float)(Math.Abs(Clipper.Area(captureShape)) /
+            Rect64 captureBounds = Clipper.GetBounds(captureShape);
+            float capturedArea = (float)(Math.Abs(Clipper.Area(captureShape)) /
                                                (GeometryUtils.Scale * GeometryUtils.Scale));
 
             // ── Background thread: heavy Clipper Union ────────────────────────
-            Paths64   newCapturerTerritory = null;
-            Exception bgException          = null;
+            Paths64 newCapturerTerritory = null;
+            Exception bgException = null;
 
             var task = System.Threading.Tasks.Task.Run(() =>
             {

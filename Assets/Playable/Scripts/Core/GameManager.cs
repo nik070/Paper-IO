@@ -40,6 +40,13 @@ namespace Core
         [SerializeField] private float _enemyFocusReturnDuration = 1f;
         [SerializeField] private float _enemyFocusLerpSpeed = 2f;
 
+        [Header("Arena Completion Celebration")]
+        [Tooltip("Plays a camera reveal punch when the player fills the arena and the FillMap win fires.")]
+        [SerializeField] private bool _playCompletionCelebration = true;
+        [Tooltip("How far the camera pulls back to reveal the conquered arena (1 = no zoom).")]
+        [SerializeField] private float _completionZoomFactor = 1.6f;
+        [SerializeField] private float _completionZoomDuration = 0.7f;
+
         private Character _player;
         private int _killCount;
         private int _totalEnemyCount;
@@ -257,6 +264,7 @@ namespace Core
                         if (fillPct >= _winFillThreshold)
                         {
                             SnapPlayerTerritoryToArena();
+                            PlayArenaCompletionCelebration();
                             SetState(GameState.Win);
                         }
                     }
@@ -282,6 +290,42 @@ namespace Core
             }
             Paths64 arenaShape = _arenaController.CreateArenaPath();
             _player._area.SetTerritory(arenaShape);
+        }
+
+        // Camera "reveal" punch played the moment the arena is fully captured: the camera pulls
+        // back with an OutBack overshoot to frame the whole conquered map while the win card animates
+        // in. Driven by tweening FollowTarget.references.offset (and orthographicSize for ortho cameras)
+        // so it survives FollowTarget re-applying the camera position every LateUpdate, and needs no
+        // Inspector wiring. The player is frozen by GameState.Win, so the framing stays put afterwards.
+        private void PlayArenaCompletionCelebration()
+        {
+            if (!_playCompletionCelebration || _cameraController == null)
+            {
+                return;
+            }
+
+            FollowTarget follow = _cameraController.FollowTarget;
+            if (follow != null)
+            {
+                Vector3 startOffset = follow.references.offset;
+                DOTween.To(() => follow.references.offset,
+                        v => follow.references.offset = v,
+                        startOffset * _completionZoomFactor,
+                        _completionZoomDuration)
+                    .SetEase(Ease.OutBack)
+                    .SetTarget(follow);
+            }
+
+            Camera cam = _cameraController.Camera;
+            if (cam != null && cam.orthographic)
+            {
+                DOTween.To(() => cam.orthographicSize,
+                        s => cam.orthographicSize = s,
+                        cam.orthographicSize * _completionZoomFactor,
+                        _completionZoomDuration)
+                    .SetEase(Ease.OutBack)
+                    .SetTarget(cam);
+            }
         }
 
         // Pans the camera over to a freshly spawned enemy, freezes the player while the
