@@ -1,3 +1,4 @@
+using Clipper2Lib;
 using Gameplay;
 using Pooling;
 using UnityEngine;
@@ -50,6 +51,9 @@ namespace Core
         // the same number key does not produce a duplicate. Cleared each Init().
         private bool[] _botSpawned;
 
+        // Index of the next bot to spawn when Q is pressed. Cleared each Init().
+        private int _nextBotToSpawn;
+
         public void Init()
         {
             InitializeLevel();
@@ -65,19 +69,35 @@ namespace Core
             }
 
             _botSpawned = new bool[_botCount];
+            _nextBotToSpawn = 0;
 
             SpawnPlayer();
-            // Bots are no longer spawned here. Press 1, 2, 3 or 4 at runtime
-            // to spawn the corresponding bot — see Update().
+            // Bots are no longer spawned here. Press Q at runtime to spawn the
+            // next bot one by one — see Update().
         }
 
         private void Update()
         {
-            // Number row 1..4 → spawn bot index 0..3
-            if (Input.GetKeyDown(KeyCode.Alpha1)) TrySpawnBot(0);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) TrySpawnBot(1);
-            if (Input.GetKeyDown(KeyCode.Alpha3)) TrySpawnBot(2);
-            if (Input.GetKeyDown(KeyCode.Alpha4)) TrySpawnBot(3);
+            // Q → spawn the next bot in sequence (one per press)
+            if (Input.GetKeyDown(KeyCode.Q)) TrySpawnNextBot();
+        }
+
+        private void TrySpawnNextBot()
+        {
+            if (_botSpawned == null)
+            {
+                // Init() hasn't run yet — ignore key presses on the title screen, etc.
+                return;
+            }
+
+            if (_nextBotToSpawn >= _botCount)
+            {
+                // All bots already spawned.
+                return;
+            }
+
+            TrySpawnBot(_nextBotToSpawn);
+            _nextBotToSpawn++;
         }
 
         private void TrySpawnBot(int index)
@@ -169,7 +189,22 @@ namespace Core
             };
 
             SkinConfig skin = ResolveSkin(_botSkinIndices[i]);
-            return SpawnCharacter(config, skin);
+            Character bot   = SpawnCharacter(config, skin);
+
+            // Guarantee the bot's starting circle doesn't visually overlap any pre-existing
+            // territory. TryFindSafeSpawn uses 8 perimeter samples and can miss narrow
+            // concave spikes in complex texture-pattern territories. Without this clip,
+            // both meshes sit at Z=0 and their stencil writes fight, making the bot's
+            // territory look blended or invisible.
+            if (bot != null && bot._area != null && CollisionManager.Instance != null)
+            {
+                Paths64 clipped = CollisionManager.Instance.ClipAgainstExistingTerritories(
+                    bot, bot._area.CurrentTerritory);
+                if (clipped != null && clipped.Count > 0)
+                    bot._area.SetTerritory(clipped);
+            }
+
+            return bot;
         }
 
         /// <summary>

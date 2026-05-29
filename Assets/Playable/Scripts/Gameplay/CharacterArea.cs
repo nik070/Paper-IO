@@ -85,6 +85,7 @@ namespace Gameplay
 
             _shadowTransparentMeshFilter.mesh = _mesh;
             _shadowTransparentMeshFilter.transform.localPosition = new Vector3(0f, 0f, ShadowTransparentMeshZ);
+            ShadowTransparentRenderer = _shadowTransparentMeshFilter.GetComponent<MeshRenderer>();
 
             CurrentTerritory = GeometryUtils.CreateCirclePath64(_startingAreaRadius, character.transform.position);
             SetTerritory(CurrentTerritory);

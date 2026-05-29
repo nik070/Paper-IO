@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0c268766aad3840a8c3bff790f7c15, type: 3}
+  m_Name: Skin_Bus
+  m_EditorClassIdentifier: 
+  _displayName: Potato47
+  _characterPrefab: {fileID: 45365514620172536, guid: 402dacf49470dca4fb562ff89863ac5c,
+    type: 3}
+  _characterColor: {r: 0.298, g: 0.69, b: 0.227, a: 1}
+  _vfxAdditiveColor: {r: 0.227, g: 0.553, b: 0.149, a: 1}
+  _vfxAdditiveTrailColor: {r: 0.95, g: 0.22, b: 0.25, a: 1}
+  _vfxAdditiveSkinColor: {r: 0.13, g: 0.34, b: 0.09, a: 1}
+  _skinHeight: 0.877
+  _shadowSize: 1.7
+  _zoneColor: {r: 0.949, g: 0.22, b: 0.25, a: 1}
+  _zoneShadowColor: {r: 0.65, g: 0.11, b: 0.14, a: 1}
+  _zoneMaterial: {fileID: 2100000, guid: 4e5627cb8c457a6469f902afd099372a, type: 2}
+  _trailColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+  _trailMaterial: {fileID: 2100000, guid: 6eb2362f935628543a4ac18c512e58a9, type: 2}
+  _overrideHudSpecularColor: 1
+  _hudSpecularColor: {r: 0.87058824, g: 0.87058824, b: 0.87058824, a: 1}
+  _hudNameColor: {r: 0.76, g: 0.94, b: 0.69, a: 1}

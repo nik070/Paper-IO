@@ -15,6 +15,13 @@ namespace Gameplay
 
         private static int _nextCharacterIndex;
 
+        // Static fields on MonoBehaviours persist across Editor play-sessions within the same
+        // Editor session. Without this reset, _nextCharacterIndex climbs each time you press
+        // Play, producing ever-increasing stencil IDs. Stencil-based zone rendering stays
+        // correct as long as every character in a single session has a unique, low index.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void ResetCharacterIndex() => _nextCharacterIndex = 0;
+
         private IController _controller;
         private SkinConfig _skin;
         private readonly List<Vector3> _captureTrailBuffer = new List<Vector3>(CaptureTrailBufferCapacity);
