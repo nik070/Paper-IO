@@ -1,6 +1,5 @@
 using Core;
 using UnityEngine;
-using System.Collections;
 
 namespace Gameplay
 {
@@ -10,9 +9,8 @@ namespace Gameplay
         private Vector3 _lastMovement;
         private Quaternion _quaternion;
 
-        public float Speed  = 10f;
+        public float Speed { get; private set; } = 10f;
         public bool IsEnabled { get; private set; } = true;
-        public GameObject speedEffect;
 
         private void FixedUpdate()
         {
@@ -33,10 +31,6 @@ namespace Gameplay
         {
             Speed = config.Speed;
             _turnSpeed = config.TurnSpeed;
-            if(!GetComponent<Character>().IsPlayer)
-            {
-                Speed = 5;
-            }
         }
 
         public void SetLastMovement(Vector3 lastMovement)
@@ -46,16 +40,20 @@ namespace Gameplay
 
         private void UpdateMovement()
         {
-            Vector3 targetPosition = transform.position + _lastMovement;
-            Vector3 vectorToTarget = targetPosition - transform.position;
-            if (vectorToTarget.magnitude >= 0.00001f)
+            if (_lastMovement.sqrMagnitude >= 0.00001f)
             {
-                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90f;
-                _quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _quaternion, Time.fixedDeltaTime * _turnSpeed);
+                Vector3 targetPosition = transform.position + _lastMovement;
+                Vector3 vectorToTarget = targetPosition - transform.position;
+                if (vectorToTarget.magnitude >= 0.00001f)
+                {
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90f;
+                    _quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, _quaternion, Time.fixedDeltaTime * _turnSpeed);
+                }
+
+                transform.Translate(Vector3.up * (Speed * Time.fixedDeltaTime));
             }
 
-            transform.Translate(Vector3.up * (Speed * Time.fixedDeltaTime));
             transform.position = ArenaController.Instance.ClampToArena(transform.position);
         }
 
@@ -68,34 +66,5 @@ namespace Gameplay
         {
             transform.Translate(Vector3.forward * (Speed * deltaTime));
         }
-
-         void OnTriggerEnter(Collider other)
-        {
-            if(other.tag == "Pp")
-            {
-                if(GetComponent<Character>().IsPlayer)
-                {
-                      StartCoroutine(SpeedEffect());
-                      other.GetComponent<PowerUpAnimation>().exp.gameObject.SetActive(true)  ;
-                      other.GetComponent<PowerUpAnimation>().exp.transform.parent = null ;
-                     Destroy(other.gameObject);
-                }
-              
-            }
-        }
-
-          IEnumerator SpeedEffect()
-         {
-            Speed = 20f;
-            speedEffect.SetActive(true);
-            yield return new WaitForSeconds(2f);
-            Speed = 10f;
-            speedEffect.SetActive(false);
-         }
-
-        
     }
-
 }
-
-   

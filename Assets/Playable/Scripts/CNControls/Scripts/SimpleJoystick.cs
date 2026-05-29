@@ -87,6 +87,23 @@ namespace CnControls
         [Tooltip("Touch Zone transform")]
         public RectTransform TouchZone;
 
+        /// <summary>
+        /// Dead zone as a fraction of MovementRange (0–1). Inputs within this
+        /// radius are snapped to zero so tiny accidental touches don't move the player.
+        /// </summary>
+        [Space(10f)]
+        [Header("Feel Tuning")]
+        [Tooltip("Fraction of stick travel that is ignored (0-1). Default 0.1 = 10%.")]
+        [Range(0f, 0.5f)]
+        public float DeadZone = 0.1f;
+
+        /// <summary>
+        /// How fast the output axis values interpolate toward the target.
+        /// Higher = snappier, lower = floatier.
+        /// </summary>
+        [Tooltip("Axis smoothing speed. 10 = responsive, 5 = floaty, 20 = near-instant.")]
+        public float SmoothSpeed = 10f;
+
         public Vector2 NormalizedBasePosition { get; private set; }
         public event Action OnDragStart;
         public event Action OnDragEnd;
@@ -100,9 +117,17 @@ namespace CnControls
         private RectTransform _baseTransform;
         private RectTransform _stickTransform;
 
-        private bool _pointerDown;
-        private Vector2 _pointerPosition;
         private float _oneOverMovementRange;
+
+        // Pointer tracking — ensures we only respond to the finger that started the drag
+        private int _activePointerId = -1;
+        private bool _isDragging;
+
+        // Smoothed output values (written to virtual axes in LateUpdate)
+        private float _rawHorizontal;
+        private float _rawVertical;
+        private float _smoothedHorizontal;
+        private float _smoothedVertical;
 
         protected VirtualAxis HorizintalAxis;
         protected VirtualAxis VerticalAxis;
@@ -149,136 +174,97 @@ namespace CnControls
             CnInputManager.UnregisterVirtualAxis(VerticalAxis);
         }
 
-        private void Update()
+        /// <summary>
+        /// Smoothly interpolate output axis values every frame so the character
+        /// steers into direction changes rather than snapping.
+        /// </summary>
+        private void LateUpdate()
         {
-            if (_pointerDown && (Input.GetMouseButtonUp(0) || Input.touchCount <= 0))
-            {
-                _pointerDown = false;
-                ProcessPointerUp();
+            float dt = Time.unscaledDeltaTime;
+            float lerpFactor = 1f - Mathf.Exp(-SmoothSpeed * dt);
+
+            _smoothedHorizontal = Mathf.Lerp(_smoothedHorizontal, _rawHorizontal, lerpFactor);
+            _smoothedVertical = Mathf.Lerp(_smoothedVertical, _rawVertical, lerpFactor);
+
+            // Snap to zero when close enough to avoid lingering micro-values
+            if (Mathf.Abs(_smoothedHorizontal) < 0.001f) _smoothedHorizontal = 0f;
+            if (Mathf.Abs(_smoothedVertical) < 0.001f) _smoothedVertical = 0f;
+
+            HorizintalAxis.Value = _smoothedHorizontal;
+            VerticalAxis.Value = _smoothedVertical;
+        }
+
+        // ===================== EventSystem Callbacks =====================
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            // Ignore if we're already tracking a finger
+            if (_isDragging)
                 return;
-            }
 
-            if (Input.touchCount <= 0)
+            _activePointerId = eventData.pointerId;
+            _isDragging = true;
+
+            // When we press, we first want to snap the joystick to the user's finger
+            if (SnapsToFinger)
             {
-                return;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    _stickTransform.parent as RectTransform,
+                    eventData.position,
+                    CurrentEventCamera,
+                    out Vector2 localPoint
+                );
+
+                _baseTransform.anchoredPosition = localPoint;
+                _stickTransform.anchoredPosition = localPoint;
+                _intermediateStickPosition = localPoint;
+
+                NormalizedBasePosition = new Vector2(
+                    _baseTransform.anchoredPosition.x.Remap(0f, TouchZone.rect.width, 0f, 1f),
+                    _baseTransform.anchoredPosition.y.Remap(0f, TouchZone.rect.height, 0f, 1f)
+                );
             }
-
-            var touchPosition = Input.GetTouch(0).position;
-
-            if (Input.GetMouseButtonDown(0))
+            else
             {
-                _pointerDown = true;
-                _pointerPosition = touchPosition;
-                ProcessPointerDown(new PointerEventData(EventSystem.current)
-                {
-                    position = touchPosition,
-                    pointerId = 0
-                }, v2: true);
-                return;
+                // Process as an immediate drag so the stick jumps to the finger
+                ProcessDrag(eventData);
             }
 
-            if (_pointerDown && Input.GetMouseButton(0) && Vector2.Distance(_pointerPosition, touchPosition) > 0.1f)
+            // We also want to show it if we specified that behaviour
+            if (HideOnRelease)
             {
-                _pointerPosition = touchPosition;
-                ProcessPointerDrag(new PointerEventData(EventSystem.current)
-                {
-                    position = touchPosition,
-                    pointerId = 0
-                }, v2: true);
+                Hide(false);
             }
+
+            OnDragStart?.Invoke();
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
-            ProcessPointerDrag(eventData, v2: false);
-        }
+            // Only respond to the finger that started the drag
+            if (eventData.pointerId != _activePointerId)
+                return;
 
-        private void ProcessPointerDrag(PointerEventData eventData, bool v2)
-        {
-            // We get the local position of the joystick
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                _stickTransform,
-                eventData.position,
-                CurrentEventCamera,
-                out Vector3 worldJoystickPosition
-            );
-
-            // Then we change it's actual position so it snaps to the user's finger
-            _stickTransform.position = worldJoystickPosition;
-            // We then query it's anchored position. It's calculated internally and quite tricky to do from scratch here in C#
-            var stickAnchoredPosition = _stickTransform.anchoredPosition;
-
-            // Some bitwise logic for constraining the joystick along one of the axis
-            // If the "Both" option was selected, non of these two checks will yield "true"
-            if ((JoystickMoveAxis & ControlMovementDirection.Horizontal) == 0)
-            {
-                stickAnchoredPosition.x = _intermediateStickPosition.x;
-            }
-            if ((JoystickMoveAxis & ControlMovementDirection.Vertical) == 0)
-            {
-                stickAnchoredPosition.y = _intermediateStickPosition.y;
-            }
-
-            _stickTransform.anchoredPosition = stickAnchoredPosition;
-
-            // Find current difference between the previous central point of the joystick and it's current position
-            Vector2 difference = new Vector2(stickAnchoredPosition.x, stickAnchoredPosition.y) - _intermediateStickPosition;
-
-            // Normalisation stuff
-            var diffMagnitude = difference.magnitude;
-            var normalizedDifference = difference / diffMagnitude;
-
-            // If the joystick is being dragged outside of it's range
-            if (diffMagnitude > MovementRange)
-            {
-                if (MoveBase && SnapsToFinger)
-                {
-                    // We move the base so it maps the new joystick center position
-                    var baseMovementDifference = difference.magnitude - MovementRange;
-                    var addition = normalizedDifference * baseMovementDifference;
-                    _baseTransform.anchoredPosition += addition;
-                    _intermediateStickPosition += addition;
-                }
-                else
-                {
-                    _stickTransform.anchoredPosition = _intermediateStickPosition + normalizedDifference * MovementRange;
-                }
-            }
-
-            // We should now calculate axis values based on final position and not on "virtual" one
-            var finalStickAnchoredPosition = _stickTransform.anchoredPosition;
-            // Sanity recalculation
-            Vector2 finalDifference = new Vector2(finalStickAnchoredPosition.x, finalStickAnchoredPosition.y) - _intermediateStickPosition;
-            // We don't need any values that are greater than 1 or less than -1
-            var horizontalValue = Mathf.Clamp(finalDifference.x * _oneOverMovementRange, -1f, 1f);
-            var verticalValue = Mathf.Clamp(finalDifference.y * _oneOverMovementRange, -1f, 1f);
-
-            // Finally, we update our virtual axis
-            HorizintalAxis.Value = horizontalValue;
-            VerticalAxis.Value = verticalValue;
-
-            // Update the normalized position values
-            NormalizedBasePosition = new Vector2(
-                _baseTransform.anchoredPosition.x.Remap(0f, TouchZone.rect.width, 0f, 1f),
-                _baseTransform.anchoredPosition.y.Remap(0f, TouchZone.rect.height, 0f, 1f)
-            );
-
-            OnDragMove?.Invoke(finalDifference);
+            ProcessDrag(eventData);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            ProcessPointerUp();
-        }
+            // Only respond to the finger that started the drag
+            if (eventData.pointerId != _activePointerId)
+                return;
 
-        private void ProcessPointerUp()
-        {
+            _isDragging = false;
+            _activePointerId = -1;
+
             // When we lift our finger, we reset everything to the initial state
             _baseTransform.anchoredPosition = _initialBasePosition;
             _stickTransform.anchoredPosition = _initialStickPosition;
             _intermediateStickPosition = _initialStickPosition;
 
-            HorizintalAxis.Value = VerticalAxis.Value = 0f;
+            // Set raw targets to zero — LateUpdate will smoothly ramp down
+            _rawHorizontal = 0f;
+            _rawVertical = 0f;
 
             // We also hide it if we specified that behaviour
             if (HideOnRelease)
@@ -289,39 +275,94 @@ namespace CnControls
             OnDragEnd?.Invoke();
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        // ===================== Core Drag Processing =====================
+
+        private void ProcessDrag(PointerEventData eventData)
         {
-            ProcessPointerDown(eventData, v2: false);
-        }
+            // Convert screen position to local position in the parent RectTransform
+            RectTransform parentRect = _stickTransform.parent as RectTransform;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                parentRect,
+                eventData.position,
+                CurrentEventCamera,
+                out Vector2 localPoint
+            );
 
-        private void ProcessPointerDown(PointerEventData eventData, bool v2)
-        {
-            // When we press, we first want to snap the joystick to the user's finger
-            if (SnapsToFinger)
+            // Set stick to the local point
+            Vector2 stickPosition = localPoint;
+
+            // Apply axis constraints
+            if ((JoystickMoveAxis & ControlMovementDirection.Horizontal) == 0)
             {
-                RectTransformUtility.ScreenPointToWorldPointInRectangle(_stickTransform, eventData.position, CurrentEventCamera, out var localStickPosition);
-                RectTransformUtility.ScreenPointToWorldPointInRectangle(_baseTransform, eventData.position, CurrentEventCamera, out var localBasePosition);
-
-                _baseTransform.position = localBasePosition;
-                _stickTransform.position = localStickPosition;
-                _intermediateStickPosition = _stickTransform.anchoredPosition;
-
-                NormalizedBasePosition = new Vector2(
-                    _baseTransform.anchoredPosition.x.Remap(0f, TouchZone.rect.width, 0f, 1f),
-                    _baseTransform.anchoredPosition.y.Remap(0f, TouchZone.rect.height, 0f, 1f)
-                );
+                stickPosition.x = _intermediateStickPosition.x;
             }
-            else
+            if ((JoystickMoveAxis & ControlMovementDirection.Vertical) == 0)
             {
-                OnDrag(eventData);
-            }
-            // We also want to show it if we specified that behaviour
-            if (HideOnRelease)
-            {
-                Hide(false);
+                stickPosition.y = _intermediateStickPosition.y;
             }
 
-            OnDragStart?.Invoke();
+            _stickTransform.anchoredPosition = stickPosition;
+
+            // Compute offset from the joystick center
+            Vector2 difference = stickPosition - _intermediateStickPosition;
+            float diffMagnitude = difference.magnitude;
+
+            // If the joystick is being dragged outside of its range
+            if (diffMagnitude > MovementRange)
+            {
+                Vector2 normalizedDiff = difference / diffMagnitude;
+
+                if (MoveBase && SnapsToFinger)
+                {
+                    // Move the base so it follows the finger
+                    float overshoot = diffMagnitude - MovementRange;
+                    Vector2 baseShift = normalizedDiff * overshoot;
+                    _baseTransform.anchoredPosition += baseShift;
+                    _intermediateStickPosition += baseShift;
+                }
+                else
+                {
+                    // Clamp the stick to the edge of the movement range
+                    _stickTransform.anchoredPosition = _intermediateStickPosition + normalizedDiff * MovementRange;
+                }
+            }
+
+            // Recalculate final difference after any clamping / base movement
+            Vector2 finalPosition = _stickTransform.anchoredPosition;
+            Vector2 finalDifference = finalPosition - _intermediateStickPosition;
+            float finalMagnitude = finalDifference.magnitude;
+
+            // Compute normalized axis values (-1 to 1)
+            float horizontalValue = Mathf.Clamp(finalDifference.x * _oneOverMovementRange, -1f, 1f);
+            float verticalValue = Mathf.Clamp(finalDifference.y * _oneOverMovementRange, -1f, 1f);
+
+            // Apply dead zone with rescaling so the usable range remains 0→1
+            float magnitude = new Vector2(horizontalValue, verticalValue).magnitude;
+            if (magnitude < DeadZone)
+            {
+                horizontalValue = 0f;
+                verticalValue = 0f;
+            }
+            else if (DeadZone > 0f)
+            {
+                // Rescale so the edge of the dead zone maps to 0 and full deflection maps to 1
+                float rescaled = (magnitude - DeadZone) / (1f - DeadZone);
+                float scale = rescaled / magnitude;
+                horizontalValue *= scale;
+                verticalValue *= scale;
+            }
+
+            // Write to raw targets — LateUpdate will smooth these before writing to virtual axes
+            _rawHorizontal = horizontalValue;
+            _rawVertical = verticalValue;
+
+            // Update the normalized position values
+            NormalizedBasePosition = new Vector2(
+                _baseTransform.anchoredPosition.x.Remap(0f, TouchZone.rect.width, 0f, 1f),
+                _baseTransform.anchoredPosition.y.Remap(0f, TouchZone.rect.height, 0f, 1f)
+            );
+
+            OnDragMove?.Invoke(finalDifference);
         }
 
         /// <summary>

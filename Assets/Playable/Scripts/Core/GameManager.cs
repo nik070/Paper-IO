@@ -290,7 +290,8 @@ namespace Core
         // Pans the camera over to a freshly spawned enemy, freezes the player while the
         // bot's first moves play out, then pans back and hands control to the player again.
         // Skipped if another cinematic is already running or the game isn't in a playable state.
-        public void PlayEnemySpawnCinematic(Character enemy)
+        // Can be skipped entirely by setting skipCinematic to true (e.g., for first bot spawn).
+        public void PlayEnemySpawnCinematic(Character enemy, bool skipCinematic = false)
         {
             if (_enemySpawnCinematicInProgress || enemy == null || _player == null || _cameraController == null)
             {
@@ -298,6 +299,12 @@ namespace Core
             }
 
             if (CurrentState != GameState.Playing && CurrentState != GameState.Tutorial)
+            {
+                return;
+            }
+            
+            // Skip the cinematic (e.g., for first bot - let player continue moving)
+            if (skipCinematic)
             {
                 return;
             }

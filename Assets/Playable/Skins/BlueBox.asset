@@ -21,8 +21,8 @@ MonoBehaviour:
   _vfxAdditiveSkinColor: {r: 0.09019609, g: 0.20022681, b: 0.65882355, a: 1}
   _skinHeight: 0.709
   _shadowSize: 1.4
-  _zoneColor: {r: 0.52747786, g: 0.5058824, b: 1, a: 1}
-  _zoneShadowColor: {r: 0.38431373, g: 0.40485615, b: 0.7882353, a: 1}
+  _zoneColor: {r: 0.6462264, g: 0.8821751, b: 1, a: 1}
+  _zoneShadowColor: {r: 0.64705884, g: 0.88235295, b: 1, a: 1}
   _zoneMaterial: {fileID: 2100000, guid: bdffe07de23bb490e9a0803401bf53ca, type: 2}
   _trailColor: {r: 0.5254902, g: 0.6989346, b: 0.9411765, a: 0.49}
   _trailMaterial: {fileID: 2100000, guid: 6eb2362f935628543a4ac18c512e58a9, type: 2}

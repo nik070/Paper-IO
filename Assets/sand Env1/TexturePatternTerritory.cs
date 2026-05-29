@@ -541,7 +541,11 @@ namespace Core
                 Debug.LogWarning("TexturePatternTerritory: generated no polygons — nothing applied.");
                 return;
             }
-            area.SetTerritory(paths);
+
+            // Use SetTerritoryClean — the pattern pipeline already handles its own cleanup.
+            // Do NOT call RemoveHoles here: the pattern's white gaps are intentional holes
+            // that must be preserved for the design to render correctly.
+            area.SetTerritoryClean(paths);
         }
 
         /// <summary>
@@ -687,8 +691,10 @@ namespace Core
                 unioned = Clipper.Intersect(unioned, arena, FillRule.NonZero);
             }
 
-            // Strip any holes created by clipping/union before capping.
-            unioned = GeometryUtils.RemoveHoles(unioned);
+            // NOTE: Do NOT call RemoveHoles here!
+            // The white gaps in the texture pattern are legitimate design holes that must be
+            // preserved for the pattern to render correctly. RemoveHoles would fill them in
+            // and turn the intricate design into a solid blob.
 
             // Reduce vertex count so every subsequent capture Union is fast.
             // This is the critical step: the pattern can have 10k+ verts after
@@ -812,9 +818,8 @@ namespace Core
                 double mid = (lo + hi) * 0.5;
                 Paths64 candidate = Clipper.SimplifyPaths(paths, mid, true);
 
-                // Clean up: fix any self-intersections and remove holes
+                // Clean up: fix any self-intersections but KEEP holes (they are part of the pattern design)
                 candidate = Clipper.Union(candidate, FillRule.NonZero);
-                candidate = GeometryUtils.RemoveHoles(candidate);
 
                 if (candidate == null || candidate.Count == 0)
                 {

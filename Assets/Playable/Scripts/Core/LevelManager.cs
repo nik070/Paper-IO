@@ -325,6 +325,9 @@ namespace Core
         // Tracks which bot slots have already been spawned so that re-pressing
         // the same number key does not produce a duplicate. Cleared each Init().
         private bool[] _botSpawned;
+        
+        // Tracks the next bot to spawn when pressing X
+        private int _nextBotToSpawn = 0;
 
         public void Init()
         {
@@ -341,15 +344,25 @@ namespace Core
             }
 
             _botSpawned = new bool[_botCount];
+            _nextBotToSpawn = 0;
 
             SpawnPlayer();
-            // Bots are no longer spawned here. Press 1, 2, 3 or 4 at runtime
-            // to spawn the corresponding bot — see Update().
+            // Bots are no longer spawned here. Press X at runtime to spawn bots one by one.
         }
 
         private void Update()
         {
-            // Number row 1..4 → spawn bot index 0..3
+            // X key → spawn next bot one by one
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                if (_nextBotToSpawn < _botCount)
+                {
+                    TrySpawnBot(_nextBotToSpawn);
+                    _nextBotToSpawn++;
+                }
+            }
+            
+            // Number row 1..4 → spawn bot index 0..3 (for manual spawning)
             if (Input.GetKeyDown(KeyCode.Alpha1)) TrySpawnBot(0);
             if (Input.GetKeyDown(KeyCode.Alpha2)) TrySpawnBot(1);
             if (Input.GetKeyDown(KeyCode.Alpha3)) TrySpawnBot(2);
@@ -388,9 +401,12 @@ namespace Core
 
             // Cinematic: pan camera to the new bot's spawn, freeze the player while the
             // bot starts moving, then pan back and resume player control.
+            // Only show cinematic for bot index 0
+            bool skipCinematic = (index != 0);
+            
             if (bot != null && GameManager.Instance != null)
             {
-                GameManager.Instance.PlayEnemySpawnCinematic(bot);
+                GameManager.Instance.PlayEnemySpawnCinematic(bot, skipCinematic: skipCinematic);
             }
         }
 
