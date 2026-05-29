@@ -39,13 +39,8 @@ namespace Gameplay
                 CnInputManager.GetAxis("Horizontal"),
                 CnInputManager.GetAxis("Vertical"), 0f);
 
-            // Apply a deadzone to the virtual joystick so it's not hyper-sensitive to tiny touches
-            if (movementVector.magnitude < 0.15f)
-            {
-                movementVector = Vector3.zero;
-            }
-
             // 2. Fall back to direct mouse/touch swipe if the joystick gives nothing.
+            // (Dead zone is now handled inside SimpleJoystick with proper rescaling.)
             if (movementVector.sqrMagnitude < 0.00001f)
             {
                 movementVector = GetSwipeInput();

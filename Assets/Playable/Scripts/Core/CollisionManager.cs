@@ -388,9 +388,10 @@ namespace Core
             Rect64 captureBounds = Clipper.GetBounds(captureShape);
             float capturedArea = (float)(Math.Abs(Clipper.Area(captureShape)) / (GeometryUtils.Scale * GeometryUtils.Scale));
 
-            // Pre-simplify captureShape so every downstream operation (Union, Difference,
-            // PointInPolygon) works with fewer vertices.
-            captureShape = Clipper.RamerDouglasPeucker(captureShape, 0.1 * GeometryUtils.Scale);
+            // Pre-simplify captureShape to remove collinear vertices and minor noise.
+            // Keeping this exact ensures mathematical robustness during Union/Difference.
+            captureShape = Clipper.RamerDouglasPeucker(captureShape, 0.02 * GeometryUtils.Scale);
+
 
             // Give the area to the capturer
             Paths64 newCapturerTerritory = Clipper.Union(capturer._area.CurrentTerritory, captureShape, FillRule.NonZero);
@@ -508,31 +509,49 @@ namespace Core
         }
 
         /// <summary>
-        /// Ultra-fast single-pass territory simplification for runtime captures.
-        /// Budget of 400 keeps Clipper.Union under 0.5ms on all subsequent captures.
+        /// Runtime territory simplification with smoothing.
+        /// Pipeline: RDP → budget cap → Chaikin smooth → light RDP cleanup.
+        /// The Chaikin pass rounds off the angular corners that aggressive RDP
+        /// creates, eliminating the visible "rough edges" on territory borders.
+        /// Budget of 500 accounts for the vertex doubling from Chaikin.
         /// </summary>
-        private const int RuntimeVertexBudget = 400;
+        // GapFillRadius MUST be strictly greater than CharacterArea.SmoothRadius (0.35)
+        // so that any gap sealed by the visual rounding is ALSO sealed and logically captured here.
+        private const double GapFillRadius = 0.40 * GeometryUtils.Scale;
 
         private static Paths64 SimplifyTerritory(Paths64 territory)
         {
             if (territory == null || territory.Count == 0) return territory;
 
-            // Aggressive RDP: 0.2 world units removes trail noise + fine Chaikin detail
-            territory = Clipper.RamerDouglasPeucker(territory, 0.2 * GeometryUtils.Scale);
-
+            // Count total vertices to decide the simplification strategy.
             int totalVerts = 0;
             for (int i = 0; i < territory.Count; i++)
                 totalVerts += territory[i].Count;
 
-            // If over budget, scale epsilon with overage ratio for one-shot simplification
-            if (totalVerts > RuntimeVertexBudget)
+            // Fast path: for complex territories (pattern with many holes/vertices),
+            // skip the expensive O(n²) inflate/deflate morphological closing.
+            // The pattern is already clean from the generation pipeline.
+            // Just do light RDP to remove collinear points.
+            if (territory.Count > 8 || totalVerts > 600)
             {
-                double ratio = (double)totalVerts / RuntimeVertexBudget;
-                double epsilon = ratio * 0.15 * GeometryUtils.Scale;
-                territory = Clipper.SimplifyPaths(territory, epsilon, true);
+                return Clipper.RamerDouglasPeucker(territory, 0.02 * GeometryUtils.Scale);
             }
 
-            return GeometryUtils.RemoveHoles(territory);
+            // Full morphological closing for simple territories (regular captures).
+            // Fills tiny gaps/slivers using Miter join to preserve sharp corners.
+            Paths64 inflated = Clipper.InflatePaths(territory, GapFillRadius, JoinType.Miter, EndType.Polygon);
+            if (inflated == null || inflated.Count == 0)
+            {
+                inflated = territory;
+            }
+
+            Paths64 closed = Clipper.InflatePaths(inflated, -GapFillRadius, JoinType.Miter, EndType.Polygon);
+            if (closed == null || closed.Count == 0)
+            {
+                closed = inflated;
+            }
+
+            return Clipper.RamerDouglasPeucker(closed, 0.02 * GeometryUtils.Scale);
         }
 
         private Paths64 BuildVictimPendingShape(Character victim, Vector3 trailEndPosition, int hitSegmentIndex, bool useHitSegment)

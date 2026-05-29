@@ -63,7 +63,7 @@ namespace Mechanics
         #endregion
 
         #region Initial Shape Generation
-        public static Paths64 CreateCirclePath64(float radius, Vector3 center, int segments = 32)
+        public static Paths64 CreateCirclePath64(float radius, Vector3 center, int segments = 48)
         {
             Path64 path = new Path64(segments);
             float angleStep = (Mathf.PI * 2f) / segments;
@@ -75,6 +75,50 @@ namespace Mechanics
                 path.Add(ToPoint64(new Vector3(x, y, 0)));
             }
             return new Paths64 { path };
+        }
+        #endregion
+
+        #region Runtime Smoothing
+        /// <summary>
+        /// Applies a single Chaikin subdivision pass to every path in the set.
+        /// Each edge (p0→p1) is replaced with two smoothed points:
+        ///   Q = ¾·p0 + ¼·p1   and   R = ¼·p0 + ¾·p1
+        /// One pass is enough to round off the sharp corners left by RDP
+        /// simplification while keeping vertex counts manageable for runtime.
+        /// </summary>
+        public static Paths64 SmoothPaths(Paths64 paths, int iterations = 1)
+        {
+            if (paths == null || paths.Count == 0) return paths;
+
+            Paths64 result = new Paths64(paths.Count);
+            for (int i = 0; i < paths.Count; i++)
+            {
+                Path64 path = paths[i];
+                if (path.Count < 3)
+                {
+                    result.Add(path);
+                    continue;
+                }
+
+                for (int iter = 0; iter < iterations; iter++)
+                {
+                    int n = path.Count;
+                    Path64 smooth = new Path64(n * 2);
+                    for (int j = 0; j < n; j++)
+                    {
+                        Point64 p0 = path[j];
+                        Point64 p1 = path[(j + 1) % n];
+                        // Q = 3/4 * p0 + 1/4 * p1
+                        smooth.Add(new Point64((3 * p0.X + p1.X) / 4, (3 * p0.Y + p1.Y) / 4));
+                        // R = 1/4 * p0 + 3/4 * p1
+                        smooth.Add(new Point64((p0.X + 3 * p1.X) / 4, (p0.Y + 3 * p1.Y) / 4));
+                    }
+                    path = smooth;
+                }
+
+                result.Add(path);
+            }
+            return result;
         }
         #endregion
 

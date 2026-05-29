@@ -196,7 +196,7 @@ namespace Core
         [LunaPlaygroundField("Player Speed", 1, "Characters")]
         [SerializeField] private float _playerSpeed = 10f;
 
-        [SerializeField] private float _playerTurnSpeed = 8f;
+        [SerializeField] private float _playerTurnSpeed = 20f;
         [SerializeField] private float _playerCharacterRadius = 0.5f;
         [SerializeField] private Vector2 _playerSpawnPos;
 
